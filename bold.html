@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Austin Pack — Teaching Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Barlow+Condensed:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:      #06060e;
+      --bg2:     #0d0d1a;
+      --cyan:    #00f0d0;
+      --red:     #ff2d5a;
+      --yellow:  #f5e100;
+      --white:   #f0f0ee;
+      --muted:   rgba(240,240,238,.4);
+      --line:    rgba(240,240,238,.08);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--white);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ── CURSOR ── */
+    #cur {
+      position: fixed; z-index: 9999; pointer-events: none;
+      width: 12px; height: 12px;
+      background: var(--cyan);
+      border-radius: 50%;
+      transform: translate(-50%,-50%);
+      mix-blend-mode: difference;
+      transition: width .15s, height .15s;
+    }
+    body.h #cur { width: 40px; height: 40px; }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.4rem 3rem;
+      background: rgba(6,6,14,.8);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.5rem; letter-spacing: .1em;
+      color: var(--white); text-decoration: none;
+    }
+    .nav-logo span { color: var(--cyan); }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem; font-weight: 600; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--cyan); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 0 4rem 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero-bg-grid {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(var(--line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--line) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-bg-glow {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(0,240,208,.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 20% 80%, rgba(255,45,90,.05) 0%, transparent 60%);
+    }
+    .hero-overline {
+      position: relative; z-index: 2;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .75rem; font-weight: 600; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--cyan);
+      margin-bottom: 1.5rem;
+      display: flex; align-items: center; gap: 1rem;
+      opacity: 0; animation: slideIn 0.7s .2s forwards;
+    }
+    .hero-overline::before { content: ''; width: 40px; height: 1px; background: var(--cyan); }
+    .hero-title {
+      position: relative; z-index: 2;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(6rem, 13vw, 14rem);
+      line-height: .9; letter-spacing: .02em;
+      color: var(--white);
+      opacity: 0; animation: slideIn 0.9s .4s forwards;
+    }
+    .hero-title .accent { color: var(--cyan); display: block; }
+    .hero-title .stroke {
+      -webkit-text-stroke: 1.5px var(--white);
+      color: transparent;
+    }
+    .hero-bottom {
+      position: relative; z-index: 2;
+      display: flex; align-items: flex-end; justify-content: space-between;
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--line);
+      opacity: 0; animation: slideIn 0.7s .8s forwards;
+    }
+    .hero-desc {
+      max-width: 440px; font-size: 1rem; line-height: 1.7;
+      color: var(--muted); font-weight: 300;
+    }
+    .hero-stats {
+      display: flex; gap: 3rem; flex-shrink: 0;
+    }
+    .hero-stat-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3rem; line-height: 1; color: var(--yellow);
+    }
+    .hero-stat-l {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted); margin-top: .2rem;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-wrap {
+      background: var(--cyan);
+      padding: .65rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    .marquee-track {
+      display: flex; gap: 0;
+      animation: marquee 22s linear infinite;
+      white-space: nowrap;
+    }
+    .marquee-item {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: .12em;
+      color: var(--bg); padding: 0 2.5rem;
+      display: inline-flex; align-items: center; gap: 2.5rem;
+    }
+    .marquee-item::after { content: '✦'; font-size: .6rem; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    /* ── ABOUT ── */
+    #about {
+      padding: 7rem 4rem;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+      position: relative;
+    }
+    #about::before {
+      content: 'ABOUT';
+      position: absolute; bottom: -1rem; right: 3rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 12rem; color: rgba(240,240,238,.02);
+      line-height: 1; pointer-events: none; user-select: none;
+    }
+    .about-img-wrap {
+      position: relative;
+    }
+    .about-img-frame {
+      width: 100%; aspect-ratio: 3/4; overflow: hidden;
+      position: relative;
+    }
+    .about-img-frame img {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: top;
+      display: block;
+      filter: contrast(1.1) saturate(.85);
+    }
+    .about-img-frame::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,240,208,.12) 0%, transparent 50%);
+    }
+    .about-img-tag {
+      position: absolute; bottom: -1px; left: -1px;
+      background: var(--cyan); color: var(--bg);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; padding: .4rem .8rem;
+    }
+    .about-line {
+      width: 3px; height: 100%;
+      position: absolute; top: 0; right: -24px;
+      background: linear-gradient(to bottom, var(--cyan), var(--red), transparent);
+    }
+    .about-content { }
+    .section-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .68rem; font-weight: 700; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--cyan);
+      display: inline-flex; align-items: center; gap: .6rem;
+      margin-bottom: 1.5rem;
+    }
+    .section-tag::before { content: '//'; opacity: .5; }
+    .big-heading {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      line-height: .95; letter-spacing: .03em;
+      color: var(--white); margin-bottom: 1.5rem;
+    }
+    .big-heading em { color: var(--red); font-style: normal; display: block; }
+    .body-text { font-size: .98rem; line-height: 1.8; color: var(--muted); margin-bottom: 1rem; }
+    .body-text strong { color: var(--white); font-weight: 500; }
+    .tags-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.5rem; }
+    .tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 600; letter-spacing: .1em;
+      text-transform: uppercase; padding: .3rem .7rem;
+      border: 1px solid rgba(0,240,208,.25);
+      color: var(--cyan); border-radius: 1px;
+      transition: background .2s, color .2s;
+    }
+    .tag:hover { background: var(--cyan); color: var(--bg); }
+
+    /* ── PHILOSOPHY ── */
+    #philosophy {
+      padding: 7rem 4rem;
+      background: var(--bg2);
+      position: relative; overflow: hidden;
+    }
+    #philosophy::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--red), transparent);
+    }
+    .phil-layout {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      gap: 6rem; align-items: start;
+    }
+    .phil-quote-big {
+      font-family: 'Barlow', sans-serif;
+      font-size: clamp(1.5rem, 2.5vw, 2.2rem);
+      font-style: italic; font-weight: 300;
+      line-height: 1.45; color: var(--white);
+      margin-bottom: 2rem;
+    }
+    .phil-quote-big span { color: var(--cyan); font-style: normal; font-weight: 500; }
+    .phil-photo { width: 100%; overflow: hidden; position: relative; }
+    .phil-photo img { width: 100%; display: block; filter: contrast(1.1) saturate(.7); }
+    .phil-photo-label {
+      background: var(--red); color: var(--white);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .6rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; padding: .35rem .7rem;
+      display: inline-block; margin-top: .5rem;
+    }
+    .principles-grid { display: flex; flex-direction: column; gap: 0; margin-top: 3rem; }
+    .principle {
+      display: flex; gap: 1.5rem; align-items: flex-start;
+      padding: 1.25rem 0; border-bottom: 1px solid var(--line);
+      transition: border-color .2s;
+    }
+    .principle:first-child { border-top: 1px solid var(--line); }
+    .principle:hover { border-bottom-color: var(--cyan); }
+    .principle-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.5rem; line-height: 1; color: rgba(0,240,208,.2);
+      flex-shrink: 0; width: 2rem; text-align: right;
+      transition: color .2s;
+    }
+    .principle:hover .principle-n { color: var(--cyan); }
+    .principle-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--white); margin-bottom: .3rem; }
+    .principle-desc { font-size: .88rem; line-height: 1.7; color: var(--muted); }
+
+    /* ── EXPERIENCE ── */
+    #experience { padding: 7rem 4rem; position: relative; overflow: hidden; }
+    #experience::before {
+      content: 'EXP';
+      position: absolute; top: -3rem; right: 1rem;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 20rem; color: rgba(240,240,238,.015);
+      line-height: 1; pointer-events: none; user-select: none;
+    }
+    .exp-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1px; background: var(--line);
+      margin-top: 3rem; border: 1px solid var(--line);
+    }
+    .exp-card {
+      background: var(--bg); padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: background .2s;
+    }
+    .exp-card:hover { background: rgba(0,240,208,.03); }
+    .exp-card.featured {
+      grid-column: 1 / -1;
+      display: grid; grid-template-columns: auto 1fr; gap: 2.5rem;
+      align-items: center;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0;
+      width: 3px; height: 0; background: var(--cyan);
+      transition: height .4s;
+    }
+    .exp-card:hover::before { height: 100%; }
+    .exp-card.featured::before { background: var(--red); }
+    .exp-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 4.5rem; line-height: 1;
+      color: rgba(0,240,208,.12); flex-shrink: 0;
+    }
+    .exp-year {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: .4rem;
+    }
+    .exp-role {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem; font-weight: 600; letter-spacing: .04em;
+      color: var(--white); margin-bottom: .2rem; text-transform: uppercase;
+    }
+    .exp-org { font-size: .88rem; color: var(--muted); font-style: italic; margin-bottom: .6rem; }
+    .exp-desc { font-size: .85rem; line-height: 1.7; color: var(--muted); }
+
+    .awards-strip {
+      display: flex; gap: 1px; flex-wrap: wrap;
+      background: var(--line); border: 1px solid var(--line);
+      margin-top: 3rem;
+    }
+    .award-block {
+      background: var(--bg); padding: 1.5rem;
+      flex: 1; min-width: 200px;
+      display: flex; flex-direction: column; gap: .35rem;
+      transition: background .2s;
+    }
+    .award-block:hover { background: rgba(245,225,0,.04); }
+    .award-year-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .6rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--yellow);
+    }
+    .award-title-text { font-size: .92rem; font-weight: 500; color: var(--white); line-height: 1.35; }
+    .award-from { font-size: .78rem; color: var(--muted); font-style: italic; }
+
+    /* ── EDUCATION (vertical timeline) ── */
+    #education { padding: 7rem 4rem; background: var(--bg2); position: relative; overflow: hidden; }
+    #education::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--red), var(--yellow), transparent);
+    }
+    .edu-timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .edu-step {
+      position: relative; padding-top: 1.5rem;
+      border-top: 3px solid var(--line);
+      transition: border-color .2s;
+    }
+    .edu-step:hover { border-top-color: var(--cyan); }
+    .edu-step::before {
+      content: '';
+      position: absolute; top: -7px; left: 0;
+      width: 11px; height: 11px; border-radius: 50%;
+      background: var(--bg2); border: 2px solid var(--muted);
+      transition: border-color .2s, background .2s;
+    }
+    .edu-step:hover::before { border-color: var(--cyan); background: var(--cyan); }
+    .edu-step-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .62rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan); margin-bottom: .5rem;
+    }
+    .edu-step-degree { font-family: 'Barlow Condensed', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--white); text-transform: uppercase; line-height: 1.2; margin-bottom: .35rem; }
+    .edu-step-inst { font-size: .82rem; color: var(--muted); font-style: italic; }
+    .edu-step-note { font-size: .78rem; color: rgba(240,240,238,.3); margin-top: .5rem; line-height: 1.55; }
+
+    /* ── COURSES ── */
+    #courses { padding: 7rem 4rem; position: relative; }
+    .courses-bento {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+      margin-top: 3rem;
+    }
+    .course-block {
+      background: var(--bg); padding: 2rem;
+      position: relative; overflow: hidden;
+      transition: background .2s;
+    }
+    .course-block:hover { background: rgba(255,45,90,.04); }
+    .course-block.wide { grid-column: span 2; }
+    .course-block::after {
+      content: '→';
+      position: absolute; bottom: 1.5rem; right: 1.5rem;
+      font-size: 1.2rem; color: rgba(240,240,238,.1);
+      transition: color .2s, transform .2s;
+    }
+    .course-block:hover::after { color: var(--red); transform: translateX(4px); }
+    .course-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .58rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--red); margin-bottom: .65rem;
+      display: block;
+    }
+    .course-title { font-family: 'Barlow Condensed', sans-serif; font-size: 1.25rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--white); line-height: 1.25; margin-bottom: .5rem; }
+    .course-body { font-size: .82rem; line-height: 1.7; color: var(--muted); }
+
+    /* ── RESEARCH ── */
+    #research { padding: 7rem 4rem; background: var(--bg2); position: relative; overflow: hidden; }
+    #research::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, var(--yellow), transparent);
+    }
+    .pub-grid { margin-top: 3rem; display: flex; flex-direction: column; gap: 0; }
+    .pub-row {
+      display: grid; grid-template-columns: 80px 1fr auto;
+      gap: 2rem; padding: 1.5rem 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+      transition: padding-left .2s;
+    }
+    .pub-row:hover { padding-left: .75rem; border-bottom-color: rgba(245,225,0,.3); }
+    .pub-y {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem; color: rgba(245,225,0,.4); line-height: 1; padding-top: .15rem;
+      transition: color .2s;
+    }
+    .pub-row:hover .pub-y { color: var(--yellow); }
+    .pub-t { font-size: .96rem; font-weight: 400; color: var(--white); line-height: 1.45; margin-bottom: .2rem; }
+    .pub-v { font-size: .8rem; font-style: italic; color: var(--muted); margin-bottom: .2rem; }
+    .pub-a { font-size: .78rem; color: rgba(240,240,238,.3); }
+    .pub-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .58rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; padding: .2rem .55rem;
+      border-radius: 1px; flex-shrink: 0; margin-top: .2rem;
+      align-self: start;
+    }
+    .badge-ai { background: rgba(0,240,208,.12); color: var(--cyan); }
+    .badge-mot { background: rgba(245,225,0,.1); color: var(--yellow); }
+    .badge-vr { background: rgba(255,45,90,.1); color: var(--red); }
+    .pub-more {
+      display: inline-flex; align-items: center; gap: .6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .7rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan); text-decoration: none;
+      margin-top: 2rem; padding: .7rem 1.5rem;
+      border: 1px solid rgba(0,240,208,.3);
+      transition: background .2s, color .2s;
+    }
+    .pub-more:hover { background: var(--cyan); color: var(--bg); }
+
+    /* ── CONTACT ── */
+    #contact { padding: 7rem 4rem; position: relative; overflow: hidden; }
+    .contact-big {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 9rem);
+      line-height: .9; letter-spacing: .03em;
+      color: var(--white); margin-bottom: 3rem;
+    }
+    .contact-big em {
+      display: block; color: transparent;
+      -webkit-text-stroke: 1.5px var(--cyan);
+      font-style: normal;
+    }
+    .contact-links-grid {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      gap: 1px; background: var(--line);
+      border: 1px solid var(--line);
+      margin-bottom: 4rem;
+    }
+    .contact-link-block {
+      background: var(--bg); padding: 1.5rem;
+      text-decoration: none; display: flex; flex-direction: column; gap: .4rem;
+      transition: background .2s;
+    }
+    .contact-link-block:hover { background: rgba(0,240,208,.05); }
+    .link-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .58rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan);
+    }
+    .link-val { font-size: .82rem; color: var(--white); word-break: break-all; }
+    .link-arrow { font-size: .75rem; color: var(--muted); margin-top: auto; }
+    .contact-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .contact-form-left, .contact-form-right { background: var(--bg); padding: 2.5rem; }
+    .contact-form-tagline { font-size: 1.4rem; font-style: italic; font-weight: 300; color: var(--muted); line-height: 1.55; margin-bottom: 2rem; }
+    .cf-group { margin-bottom: 1rem; }
+    .cf-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .6rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--cyan); display: block; margin-bottom: .4rem;
+    }
+    .cf-input, .cf-textarea {
+      width: 100%; padding: .7rem 1rem;
+      background: rgba(240,240,238,.04); border: 1px solid var(--line);
+      color: var(--white); font-family: 'Barlow', sans-serif;
+      font-size: .9rem; font-weight: 300; outline: none; resize: none;
+      transition: border-color .2s;
+    }
+    .cf-input:focus, .cf-textarea:focus { border-color: var(--cyan); }
+    .cf-input::placeholder, .cf-textarea::placeholder { color: rgba(240,240,238,.2); }
+    .cf-textarea { height: 90px; }
+    .cf-submit {
+      width: 100%; padding: .85rem; margin-top: .5rem;
+      background: var(--cyan); border: none; color: var(--bg);
+      font-family: 'Barlow Condensed', sans-serif; font-size: .78rem;
+      font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
+      cursor: none; transition: background .2s, transform .2s;
+    }
+    .cf-submit:hover { background: var(--white); transform: translateY(-2px); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.75rem 4rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-left {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    .footer-right {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .65rem; font-weight: 600; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--muted);
+      text-decoration: none; transition: color .2s;
+    }
+    .footer-right:hover { color: var(--cyan); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s, transform .7s; }
+    .reveal.on { opacity: 1; transform: none; }
+    .reveal-d1 { transition-delay: .1s; }
+    .reveal-d2 { transition-delay: .2s; }
+    .reveal-d3 { transition-delay: .3s; }
+    .reveal-d4 { transition-delay: .4s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      #hero { padding: 7rem 1.5rem 3rem; }
+      #about, #philosophy, #experience, #education, #courses, #research, #contact { padding: 4rem 1.5rem; }
+      #about, .phil-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-bottom, .hero-stats { flex-direction: column; gap: 1rem; }
+      .exp-grid, .edu-timeline, .contact-links-grid, .contact-form-row, .courses-bento { grid-template-columns: 1fr; }
+      .course-block.wide { grid-column: span 1; }
+      footer { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="cur"></div>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#hero" class="nav-logo">Austin <span>Pack</span></a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#philosophy">Philosophy</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#courses">Courses</a></li>
+      <li><a href="#research">Research</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <div class="hero-bg-grid"></div>
+    <div class="hero-bg-glow"></div>
+    <div class="hero-overline">Teaching Portfolio · BYU–Hawaii · Applied Linguistics</div>
+    <div class="hero-title">
+      Austin
+      <span class="accent">Pack</span>
+      <span class="stroke">Ph.D.</span>
+    </div>
+    <div class="hero-bottom">
+      <p class="hero-desc">
+        Assistant Professor of English Language Teaching &amp; Learning at Brigham Young University–Hawaii.
+        Researcher in GenAI, language psychology, CALL, and virtual reality for language education.
+      </p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-n">30+</div>
+          <div class="hero-stat-l">Publications</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">41+</div>
+          <div class="hero-stat-l">Presentations</div>
+        </div>
+        <div>
+          <div class="hero-stat-n">4</div>
+          <div class="hero-stat-l">Countries</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span class="marquee-item">Generative AI</span>
+      <span class="marquee-item">Applied Linguistics</span>
+      <span class="marquee-item">TESOL</span>
+      <span class="marquee-item">VR Language Learning</span>
+      <span class="marquee-item">L2 Motivation</span>
+      <span class="marquee-item">Complex Dynamic Systems</span>
+      <span class="marquee-item">EAP</span>
+      <span class="marquee-item">Automated Essay Scoring</span>
+      <span class="marquee-item">Prompt Engineering</span>
+      <span class="marquee-item">LLMs in Education</span>
+      <span class="marquee-item">Generative AI</span>
+      <span class="marquee-item">Applied Linguistics</span>
+      <span class="marquee-item">TESOL</span>
+      <span class="marquee-item">VR Language Learning</span>
+      <span class="marquee-item">L2 Motivation</span>
+      <span class="marquee-item">Complex Dynamic Systems</span>
+      <span class="marquee-item">EAP</span>
+      <span class="marquee-item">Automated Essay Scoring</span>
+      <span class="marquee-item">Prompt Engineering</span>
+      <span class="marquee-item">LLMs in Education</span>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about">
+    <div class="about-img-wrap reveal">
+      <div class="about-img-frame">
+        <img src="pic.jpg" alt="Austin Pack" />
+      </div>
+      <div class="about-img-tag">Assistant Professor · BYU–Hawaii</div>
+      <div class="about-line"></div>
+    </div>
+    <div class="about-content">
+      <div class="section-tag">About</div>
+      <h2 class="big-heading reveal">Educator.<br>Researcher.<br><em>Innovator.</em></h2>
+      <p class="body-text reveal reveal-d1">
+        I am an <strong>Assistant Professor of English Language Teaching and Learning</strong> at BYU–Hawaii,
+        working within the Faculty of Education and Social Work. My scholarship lives at the intersection of
+        language education, motivation research, and the responsible integration of AI in learning environments.
+      </p>
+      <p class="body-text reveal reveal-d2">
+        Previously, I served as <strong>Senior Lecturer and VR Language Learning Lab Manager</strong> at
+        Xi'an Jiaotong-Liverpool University in Suzhou, China, and as an <strong>English Language Fellow</strong>
+        with the U.S. Department of State. I hold a Ph.D. in English (Applied Linguistics) from the
+        University of Liverpool.
+      </p>
+      <div class="tags-row reveal reveal-d3">
+        <span class="tag">GenAI &amp; LLMs</span>
+        <span class="tag">Language Pedagogy</span>
+        <span class="tag">CALL</span>
+        <span class="tag">L2 Psychology</span>
+        <span class="tag">Complex Dynamic Systems</span>
+        <span class="tag">VR for Language Learning</span>
+        <span class="tag">Automated Essay Scoring</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Philosophy -->
+  <section id="philosophy">
+    <div class="section-tag">Teaching Philosophy</div>
+    <div class="phil-layout">
+      <div>
+        <p class="phil-quote-big reveal">
+          "I learned from my Chinese father-in-law that cooking can be <span>more than a chore</span> — it can be
+          an art, an opportunity for creative expression and enjoyment. Similarly, teaching need not become monotonous."
+        </p>
+        <div class="principles-grid reveal reveal-d1">
+          <div class="principle">
+            <div class="principle-n">1</div>
+            <div>
+              <div class="principle-title">Understand Your Students</div>
+              <div class="principle-desc">Good teaching begins with understanding your students — their personality, culture, native language, goals, and how they interact with one another in the classroom.</div>
+            </div>
+          </div>
+          <div class="principle">
+            <div class="principle-n">2</div>
+            <div>
+              <div class="principle-title">Visualize the End Result</div>
+              <div class="principle-desc">Begin by identifying what students should be able to do at the end, then reverse-engineer the curriculum, assessments, and daily scaffolding to get there.</div>
+            </div>
+          </div>
+          <div class="principle">
+            <div class="principle-n">3</div>
+            <div>
+              <div class="principle-title">Understand the Underlying Processes</div>
+              <div class="principle-desc">Map the steps. How will you assess success? What curriculum enables it? How do daily lesson plans provide scaffolding along the way?</div>
+            </div>
+          </div>
+          <div class="principle">
+            <div class="principle-n">4</div>
+            <div>
+              <div class="principle-title">Do Not Be Afraid to Experiment</div>
+              <div class="principle-desc">There is no one right way to teach. The most successful teachers adapt their methodology — understanding who their learners are and where they need to go is the compass.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="phil-photo">
+          <img src="468127962_10162080681779828_8770615841806142039_n.jpg" alt="Thailand TESOL" />
+          <div class="phil-photo-label">Thailand TESOL International Conference</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="section-tag">Experience</div>
+    <h2 class="big-heading reveal">Professional<br><em>History</em></h2>
+    <div class="exp-grid">
+      <div class="exp-card featured reveal">
+        <div class="exp-num">01</div>
+        <div>
+          <div class="exp-year">Sep 2021 — Present · Laie, Hawai'i</div>
+          <div class="exp-role">Assistant Professor, English Language Teaching &amp; Learning</div>
+          <div class="exp-org">Brigham Young University–Hawaii · Faculty of Education &amp; Social Work</div>
+          <div class="exp-desc">Teaching and research in TESOL methodology, applied linguistics, technology-enhanced language learning, and AI integration. Active publication record across leading journals.</div>
+        </div>
+      </div>
+      <div class="exp-card reveal reveal-d1">
+        <div class="exp-year">Prior to 2021 · Suzhou, China</div>
+        <div class="exp-role">Senior Lecturer &amp; VR Lab Manager</div>
+        <div class="exp-org">Xi'an Jiaotong-Liverpool University</div>
+        <div class="exp-desc">Led the Virtual Reality Language Learning Lab. Provided EdTech training. Received Most Innovative Teaching Practice Award (Best of University, 2020).</div>
+      </div>
+      <div class="exp-card reveal reveal-d2">
+        <div class="exp-year">Shanghai / Beijing, China</div>
+        <div class="exp-role">English Language Fellow</div>
+        <div class="exp-org">U.S. Department of State · English Language Programs</div>
+        <div class="exp-desc">Teacher training, curriculum development, and intercultural communication workshops at U.S. American Centers across China.</div>
+      </div>
+      <div class="exp-card reveal">
+        <div class="exp-year">Rochester Hills, MI</div>
+        <div class="exp-role">Special Lecturer</div>
+        <div class="exp-org">Oakland University</div>
+      </div>
+      <div class="exp-card reveal reveal-d1">
+        <div class="exp-year">Provo, Utah</div>
+        <div class="exp-role">English &amp; Modern Greek Teacher (MTC)</div>
+        <div class="exp-org">Brigham Young University</div>
+      </div>
+    </div>
+
+    <div class="awards-strip reveal" style="margin-top:3rem;">
+      <div class="award-block">
+        <div class="award-year-tag">2020</div>
+        <div class="award-title-text">Most Innovative Teaching Practice Award — Best of University</div>
+        <div class="award-from">Xi'an Jiaotong-Liverpool University</div>
+      </div>
+      <div class="award-block">
+        <div class="award-year-tag">2020</div>
+        <div class="award-title-text">Honorary Educator Award</div>
+        <div class="award-from">Suzhou City Government &amp; Dept. of Education</div>
+      </div>
+      <div class="award-block">
+        <div class="award-year-tag">2019</div>
+        <div class="award-title-text">Best PhD Presentation Award — Best of University</div>
+        <div class="award-from">Xi'an Jiaotong-Liverpool University</div>
+      </div>
+      <div class="award-block">
+        <div class="award-year-tag">Fellowship</div>
+        <div class="award-title-text">English Language Fellow</div>
+        <div class="award-from">U.S. Department of State</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education -->
+  <section id="education">
+    <div class="section-tag">Education</div>
+    <h2 class="big-heading reveal">Academic<br><em>Background</em></h2>
+    <div class="edu-timeline">
+      <div class="edu-step reveal">
+        <div class="edu-step-label">Ph.D.</div>
+        <div class="edu-step-degree">English (Applied Linguistics)</div>
+        <div class="edu-step-inst">University of Liverpool, UK</div>
+        <div class="edu-step-note">Dissertation: Dynamics of Learners' Emergent Motivational Disposition: EAP Learners at a Transnational EMI University</div>
+      </div>
+      <div class="edu-step reveal reveal-d1">
+        <div class="edu-step-label">PGCert (with merit)</div>
+        <div class="edu-step-degree">Teaching &amp; Supporting Learning in HE</div>
+        <div class="edu-step-inst">Xi'an Jiaotong-Liverpool University</div>
+      </div>
+      <div class="edu-step reveal reveal-d2">
+        <div class="edu-step-label">M.A. / Certificate</div>
+        <div class="edu-step-degree">TESOL</div>
+        <div class="edu-step-inst">Brigham Young University, Provo, UT</div>
+        <div class="edu-step-note">Thesis: Understanding Chinese Language and Culture: A Guidebook for Teachers of English in China</div>
+      </div>
+      <div class="edu-step reveal reveal-d3">
+        <div class="edu-step-label">B.A.</div>
+        <div class="edu-step-degree">Chinese, Minor: Sociology</div>
+        <div class="edu-step-inst">Brigham Young University, Provo, UT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Courses -->
+  <section id="courses">
+    <div class="section-tag">Curriculum</div>
+    <h2 class="big-heading reveal">Courses<br><em>Taught</em></h2>
+    <div class="courses-bento">
+      <div class="course-block wide reveal">
+        <span class="course-tag">Undergraduate</span>
+        <div class="course-title">Methods of Teaching English as a Second Language</div>
+        <div class="course-body">Communicative language teaching methodologies, lesson planning, and classroom management for K–12 and adult ESL/EFL contexts across diverse learner populations.</div>
+      </div>
+      <div class="course-block reveal reveal-d1">
+        <span class="course-tag">Undergraduate</span>
+        <div class="course-title">Second Language Acquisition Theory</div>
+        <div class="course-body">SLA theories — input/output hypotheses, sociocultural theory, motivation research, and complex dynamic systems applied to instructed language learning.</div>
+      </div>
+      <div class="course-block reveal reveal-d2">
+        <span class="course-tag">Undergraduate</span>
+        <div class="course-title">Language Assessment &amp; Testing</div>
+        <div class="course-body">Test design, validity, reliability, and washback. Students develop and evaluate authentic assessments for ESL/EFL contexts.</div>
+      </div>
+      <div class="course-block reveal reveal-d1">
+        <span class="course-tag">UG / Graduate</span>
+        <div class="course-title">Technology-Enhanced Language Learning</div>
+        <div class="course-body">AI applications, VR, and digital environments for language instruction. Pedagogically grounded integration of emerging technologies.</div>
+      </div>
+      <div class="course-block reveal reveal-d2">
+        <span class="course-tag">Graduate</span>
+        <div class="course-title">English for Academic Purposes</div>
+        <div class="course-body">Advanced academic reading, writing, and oral communication. Genre analysis and rhetorical conventions in EMI contexts.</div>
+      </div>
+      <div class="course-block reveal reveal-d3">
+        <span class="course-tag">Graduate</span>
+        <div class="course-title">Research Methods in Applied Linguistics</div>
+        <div class="course-body">Qualitative, quantitative, and mixed-methods research. PLS-SEM, study design, data collection, and scholarly writing for publication.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Research -->
+  <section id="research">
+    <div class="section-tag">Scholarship</div>
+    <h2 class="big-heading reveal">Selected<br><em>Publications</em></h2>
+    <div class="pub-grid">
+      <div class="pub-row reveal">
+        <div class="pub-y">2025</div>
+        <div>
+          <div class="pub-t">How Well Can GenAI (GPT-4) Provide Written Corrective Feedback on English Language Learners' Writing?</div>
+          <div class="pub-v">International Journal of English for Academic Purposes: Research and Practice</div>
+          <div class="pub-a">Pack, A., Hartshorn, K. J., Escalante, J., &amp; Gillette, N.</div>
+        </div>
+        <div class="pub-badge badge-ai">GenAI</div>
+      </div>
+      <div class="pub-row reveal reveal-d1">
+        <div class="pub-y">2024</div>
+        <div>
+          <div class="pub-t">Large Language Models and Automated Essay Scoring of English Language Learner Writing</div>
+          <div class="pub-v">Computers and Education: Artificial Intelligence</div>
+          <div class="pub-a">Pack, A., Barrett, A., &amp; Escalante, J.</div>
+        </div>
+        <div class="pub-badge badge-ai">AI + AES</div>
+      </div>
+      <div class="pub-row reveal reveal-d2">
+        <div class="pub-y">2024</div>
+        <div>
+          <div class="pub-t">The Effects of AI-Based Dynamic Written Corrective Feedback on Second Language Writing</div>
+          <div class="pub-v">RELC Journal</div>
+          <div class="pub-a">Hartshorn, K. J. &amp; Pack, A.</div>
+        </div>
+        <div class="pub-badge badge-ai">GenAI</div>
+      </div>
+      <div class="pub-row reveal">
+        <div class="pub-y">2023</div>
+        <div>
+          <div class="pub-t">A Dynamic Network Analysis of an L2 Motivation System: The Role of Central Relational Links</div>
+          <div class="pub-v">Journal for the Psychology of Language Learning, 5(1), 1–20</div>
+          <div class="pub-a">Pack, A.</div>
+        </div>
+        <div class="pub-badge badge-mot">Motivation</div>
+      </div>
+      <div class="pub-row reveal reveal-d1">
+        <div class="pub-y">2023</div>
+        <div>
+          <div class="pub-t">Utilizing OpenAI's GPT-4 for Written Feedback</div>
+          <div class="pub-v">TESOL Journal, e759</div>
+          <div class="pub-a">Carlson, M., Pack, A., &amp; Escalante, J.</div>
+        </div>
+        <div class="pub-badge badge-ai">GenAI</div>
+      </div>
+      <div class="pub-row reveal reveal-d2">
+        <div class="pub-y">2022</div>
+        <div>
+          <div class="pub-t">A Network Analysis of L2 Motivational Factors: Structure, Connectivity, and Central Relational Links</div>
+          <div class="pub-v">TESOL Quarterly, 57(2), 537–565</div>
+          <div class="pub-a">Pack, A.</div>
+        </div>
+        <div class="pub-badge badge-mot">Motivation</div>
+      </div>
+      <div class="pub-row reveal">
+        <div class="pub-y">2021</div>
+        <div>
+          <div class="pub-t">Understanding Learners' Acceptance of High-Immersion Virtual Reality Systems</div>
+          <div class="pub-v">Computers and Education, 169, 1–17</div>
+          <div class="pub-a">Barrett, A., Pack, A., &amp; Quaid, E.</div>
+        </div>
+        <div class="pub-badge badge-vr">VR</div>
+      </div>
+      <div class="pub-row reveal reveal-d1">
+        <div class="pub-y">2020</div>
+        <div>
+          <div class="pub-t">University EAP Students' Perceptions of Using a VR Learning Environment to Learn Writing Structure</div>
+          <div class="pub-v">IJCALLT, 10(1), 27–46</div>
+          <div class="pub-a">Pack, A., Barrett, A., Hai-Ning, L., &amp; Monteiro, D.</div>
+        </div>
+        <div class="pub-badge badge-vr">VR</div>
+      </div>
+    </div>
+    <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ&hl=en" target="_blank" rel="noopener" class="pub-more reveal">View all on Google Scholar →</a>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact">
+    <div class="contact-big reveal">
+      Let's<br>
+      <em>Connect</em>
+    </div>
+    <div class="contact-links-grid reveal">
+      <a href="https://austinpack.substack.com/" target="_blank" rel="noopener" class="contact-link-block">
+        <span class="link-label">Blog</span>
+        <span class="link-val">austinpack.substack.com</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener" class="contact-link-block">
+        <span class="link-label">University</span>
+        <span class="link-val">BYUH Faculty Directory</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a href="https://www.linkedin.com/in/austin-pack-234a4177/" target="_blank" rel="noopener" class="contact-link-block">
+        <span class="link-label">LinkedIn</span>
+        <span class="link-val">austin-pack-234a4177</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener" class="contact-link-block">
+        <span class="link-label">Google Scholar</span>
+        <span class="link-val">dytOdIYAAAAJ</span>
+        <span class="link-arrow">↗</span>
+      </a>
+      <a href="https://orcid.org/0000-0002-3861-5620" target="_blank" rel="noopener" class="contact-link-block">
+        <span class="link-label">ORCID</span>
+        <span class="link-val">0000-0002-3861-5620</span>
+        <span class="link-arrow">↗</span>
+      </a>
+    </div>
+    <div class="contact-form-row reveal">
+      <div class="contact-form-left">
+        <p class="contact-tagline">Interested in research collaboration, speaking engagements, or opportunities in language education?</p>
+        <p style="font-size:.85rem;color:var(--muted);line-height:1.7;">
+          Faculty of Education &amp; Social Work<br>
+          Brigham Young University–Hawaii<br>
+          Laie, Hawai'i, USA
+        </p>
+      </div>
+      <div class="contact-form-right">
+        <form onsubmit="handleSend(event)">
+          <div class="cf-group">
+            <label class="cf-label" for="nm">Name</label>
+            <input class="cf-input" id="nm" type="text" placeholder="Your name" required />
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="em">Email</label>
+            <input class="cf-input" id="em" type="email" placeholder="your@email.com" required />
+          </div>
+          <div class="cf-group">
+            <label class="cf-label" for="msg">Message</label>
+            <textarea class="cf-textarea" id="msg" placeholder="Your message..."></textarea>
+          </div>
+          <button type="submit" class="cf-submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-left">© 2026 Austin Pack, Ph.D. · BYU–Hawaii</span>
+    <a href="#hero" class="footer-right">↑ Back to top</a>
+  </footer>
+
+  <script>
+    /* Cursor */
+    const cur = document.getElementById('cur');
+    document.addEventListener('mousemove', e => {
+      cur.style.left = e.clientX + 'px';
+      cur.style.top  = e.clientY + 'px';
+    });
+    document.querySelectorAll('a, button, .course-block, .exp-card, .pub-row, .award-block, .contact-link-block, .principle').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('h'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('h'));
+    });
+
+    /* Nav scroll */
+    window.addEventListener('scroll', () => {
+      document.querySelector('nav').style.background =
+        window.scrollY > 60 ? 'rgba(6,6,14,.95)' : 'rgba(6,6,14,.8)';
+    }, { passive: true });
+
+    /* Reveal */
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    /* Contact form */
+    function handleSend(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.cf-submit');
+      btn.textContent = 'Sent ✓';
+      btn.style.background = 'var(--yellow)';
+      setTimeout(() => { btn.textContent = 'Send Message'; btn.style.background = ''; e.target.reset(); }, 3000);
+    }
+
+    /* Smooth scroll */
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const t = document.querySelector(a.getAttribute('href'));
+        if (!t) return; e.preventDefault();
+        window.scrollTo({ top: t.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
