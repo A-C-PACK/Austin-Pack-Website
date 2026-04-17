@@ -1,46 +1,131 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Austin Pack</title>
   <meta name="description" content="Austin Pack — Assistant Professor of English Language Teaching at BYU–Hawaii. Research in AI, SLA, motivation, and technology-enhanced language learning." />
+  <meta name="theme-color" content="#f2ece0" />
   <meta property="og:title" content="Austin Pack — Teaching Portfolio" />
-  <meta property="og:description" content="Assistant Professor of English Language Teaching &amp; Learning at Brigham Young University–Hawaii. Research in generative AI, SLA, motivation, and CALL." />
+  <meta property="og:description" content="Assistant Professor of English Language Teaching &amp; Learning at Brigham Young University–Hawaii." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23111110'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f9f7f3' text-anchor='middle'>A</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
   <style>
+    /* ── TOKENS ── */
     :root {
-      --white: #f9f7f3;
-      --black: #111110;
-      --mid:   #888884;
-      --line:  #d8d5cf;
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif: 'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+
+      --ease: cubic-bezier(.22,.61,.36,1);
+      --ease-out: cubic-bezier(.2,.9,.2,1);
     }
+    [data-theme="dark"] {
+      --paper:   #141311;
+      --paper-2: #1c1a17;
+      --ink:     #f2ece0;
+      --ink-2:   #d8d0bd;
+      --mute:    #8a8476;
+      --mute-2:  #5b5649;
+      --line:    #2e2b26;
+      --accent:  #d97c6a;
+      --hl:      #2b251a;
+    }
+
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: 16px; scroll-behavior: smooth; }
+    html {
+      font-size: 16px;
+      scroll-behavior: smooth;
+      font-feature-settings: "kern", "liga", "calt", "ss01", "cv11";
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 1.0625rem;
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      overflow-x: hidden;
+      display: flex;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+
+    /* ── VIEW TRANSITIONS — circular clip-reveal from toggle ── */
+    ::view-transition-old(root),
+    ::view-transition-new(root) {
+      animation: none;
+      mix-blend-mode: normal;
+    }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) {
+      animation: vt-clip-in .6s var(--ease) forwards;
+    }
+
+    /* ── PAPER GRAIN ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000;
+      opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── SCROLL PROGRESS ── */
+    .scroll-progress {
+      position: fixed; top: 0; left: 0; right: 0;
+      height: 2px; z-index: 900;
+      pointer-events: none;
+    }
+    .scroll-progress__bar {
+      height: 100%; width: 0;
+      background: var(--accent);
+      transition: width .08s linear;
+      transform-origin: left center;
+      transform: scaleX(0);
+      animation: progressDraw 1.2s var(--ease) .2s forwards;
+    }
+    @keyframes progressDraw { to { transform: scaleX(1); } }
+
+    /* Tabular figures for all mono */
+    .mono, [class*="mono"], .hero-role, .section-num, .doc-link, .interest-item, .quote-card cite, .footer-copy, .footer-top, .aside-nav a, .aside-bottom, .contact-address-link {
+      font-feature-settings: "tnum", "ss01", "cv11";
+    }
 
     /* ── SKIP LINK ── */
     .skip-link {
       position: absolute; top: -100%; left: 1rem;
-      background: var(--black); color: var(--white);
-      font-family: 'Space Mono', monospace;
+      background: var(--ink); color: var(--paper);
+      font-family: var(--mono);
       font-size: .62rem; letter-spacing: .08em;
       padding: .5rem 1rem; text-decoration: none;
-      z-index: 1000; transition: top .2s;
+      z-index: 1001; transition: top .2s;
     }
     .skip-link:focus { top: 1rem; }
-
-    body {
-      background: var(--white);
-      color: var(--black);
-      font-family: 'EB Garamond', Georgia, serif;
-      font-size: 1.0625rem;
-      line-height: 1.75;
-      display: flex;
-    }
 
     /* ── SIDEBAR ── */
     aside {
@@ -51,47 +136,121 @@
       display: flex; flex-direction: column;
       overflow-y: auto;
       z-index: 10;
-      background: var(--white);
+      background: var(--paper);
+      transition: background .3s, border-color .3s;
+      transform: translateX(-110%);
+      animation: sidebarIn .7s var(--ease) .1s forwards;
     }
-    .aside-name {
-      font-size: 1rem; font-weight: 500;
-      letter-spacing: .01em;
-      line-height: 1.3;
-      margin-bottom: .25rem;
+    @keyframes sidebarIn { to { transform: translateX(0); } }
+
+    .aside-nav {
+      display: flex; flex-direction: column; gap: 0;
+      position: relative;
     }
-    .aside-title {
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; color: var(--mid);
-      letter-spacing: .06em; line-height: 1.55;
-      margin-bottom: 2.5rem;
-    }
-    .aside-nav { display: flex; flex-direction: column; gap: 0; }
     .aside-nav a {
-      font-family: 'Space Mono', monospace;
+      position: relative;
+      font-family: var(--mono);
       font-size: .6rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--mid);
+      text-transform: uppercase; color: var(--mute);
       text-decoration: none; padding: .5rem 0;
       border-bottom: 1px solid var(--line);
-      transition: color .2s;
+      transition: color .25s var(--ease), padding-left .35s var(--ease);
+      overflow: hidden;
     }
-    .aside-nav a:hover, .aside-nav a.active { color: var(--black); }
+    /* wipe underline — unified hover grammar */
+    .aside-nav a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -1px;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform .5s var(--ease);
+    }
+    .aside-nav a:hover::after,
+    .aside-nav a.active::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+    .aside-nav a:hover, .aside-nav a.active { color: var(--ink); padding-left: .4rem; }
+
+    /* Sliding active indicator */
+    .aside-nav__indicator {
+      position: absolute;
+      left: -2rem;
+      width: 2px;
+      background: var(--accent);
+      top: 0; height: 0;
+      transition: top .45s var(--ease), height .45s var(--ease), opacity .3s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .aside-nav__indicator.show { opacity: 1; }
+
     .aside-bottom {
       margin-top: auto;
       padding-top: 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; color: var(--mid);
+      font-family: var(--mono);
+      font-size: .55rem; color: var(--mute);
       letter-spacing: .06em;
       line-height: 1.7;
     }
-    .aside-bottom a { color: var(--mid); text-decoration: none; }
-    .aside-bottom a:hover { color: var(--black); }
+    .aside-bottom a {
+      position: relative;
+      color: var(--mute); text-decoration: none;
+      transition: color .25s;
+    }
+    .aside-bottom a::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: -1px;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform .45s var(--ease);
+    }
+    .aside-bottom a:hover { color: var(--ink); }
+    .aside-bottom a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+
+    /* ── THEME TOGGLE ── */
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono);
+      font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+    .theme-btn--top {
+      align-self: flex-start;
+      padding: .5rem 0;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--line);
+      width: 100%;
+      justify-content: flex-start;
+    }
+    .mobile-theme-btn {
+      background: none; border: none; cursor: pointer;
+      padding: .35rem; color: var(--ink);
+      display: flex; align-items: center;
+    }
+    .mobile-theme-btn svg { width: 15px; height: 15px; }
 
     /* ── MOBILE HEADER ── */
     .mobile-header {
       display: none;
       position: fixed; top: 0; left: 0; right: 0;
       height: 56px;
-      background: var(--white);
+      background: var(--paper);
       border-bottom: 1px solid var(--line);
       z-index: 100;
       padding: 0 1.5rem;
@@ -99,17 +258,18 @@
       justify-content: space-between;
     }
     .mobile-header-name {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: var(--display);
       font-size: .95rem; font-weight: 500;
-      letter-spacing: .01em;
+      font-variation-settings: "opsz" 14;
     }
+    .mobile-header-right { display: flex; align-items: center; gap: .5rem; }
     .hamburger {
       background: none; border: none; cursor: pointer;
       padding: .25rem; display: flex; flex-direction: column;
       gap: 5px; align-items: flex-end;
     }
     .hamburger span {
-      display: block; height: 1px; background: var(--black);
+      display: block; height: 1px; background: var(--ink);
       transition: width .25s, opacity .2s, transform .3s;
     }
     .hamburger span:nth-child(1) { width: 22px; }
@@ -119,11 +279,10 @@
     .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); width: 22px; }
 
-    /* ── MOBILE NAV OVERLAY ── */
     .mobile-nav-overlay {
       display: none;
       position: fixed; inset: 0;
-      background: var(--white);
+      background: var(--paper);
       z-index: 99;
       flex-direction: column;
       justify-content: center;
@@ -137,70 +296,113 @@
       border-top: 1px solid var(--line);
     }
     .mobile-nav-overlay nav a {
-      font-family: 'EB Garamond', Georgia, serif;
+      font-family: var(--display);
       font-size: 2rem; font-weight: 400;
-      color: var(--black); text-decoration: none;
+      font-variation-settings: "opsz" 80;
+      color: var(--ink); text-decoration: none;
       padding: .6rem 0;
       border-bottom: 1px solid var(--line);
       display: flex; justify-content: space-between; align-items: center;
-      transition: opacity .2s;
     }
-    .mobile-nav-overlay nav a:hover { opacity: .5; }
     .mobile-nav-overlay nav a .nav-arrow {
-      font-family: 'Space Mono', monospace;
-      font-size: .65rem; color: var(--mid);
+      font-family: var(--mono);
+      font-size: .65rem; color: var(--mute);
     }
     .mobile-nav-links {
       margin-top: 2.5rem;
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; color: var(--mid);
+      font-family: var(--mono);
+      font-size: .58rem; color: var(--mute);
       letter-spacing: .06em; line-height: 2;
     }
-    .mobile-nav-links a { color: var(--mid); text-decoration: none; }
-    .mobile-nav-links a:hover { color: var(--black); }
+    .mobile-nav-links a { color: var(--mute); text-decoration: none; }
 
     /* ── MAIN ── */
-    main { margin-left: 220px; width: calc(100% - 220px); }
+    main { margin-left: 220px; width: calc(100% - 220px); position: relative; }
 
-    /* ── SECTION BASE ── */
+    /* ── SECTIONS ── */
     .section {
-      padding: 6rem 5rem 6rem 5rem;
+      padding: 6rem 5rem;
       border-bottom: 1px solid var(--line);
     }
     .section:last-child { border-bottom: none; }
     .section-num {
-      font-family: 'Space Mono', monospace;
+      font-family: var(--mono);
       font-size: .68rem; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--black);
+      text-transform: uppercase; color: var(--ink);
       display: block; margin-bottom: 2.5rem;
     }
 
     /* ── DOC LINKS ── */
     .doc-link {
-      display: inline-flex; align-items: center; gap: .85rem;
-      font-family: 'Space Mono', monospace;
-      font-size: .65rem; letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--black); text-decoration: none;
-      padding: .75rem 0;
-      border-bottom: 1px solid var(--black);
-      transition: opacity .2s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      width: 100%;
+      max-width: 600px;
+      padding: 1.5rem 1.75rem;
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      color: var(--ink);
+      text-decoration: none;
+      overflow: hidden;
+      transition: border-color .35s var(--ease), color .35s var(--ease);
     }
-    .doc-link:hover { opacity: .45; }
-    .doc-link-arrow { font-size: .8rem; }
+    /* sliding background fill */
+    .doc-link::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: var(--hl);
+      transform: translateX(-101%);
+      transition: transform .55s var(--ease);
+      z-index: 0;
+    }
+    .doc-link:hover::before { transform: translateX(0); }
+    .doc-link:hover { border-color: var(--accent); }
+    .doc-link-label {
+      position: relative; z-index: 1;
+      font-family: var(--display);
+      font-size: 1.15rem; font-weight: 400;
+      font-variation-settings: "opsz" 36;
+      letter-spacing: -.01em;
+    }
+    .doc-link-arrow {
+      position: relative; z-index: 1;
+      font-family: var(--mono);
+      font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+      flex-shrink: 0;
+      transition: transform .4s var(--ease);
+    }
+    .doc-link:hover .doc-link-arrow { transform: translate(5px, -3px); }
 
     /* ── HERO ── */
     #home {
-      padding: 3rem 8rem 2rem 5rem;
+      padding: 3rem 8rem 3rem 5rem;
       display: flex; flex-direction: column;
       border-bottom: 1px solid var(--line);
     }
     .hero-large {
-      font-size: clamp(4rem, 7vw, 7.5rem);
+      font-family: var(--display);
+      font-size: clamp(4rem, 9vw, 10rem);
       font-weight: 400; line-height: .95;
-      letter-spacing: -.02em;
+      letter-spacing: -.025em;
+      font-variation-settings: "opsz" 144, "SOFT" 50;
     }
-    .hero-large em { font-style: italic; }
+    .hero-large em { font-style: italic; color: var(--accent); font-weight: 300; }
+    .hero-large .split { display: inline-block; overflow: hidden; vertical-align: bottom; }
+    .hero-large .split > span {
+      display: inline-block;
+      transform: translateY(110%);
+      animation: rise .9s var(--ease-out) forwards;
+    }
+    .hero-large .split.d1 > span { animation-delay: .15s; }
+    .hero-large .split.d2 > span { animation-delay: .28s; }
+    @keyframes rise { to { transform: translateY(0); } }
+
     .hero-sub {
       margin-top: 1.5rem;
       display: grid; grid-template-columns: 1fr 1fr;
@@ -208,32 +410,38 @@
       max-width: 680px;
     }
     .hero-role {
-      font-family: 'Space Mono', monospace;
+      font-family: var(--mono);
       font-size: .68rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--mid);
+      text-transform: uppercase; color: var(--mute);
       line-height: 1.7;
     }
-    .hero-links {
-      display: flex; flex-direction: column; gap: .25rem;
-    }
+    .hero-links { display: flex; flex-direction: column; gap: .25rem; }
     .hero-links a {
-      font-family: 'Space Mono', monospace;
+      position: relative;
+      font-family: var(--mono);
       font-size: .62rem; letter-spacing: .06em;
-      color: var(--mid); text-decoration: none;
-      transition: color .2s;
+      color: var(--mute); text-decoration: none;
+      transition: color .2s, transform .25s var(--ease);
+      display: inline-block;
+      width: fit-content;
+      padding-bottom: 1px;
     }
-    .hero-links a:hover { color: var(--black); }
-    .hero-scroll-hint {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--line);
-      display: flex; align-items: center; gap: .6rem;
-    }
-    .hero-scroll-hint::before {
+    .hero-links a::after {
       content: '';
-      display: block; width: 24px; height: 1px;
-      background: var(--line);
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform .45s var(--ease);
     }
+    .hero-links a:hover { color: var(--accent); transform: translateX(3px); }
+    .hero-links a:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+
 
     /* ── ABOUT ── */
     .about-grid {
@@ -243,249 +451,204 @@
     .about-photo {
       width: 100%; aspect-ratio: 3/4;
       overflow: hidden;
-      filter: grayscale(20%) contrast(1.05);
+      position: relative;
+      filter: url(#duotone) contrast(1.02);
     }
-    .about-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
-    .about-meta {
-      margin-top: 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; line-height: 1.9;
-      color: var(--mid); letter-spacing: .04em;
+    [data-theme="dark"] .about-photo { filter: url(#duotoneDark) contrast(1.02); }
+    .about-photo img {
+      width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;
+      transform: scale(1);
+      transition: transform .9s var(--ease);
+      will-change: transform;
     }
-    .about-meta strong { color: var(--black); display: block; font-weight: 700; }
+    .about-photo:hover img { transform: scale(1.03); }
     .about-body h3 {
+      font-family: var(--display);
       font-size: 1.5rem; font-weight: 400;
-      font-style: italic; color: var(--black);
+      font-style: italic; color: var(--ink);
+      font-variation-settings: "opsz" 48;
       margin-bottom: .75rem; margin-top: 2.5rem;
     }
     .about-body h3:first-child { margin-top: 0; }
-    .about-body p { margin-bottom: .85rem; color: var(--black); max-width: 560px; line-height: 1.85; }
+    .about-body p {
+      margin-bottom: .85rem; color: var(--ink);
+      max-width: 62ch; line-height: 1.85;
+    }
     .about-body p:last-child { margin-bottom: 0; }
+
     .interests-list {
       margin-top: .75rem;
       display: grid; grid-template-columns: 1fr 1fr;
       gap: .15rem 2rem;
     }
     .interest-item {
-      font-family: 'Space Mono', monospace;
+      position: relative;
+      font-family: var(--mono);
       font-size: .6rem; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--mid);
-      padding: .4rem 0; border-bottom: 1px solid var(--line);
+      text-transform: uppercase; color: var(--mute);
+      padding: .4rem 0;
+      border-bottom: 1px solid var(--line);
+      transition: color .25s var(--ease), padding-left .3s var(--ease);
+      cursor: default;
     }
+    .interest-item:hover { color: var(--ink); padding-left: .4rem; }
 
-    /* ── PHILOSOPHY ── */
-    #philosophy { background: var(--black); color: var(--white); }
-    #philosophy .section-num { color: rgba(249,247,243,.35); }
-    .phil-layout {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 5rem; align-items: start;
-    }
-    .phil-quote {
-      font-size: clamp(1.25rem, 2vw, 1.6rem);
-      font-style: italic; font-weight: 400;
-      line-height: 1.6; color: var(--white);
-      max-width: 440px;
-    }
-    .phil-byline {
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; letter-spacing: .1em;
-      text-transform: uppercase; color: rgba(249,247,243,.4);
-      margin-top: 1.5rem;
-    }
-    .phil-doc-link {
-      display: inline-block;
-      margin-top: 1.25rem;
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(249,247,243,.4);
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .phil-doc-link:hover { color: rgba(249,247,243,.8); }
-    .phil-conference-img {
-      width: 100%; display: block;
-      filter: grayscale(30%) contrast(1.05);
-      margin-top: 2.5rem;
-    }
-    .phil-conference-caption {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; letter-spacing: .08em;
-      text-transform: uppercase;
-      color: rgba(249,247,243,.3);
-      margin-top: .6rem;
-    }
-    .phil-rules { }
-    .phil-rule-item {
-      border-top: 1px solid rgba(249,247,243,.12);
-      padding: 1.1rem 0;
-    }
-    .phil-rule-item:last-child { border-bottom: 1px solid rgba(249,247,243,.12); }
-    .phil-rule-num {
-      font-family: 'Space Mono', monospace;
-      font-size: .58rem; letter-spacing: .12em;
-      color: rgba(249,247,243,.35); margin-bottom: .3rem;
-    }
-    .phil-rule-title {
-      font-size: 1.05rem; font-weight: 500;
-      color: var(--white); margin-bottom: .2rem;
-    }
-    .phil-rule-desc { font-size: .9rem; color: rgba(249,247,243,.55); line-height: 1.7; }
-
-    /* ── EXPERIENCE ── */
-    .exp-list { max-width: 700px; }
+    /* ── RESEARCH ── */
+    .exp-list { max-width: 740px; }
     .exp-item {
-      display: grid; grid-template-columns: 140px 1fr;
-      gap: 2rem; padding: 1.75rem 0;
+      position: relative;
+      padding: 1.5rem 0 1.5rem 0;
       border-bottom: 1px solid var(--line);
+      transition: border-color .3s, padding-left .45s var(--ease);
     }
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 50%;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transform: translateY(-50%);
+      transition: width .45s var(--ease);
+    }
+    .exp-item:hover { padding-left: 2rem; }
+    .exp-item:hover::before { width: 1.25rem; }
     .exp-item:first-child { border-top: 1px solid var(--line); }
-    .exp-meta {
-      font-family: 'Space Mono', monospace;
-      font-size: .6rem; letter-spacing: .08em;
-      color: var(--mid); padding-top: .25rem; line-height: 1.6;
+    .exp-role {
+      font-family: var(--display);
+      font-size: 1.35rem; font-weight: 400;
+      font-variation-settings: "opsz" 36;
+      color: var(--ink); margin-bottom: .35rem;
+      transition: color .3s, transform .35s var(--ease);
     }
-    .exp-meta-location {
-      margin-top: .3rem;
-      font-size: .55rem; letter-spacing: .06em;
-      opacity: .7;
-    }
-    .exp-role { font-size: 1.05rem; font-weight: 500; color: var(--black); margin-bottom: .15rem; }
-    .exp-org { font-size: .88rem; font-style: italic; color: var(--mid); margin-bottom: .4rem; }
-    .exp-desc { font-size: .9rem; color: var(--black); line-height: 1.7; opacity: .75; }
-
-    /* ── EDUCATION ── */
-    .edu-section { margin-top: 4rem; }
-    .edu-section-title {
-      font-family: 'Space Mono', monospace;
-      font-size: .6rem; letter-spacing: .12em;
-      text-transform: uppercase; color: var(--mid);
-      margin-bottom: 1.25rem;
-    }
-    .edu-item {
-      display: grid; grid-template-columns: 140px 1fr;
-      gap: 2rem; padding: 1.1rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .edu-item:first-child { border-top: 1px solid var(--line); }
-    .edu-label {
-      font-family: 'Space Mono', monospace;
-      font-size: .6rem; letter-spacing: .06em;
-      color: var(--mid); padding-top: .2rem;
-    }
-    .edu-degree { font-size: 1rem; font-weight: 500; margin-bottom: .1rem; }
-    .edu-inst { font-size: .88rem; font-style: italic; color: var(--mid); }
-    .edu-thesis {
-      font-size: .85rem; color: var(--mid);
-      margin-top: .3rem; font-style: italic;
+    .exp-item:hover .exp-role { color: var(--accent); transform: translateX(4px); }
+    .exp-desc {
+      font-size: .95rem; color: var(--ink-2);
+      line-height: 1.85; max-width: 68ch;
+      opacity: .85;
     }
 
-    /* ── AWARDS ── */
-    .awards-section { margin-top: 3rem; }
-    .award-item {
-      display: grid; grid-template-columns: 140px 1fr;
-      gap: 2rem; padding: .85rem 0;
-      border-bottom: 1px solid var(--line);
+    /* ── TEACHING / QUOTE CARDS ── */
+    .quotes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
     }
-    .award-item:first-child { border-top: 1px solid var(--line); }
-    .award-year { font-family: 'Space Mono', monospace; font-size: .6rem; color: var(--mid); padding-top: .15rem; }
-    .award-name { font-size: .95rem; font-weight: 500; }
-    .award-org { font-size: .85rem; color: var(--mid); font-style: italic; }
-
-    /* ── PUBLICATIONS ── */
-    #research { background: var(--white); }
-    .pub-list { max-width: 700px; }
-    .pub-year-group { margin-bottom: 2.5rem; }
-    .pub-year-heading {
-      font-family: 'Space Mono', monospace;
-      font-size: .6rem; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--mid);
-      padding-bottom: .5rem; border-bottom: 1px solid var(--line);
-      margin-bottom: 1rem;
+    .quote-card {
+      background: var(--paper-2);
+      padding: 1.75rem;
+      border-top: 2px solid var(--accent);
+      position: relative;
+      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
     }
-    .pub-entry {
-      padding: .85rem 0; border-bottom: 1px solid var(--line);
-      font-size: .95rem; line-height: 1.7; color: var(--black);
+    .quote-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 40px -20px rgba(20,19,17,.15);
     }
-    .pub-entry em { font-style: italic; }
-    .pub-venue-line { color: var(--mid); font-size: .88rem; margin-top: .15rem; }
-    .pub-links {
-      margin-top: .4rem;
-      display: flex; gap: 1rem;
+    .quote-card .mark {
+      font-family: var(--display);
+      font-size: 3rem; line-height: .5;
+      color: var(--accent);
+      font-style: italic;
+      position: absolute;
+      top: 1rem; right: 1.3rem;
+      opacity: .28;
     }
-    .pub-link {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--mid); text-decoration: none;
-      transition: color .2s;
+    .quote-card blockquote {
+      font-size: .98rem;
+      line-height: 1.8;
+      color: var(--ink-2);
+      font-style: italic;
+      margin: 0 0 1.1rem;
+      hanging-punctuation: first last;
+      text-indent: -.3em; /* fallback hang for browsers without hanging-punctuation */
     }
-    .pub-link:hover { color: var(--black); }
-    .scholar-link {
-      font-family: 'Space Mono', monospace;
-      font-size: .62rem; letter-spacing: .06em;
-      color: var(--mid); text-decoration: none;
-      transition: color .2s;
+    .quote-card cite {
+      font-family: var(--mono);
+      font-size: .56rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute);
+      font-style: normal;
+      display: block;
+      padding-top: .75rem;
+      border-top: 1px solid var(--line);
     }
-    .scholar-link:hover { color: var(--black); }
-
-    /* ── COURSES ── */
-    #courses { }
-    .courses-list { max-width: 700px; }
-    .course-item {
-      display: grid; grid-template-columns: 100px 1fr;
-      gap: 2rem; padding: 1.25rem 0;
-      border-bottom: 1px solid var(--line);
-      align-items: start;
-    }
-    .course-item:first-child { border-top: 1px solid var(--line); }
-    .course-level-tag {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--mid);
-      padding-top: .3rem;
-    }
-    .course-name-text { font-size: 1.0rem; font-weight: 500; margin-bottom: .2rem; }
-    .course-desc-text { font-size: .88rem; color: var(--mid); line-height: 1.65; }
 
     /* ── CONTACT ── */
-    #contact { background: var(--white); }
-    .contact-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 5rem; max-width: 700px;
-    }
-    .contact-links-list { display: flex; flex-direction: column; }
-    .contact-link {
-      font-family: 'Space Mono', monospace;
-      font-size: .62rem; letter-spacing: .06em;
-      color: var(--mid); text-decoration: none;
-      padding: .65rem 0; border-bottom: 1px solid var(--line);
-      display: flex; justify-content: space-between;
-      align-items: center;
-      transition: color .2s;
-    }
-    .contact-link:first-child { border-top: 1px solid var(--line); }
-    .contact-link:hover { color: var(--black); }
-    .contact-link-arrow { opacity: .4; }
-    .contact-tagline {
-      font-size: 1.25rem; font-style: italic;
-      line-height: 1.55; color: var(--black);
-      max-width: 280px; margin-bottom: 2rem;
-    }
     .contact-address {
-      font-size: .88rem; color: var(--mid); line-height: 1.8;
-      padding-top: .25rem;
+      font-size: .95rem; color: var(--mute); line-height: 1.9;
     }
     .contact-address-name {
-      font-size: 1rem; color: var(--black); margin-bottom: 1rem;
+      font-family: var(--display);
+      font-size: 1.1rem; color: var(--ink); margin-bottom: 1rem;
+      font-variation-settings: "opsz" 24;
     }
     .contact-address-link {
-      font-family: 'Space Mono', monospace;
+      position: relative;
+      font-family: var(--mono);
       font-size: .6rem; letter-spacing: .06em;
-      color: var(--mid); text-decoration: none;
+      color: var(--mute); text-decoration: none;
       transition: color .2s;
+      display: inline-block;
+      padding-bottom: 1px;
     }
-    .contact-address-link:hover { color: var(--black); }
+    .contact-address-link::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform .45s var(--ease);
+    }
+    .contact-address-link:hover { color: var(--accent); }
+    .contact-address-link:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+
+    /* Copy-email button */
+    .copy-email {
+      position: relative;
+      background: none; border: none; padding: 0;
+      font-family: var(--mono);
+      font-size: .6rem; letter-spacing: .06em;
+      color: var(--mute); cursor: pointer;
+      text-transform: none;
+      display: inline-block;
+      padding-bottom: 1px;
+      transition: color .25s;
+    }
+    .copy-email::after {
+      content: '';
+      position: absolute;
+      left: 0; bottom: 0;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform .45s var(--ease);
+    }
+    .copy-email:hover { color: var(--accent); }
+    .copy-email:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
+    .copy-confirm {
+      display: inline-block;
+      margin-left: .6rem;
+      font-family: var(--mono);
+      font-size: .55rem; letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      opacity: 0;
+      transform: translateY(2px);
+      transition: opacity .25s var(--ease), transform .25s var(--ease);
+      pointer-events: none;
+    }
+    .copy-confirm.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* ── FOOTER ── */
     footer {
@@ -493,24 +656,285 @@
       border-top: 1px solid var(--line);
       display: flex; justify-content: space-between; align-items: center;
     }
-    .footer-copy {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; color: var(--mid); letter-spacing: .06em;
+    .footer-copy, .footer-top {
+      font-family: var(--mono);
+      font-size: .55rem; color: var(--mute);
+      letter-spacing: .06em;
     }
-    .footer-top {
-      font-family: 'Space Mono', monospace;
-      font-size: .55rem; color: var(--mid);
-      letter-spacing: .06em; text-decoration: none;
-      transition: color .2s;
+    .footer-top { text-decoration: none; transition: color .2s; }
+    .footer-top:hover { color: var(--ink); }
+
+    /* ── COCKROACH EASTER EGG ── */
+    .roach-wrap {
+      position: relative;
+      display: inline-block;
+      vertical-align: middle;
     }
-    .footer-top:hover { color: var(--black); }
+    .roach-btn {
+      background: none; border: none; cursor: pointer;
+      font-size: .85rem; padding: 0 0 0 .35rem;
+      line-height: 1; vertical-align: middle;
+      display: inline-block;
+      transition: transform .3s var(--ease);
+    }
+    .roach-btn:hover { transform: rotate(-20deg) scale(1.3); }
+    .roach-bubble {
+      display: none;
+      position: absolute;
+      bottom: calc(100% + 10px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--paper-2);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: .85rem 1rem;
+      width: 210px;
+      box-shadow: 0 8px 24px -8px rgba(20,19,17,.2);
+      z-index: 500;
+    }
+    /* speech bubble tail */
+    .roach-bubble::after {
+      content: '';
+      position: absolute;
+      top: 100%; left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--line);
+    }
+    .roach-bubble::before {
+      content: '';
+      position: absolute;
+      top: calc(100% - 1px); left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: var(--paper-2);
+      z-index: 1;
+    }
+    .roach-bubble.open { display: block; }
+    .roach-bubble label {
+      display: block;
+      font-family: var(--mono);
+      font-size: .58rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute);
+      margin-bottom: .5rem;
+    }
+    .roach-bubble input {
+      width: 100%;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      color: var(--ink);
+      font-family: var(--mono);
+      font-size: .65rem; letter-spacing: .04em;
+      padding: .4rem .6rem;
+      outline: none;
+      transition: border-color .2s;
+    }
+    .roach-bubble input:focus { border-color: var(--accent); }
+    .roach-bubble input.wrong {
+      border-color: var(--accent);
+      animation: shake .35s var(--ease);
+    }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-5px); }
+      75%      { transform: translateX(5px); }
+    }
+
+    /* ── PARTY MODE ── */
+    .party-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      pointer-events: none;
+      z-index: 9500;
+    }
+    .party-overlay.active { display: block; }
+
+    /* Slow color wash over the whole page */
+    .party-strobe {
+      position: absolute; inset: 0;
+      mix-blend-mode: overlay;
+      opacity: .4;
+      animation: partyWash 12s ease-in-out infinite;
+    }
+    @keyframes partyWash {
+      0%   { background: rgba(255, 46, 165, .35); }
+      20%  { background: rgba(155,  77, 255, .35); }
+      40%  { background: rgba( 41, 229, 255, .35); }
+      60%  { background: rgba( 74, 255, 126, .35); }
+      80%  { background: rgba(245, 215, 110, .35); }
+      100% { background: rgba(255, 46, 165, .35); }
+    }
+
+    /* Spinning disco lights */
+    .party-lights {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .party-light {
+      position: absolute;
+      width: 60vmax; height: 60vmax;
+      border-radius: 50%;
+      filter: blur(60px);
+      mix-blend-mode: screen;
+      opacity: .55;
+      will-change: transform;
+    }
+    .party-light.p1 { background: radial-gradient(circle, #ff2ea5 0%, transparent 60%); top: -20%; left: -15%; animation: orbit1 6s linear infinite; }
+    .party-light.p2 { background: radial-gradient(circle, #29e5ff 0%, transparent 60%); top: -20%; right: -15%; animation: orbit2 7s linear infinite; }
+    .party-light.p3 { background: radial-gradient(circle, #f5d76e 0%, transparent 60%); bottom: -20%; left: 10%;  animation: orbit3 8s linear infinite; }
+    .party-light.p4 { background: radial-gradient(circle, #9b4dff 0%, transparent 60%); bottom: -25%; right: 5%;  animation: orbit4 9s linear infinite; }
+    .party-light.p5 { background: radial-gradient(circle, #4aff7e 0%, transparent 60%); top: 30%;    left: 30%;  animation: orbit5 10s linear infinite; }
+    @keyframes orbit1 { from { transform: translate(0,0) rotate(0); } to { transform: translate(40vw, 30vh) rotate(360deg); } }
+    @keyframes orbit2 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-40vw, 35vh) rotate(-360deg); } }
+    @keyframes orbit3 { from { transform: translate(0,0) rotate(0); } to { transform: translate(30vw,-40vh) rotate(360deg); } }
+    @keyframes orbit4 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-35vw,-30vh) rotate(-360deg); } }
+    @keyframes orbit5 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-25vw, 25vh) rotate(360deg); } }
+
+    /* Rotating spotlight beams from center */
+    .party-beams {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 220vmax; height: 220vmax;
+      transform: translate(-50%, -50%);
+      background:
+        conic-gradient(from 0deg,
+          transparent 0deg,
+          rgba(255,46,165,.12) 10deg,
+          transparent 20deg,
+          transparent 70deg,
+          rgba(41,229,255,.12) 80deg,
+          transparent 90deg,
+          transparent 140deg,
+          rgba(245,215,110,.12) 150deg,
+          transparent 160deg,
+          transparent 210deg,
+          rgba(155,77,255,.12) 220deg,
+          transparent 230deg,
+          transparent 280deg,
+          rgba(74,255,126,.12) 290deg,
+          transparent 300deg,
+          transparent 360deg);
+      animation: beamSpin 8s linear infinite;
+      mix-blend-mode: screen;
+      opacity: .85;
+    }
+    @keyframes beamSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
+
+    /* Confetti dots */
+    .party-confetti {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 8px; height: 14px;
+      top: -20px;
+      opacity: .9;
+      animation: confettiFall linear infinite;
+    }
+    .confetti-roach {
+      position: absolute;
+      top: -20px;
+      font-size: 1.6rem;
+      line-height: 1;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
+      animation: roachFloat linear infinite;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(-10vh) rotate(0deg); }
+      100% { transform: translateY(110vh) rotate(720deg); }
+    }
+    @keyframes roachFloat {
+      0%   { transform: translate(0, -10vh) rotate(-15deg); }
+      25%  { transform: translate(30px, 28vh) rotate(15deg); }
+      50%  { transform: translate(-25px, 55vh) rotate(-10deg); }
+      75%  { transform: translate(20px, 82vh) rotate(20deg); }
+      100% { transform: translate(0, 115vh) rotate(-15deg); }
+    }
+
+    /* Visualizer dock */
+    .party-dock {
+      position: fixed;
+      bottom: 1.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: none;
+      align-items: center;
+      gap: 1rem;
+      padding: .75rem 1rem .75rem 1.25rem;
+      background: rgba(20,19,17,.78);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 999px;
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(255,46,165,.15);
+      z-index: 10000;
+      pointer-events: auto;
+      animation: dockRise .5s var(--ease-out);
+    }
+    .party-dock.show { display: flex; }
+    @keyframes dockRise {
+      from { opacity: 0; transform: translate(-50%, 20px); }
+      to   { opacity: 1; transform: translate(-50%, 0); }
+    }
+    .party-dock__label {
+      font-family: var(--mono);
+      font-size: .55rem; letter-spacing: .12em;
+      text-transform: uppercase; color: #fff;
+      opacity: .75;
+      white-space: nowrap;
+    }
+    .viz {
+      display: flex;
+      align-items: flex-end;
+      gap: 3px;
+      height: 28px;
+      width: 140px;
+    }
+    .viz-bar {
+      flex: 1;
+      background: linear-gradient(180deg, #ff2ea5 0%, #f5d76e 50%, #29e5ff 100%);
+      border-radius: 1px;
+      height: 10%;
+      transition: height .08s linear;
+      box-shadow: 0 0 6px rgba(255,46,165,.4);
+    }
+    .party-stop {
+      background: none; border: 1px solid rgba(255,255,255,.25);
+      color: #fff; cursor: pointer;
+      font-family: var(--mono);
+      font-size: .55rem; letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .4rem .9rem;
+      border-radius: 999px;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .party-stop:hover {
+      background: #ff2ea5;
+      border-color: #ff2ea5;
+      color: #fff;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .party-strobe, .party-light, .party-beams, .confetti-piece { animation: none; }
+    }
 
     /* ── REVEAL ── */
-    .fade { opacity: 0; transform: translateY(16px); transition: opacity .6s, transform .6s; }
-    .fade.in { opacity: 1; transform: none; }
+    .fade {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .7s var(--ease), transform .7s var(--ease);
+    }
+    .fade.in {
+      opacity: 1;
+      transform: none;
+    }
     .fade-d1 { transition-delay: .08s; }
     .fade-d2 { transition-delay: .16s; }
     .fade-d3 { transition-delay: .24s; }
+    /* Fallback: if JS fails, content still appears after a beat */
+    @media (scripting: none) {
+      .fade { opacity: 1; transform: none; }
+    }
 
     /* ── RESPONSIVE ── */
     @media (max-width: 900px) {
@@ -519,31 +943,82 @@
       .mobile-nav-overlay { display: flex; }
       main { margin-left: 0; width: 100%; padding-top: 56px; }
       .section, #home { padding: 4rem 1.5rem; }
-      #home {
-        padding-bottom: 2rem;
-      }
-      .about-grid, .phil-layout, .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .exp-item, .edu-item, .award-item, .course-item { grid-template-columns: 1fr; gap: .5rem; }
+      #home { padding-bottom: 2rem; }
+      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
       .hero-sub { grid-template-columns: 1fr; }
       footer { padding: 1.5rem 1.5rem; flex-direction: column; gap: .75rem; align-items: flex-start; }
-      .pub-list { max-width: 100%; }
-      .exp-list { max-width: 100%; }
-      .courses-list { max-width: 100%; }
+      .quotes-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+      .hero-large .split > span { transform: none; }
+      .marquee-track { animation: none; }
+      aside { transform: none; animation: none; }
+      .scroll-progress__bar { transform: scaleX(1); animation: none; }
+      .fade { clip-path: none; }
     }
   </style>
 </head>
 <body>
 
+  <!-- Duotone SVG filter for portrait -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <filter id="duotone">
+        <feColorMatrix type="matrix" values="
+          0.35 0.55 0.12 0 0
+          0.33 0.50 0.10 0 0
+          0.27 0.42 0.08 0 0
+          0    0    0    1 0" />
+      </filter>
+      <filter id="duotoneDark">
+        <feColorMatrix type="matrix" values="
+          0.82 0.15 0.08 0 0
+          0.60 0.12 0.06 0 0
+          0.48 0.10 0.05 0 0
+          0    0    0    1 0" />
+      </filter>
+    </defs>
+  </svg>
+
+  <!-- Party overlay -->
+  <div class="party-overlay" id="partyOverlay" aria-hidden="true">
+    <div class="party-beams"></div>
+    <div class="party-lights">
+      <span class="party-light p1"></span>
+      <span class="party-light p2"></span>
+      <span class="party-light p3"></span>
+      <span class="party-light p4"></span>
+      <span class="party-light p5"></span>
+    </div>
+    <div class="party-confetti" id="partyConfetti"></div>
+    <div class="party-strobe"></div>
+  </div>
+
+  <!-- Party dock (visualizer + stop) -->
+  <div class="party-dock" id="partyDock" role="region" aria-label="Music player">
+    <div class="viz" id="viz" aria-hidden="true"></div>
+    <button type="button" class="party-stop" id="partySkip">Skip ▶▶</button>
+    <button type="button" class="party-stop" id="partyStop">Stop ■</button>
+  </div>
+
   <a href="#about" class="skip-link">Skip to content</a>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
 
   <!-- Mobile Header -->
   <header class="mobile-header" role="banner">
     <span class="mobile-header-name">Austin Pack</span>
-    <button class="hamburger" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <div class="mobile-header-right">
+      <button class="mobile-theme-btn" id="mobileThemeBtn" aria-label="Toggle theme">
+        <svg id="mobileThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+        </svg>
+      </button>
+      <button class="hamburger" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </header>
 
   <!-- Mobile Nav Overlay -->
@@ -564,7 +1039,14 @@
 
   <!-- Sidebar -->
   <aside>
-    <nav class="aside-nav">
+    <button class="theme-btn theme-btn--top" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+    <nav class="aside-nav" id="asideNav">
+      <span class="aside-nav__indicator" id="navIndicator" aria-hidden="true"></span>
       <a href="#home">Home</a>
       <a href="#about">About</a>
       <a href="#cv">CV</a>
@@ -583,7 +1065,10 @@
 
     <!-- Hero -->
     <section id="home">
-      <h1 class="hero-large fade">Austin<br>Pack</h1>
+      <h1 class="hero-large">
+        <span class="split d1"><span>Austin</span></span><br>
+        <span class="split d2"><span>Pack</span></span>
+      </h1>
       <div>
         <div class="hero-sub fade fade-d2">
           <div class="hero-role">
@@ -607,8 +1092,8 @@
       <span class="section-num">01 — About</span>
       <div class="about-grid">
         <div class="fade">
-          <div class="about-photo">
-            <img src="pic 2.jpeg" alt="Austin Pack" />
+          <div class="about-photo" id="aboutPhoto">
+            <img src="pic 2.jpeg" alt="Austin Pack" loading="lazy" decoding="async" />
           </div>
         </div>
         <div class="about-body">
@@ -628,7 +1113,7 @@
         </div>
       </div>
       <div class="fade" style="margin-top:2rem; max-width:400px;">
-        <h3 class="about-body" style="font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;">Research Interests</h3>
+        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Research Interests</h3>
         <div class="interests-list" style="grid-template-columns:1fr;">
           <div class="interest-item">Generative AI &amp; LLMs in SLA</div>
           <div class="interest-item">Language Pedagogy</div>
@@ -644,41 +1129,38 @@
     <section id="cv" class="section">
       <span class="section-num">02 — CV</span>
       <div>
-        <a href="Austin Pack CV 2-5-2026 simplified.pdf" target="_blank" rel="noopener" class="doc-link">Download CV <span class="doc-link-arrow">↓ PDF</span></a>
+        <a href="Austin Pack CV 2-5-2026 simplified.pdf" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">Download CV</span><span class="doc-link-arrow">↓ PDF</span></a>
       </div>
     </section>
 
-
-
-
-    <!-- Publications -->
+    <!-- Research -->
     <section id="research" class="section">
       <span class="section-num">03 — Research</span>
       <div>
-        <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ&hl=en" target="_blank" rel="noopener" class="doc-link">View Publications on Google Scholar <span class="doc-link-arrow">↗</span></a>
+        <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ&hl=en" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">View Publications on Google Scholar</span><span class="doc-link-arrow">↗ Scholar</span></a>
       </div>
 
       <div style="margin-top:3rem;">
-        <h3 style="font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;">Current Research Projects</h3>
+        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Current Research Projects</h3>
 
-        <div class="exp-item fade" style="display:block;padding:1.25rem 0;border-bottom:1px solid var(--line);">
+        <div class="exp-item fade">
           <div class="exp-role">Lang Lang</div>
-          <p style="margin:.5rem 0 0;font-size:.9rem;color:var(--mid);line-height:1.85;">A desktop language learning app built with Electron and powered by Claude AI. Lang Lang combines spaced repetition vocabulary, grammar, pronunciation, reading passages, and writing practice across multiple languages — adapting to each learner's progress through intelligent review scheduling, streak tracking, and proficiency-matched content.</p>
+          <p class="exp-desc">A desktop language learning app built with Electron and powered by Claude AI. Lang Lang combines spaced repetition vocabulary, grammar, pronunciation, reading passages, and writing practice across multiple languages — adapting to each learner's progress through intelligent review scheduling, streak tracking, and proficiency-matched content.</p>
         </div>
 
-        <div class="exp-item fade fade-d1" style="display:block;padding:1.25rem 0;border-bottom:1px solid var(--line);">
+        <div class="exp-item fade fade-d1">
           <div class="exp-role">Dynamic Written Corrective Feedback (DWCF)</div>
-          <p style="margin:.5rem 0 0;font-size:.9rem;color:var(--mid);line-height:1.85;">A web-based classroom tool that automates Written Corrective Feedback for ESL writing instruction. Using Claude AI, DWCF annotates student drafts with standardized grammar error codes — encouraging active self-correction rather than passive editing. A structured weekly cycle of drafting, feedback, revision, and reflection is paired with personalized grammar worksheets generated from each student's individual error patterns.</p>
+          <p class="exp-desc">A web-based classroom tool that automates Written Corrective Feedback for ESL writing instruction. Using Claude AI, DWCF annotates student drafts with standardized grammar error codes — encouraging active self-correction rather than passive editing. A structured weekly cycle of drafting, feedback, revision, and reflection is paired with personalized grammar worksheets generated from each student's individual error patterns.</p>
         </div>
 
-        <div class="exp-item fade fade-d2" style="display:block;padding:1.25rem 0;border-bottom:1px solid var(--line);">
+        <div class="exp-item fade fade-d2">
           <div class="exp-role">LIFT Lab — Language Innovation and Futures in TESOL</div>
-          <p style="margin:.5rem 0 0;font-size:.9rem;color:var(--mid);line-height:1.85;">A mobile innovation hub within the BYU–Hawaii TESOL program where faculty and preservice teachers build, experiment, and imagine the future of English language education. The LIFT Lab harnesses AI agents to design educational technology, interactive platforms, and pedagogical materials — preparing future educators not only to use AI responsibly, but to actively shape it within the field.</p>
+          <p class="exp-desc">A mobile innovation hub within the BYU–Hawaii TESOL program where faculty and preservice teachers build, experiment, and imagine the future of English language education. The LIFT Lab harnesses AI agents to design educational technology, interactive platforms, and pedagogical materials — preparing future educators not only to use AI responsibly, but to actively shape it within the field.</p>
         </div>
 
-        <div class="exp-item fade" style="display:block;padding:1.25rem 0;border-bottom:1px solid var(--line);">
+        <div class="exp-item fade">
           <div class="exp-role">AI Agents for Differentiated Language Learning Materials</div>
-          <p style="margin:.5rem 0 0;font-size:.9rem;color:var(--mid);line-height:1.85;">This project explores agentic AI as a collaborative partner in language materials development. Traditional publishing economics constrain differentiation — producing tiered texts, scaffolded tasks, and culturally adapted content at scale is logistically and financially prohibitive. By working alongside educators, agentic AI systems capable of planning, iterating, and executing complex authoring tasks may finally make genuinely differentiated, contextually responsive materials widely achievable.</p>
+          <p class="exp-desc">This project explores agentic AI as a collaborative partner in language materials development. Traditional publishing economics constrain differentiation — producing tiered texts, scaffolded tasks, and culturally adapted content at scale is logistically and financially prohibitive. By working alongside educators, agentic AI systems capable of planning, iterating, and executing complex authoring tasks may finally make genuinely differentiated, contextually responsive materials widely achievable.</p>
         </div>
       </div>
     </section>
@@ -687,11 +1169,11 @@
     <section id="teaching" class="section">
       <span class="section-num">04 — Teaching</span>
       <div>
-        <a href="Teaching Philosophy.pdf" target="_blank" rel="noopener" class="doc-link">Download Teaching Philosophy <span class="doc-link-arrow">↓ PDF</span></a>
+        <a href="Teaching Philosophy.pdf" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">Download Teaching Philosophy</span><span class="doc-link-arrow">↓ PDF</span></a>
       </div>
 
       <div style="margin-top:3rem;">
-        <h3 style="font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;">Types of Courses Taught</h3>
+        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Types of Courses Taught</h3>
         <div class="interests-list" style="grid-template-columns:1fr;margin-top:1rem;">
           <div class="interest-item">English for Academic Purposes</div>
           <div class="interest-item">Intercultural Communication</div>
@@ -702,47 +1184,44 @@
       </div>
 
       <div style="margin-top:4rem;">
-        <h3 style="font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:1.5rem;">Student Feedback</h3>
-        <div class="fade" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "I have taken IELTS for 4 times before and I have been to private English high school. But somehow I was keep failing and failing. Whether I was lazy or the program was not that good. I have got 6.5 for 3 times and the last one I have taken 7 on IELTS. It was a really tiny improvement. It is actually crazy to think about how much material I have read and how much writing I have done. But my improvement were never visible in front of my own eyes. Your class was one of the most effective class. You knew how to make the students engaged during the class. It almost feels like you know exactly where to focus on more and how to improve that. I would not say I got the best in writing and reading. There are still things that I need to work on more but I can definitely say that I have improved a lot thanks to you. I have few absences to my other classes but my attendance was somehow 100% in this class without any tiredness. Maybe it is because you understand us. I think I wanted to keep the 100% itself and somehow it made me feel accomplished. For me, EIL 317 class taught me a lot. Thank you so much for your hard work. Thank you so much for the thing you have taught us. Much Mahalo!"
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Academic English 1: Reading and Writing</p>
-        </div>
+        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:1.5rem;font-variation-settings:'opsz' 48;">Student Feedback</h3>
 
-        <div class="fade fade-d1" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:2rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "This semester in EIL 317 has been a valuable learning experience for me. I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. The class activities and discussions helped me become more confident when communicating in English. I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts."
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Academic English 1: Reading and Writing</p>
-        </div>
+        <div class="quotes-grid">
+          <figure class="quote-card fade">
+            <span class="mark">"</span>
+            <blockquote>"I have taken IELTS for 4 times before and I have been to private English high school. But somehow I was keep failing and failing. Whether I was lazy or the program was not that good. I have got 6.5 for 3 times and the last one I have taken 7 on IELTS. It was a really tiny improvement. It is actually crazy to think about how much material I have read and how much writing I have done. But my improvement were never visible in front of my own eyes. Your class was one of the most effective class. You knew how to make the students engaged during the class. It almost feels like you know exactly where to focus on more and how to improve that. I would not say I got the best in writing and reading. There are still things that I need to work on more but I can definitely say that I have improved a lot thanks to you. I have few absences to my other classes but my attendance was somehow 100% in this class without any tiredness. Maybe it is because you understand us. I think I wanted to keep the 100% itself and somehow it made me feel accomplished. For me, EIL 317 class taught me a lot. Thank you so much for your hard work. Thank you so much for the thing you have taught us. Much Mahalo!"</blockquote>
+            <cite>— Student, Academic English 1: Reading and Writing</cite>
+          </figure>
 
-        <div class="fade fade-d2" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:2rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English. These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey."
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Academic English 1: Reading and Writing</p>
-        </div>
+          <figure class="quote-card fade fade-d1">
+            <span class="mark">"</span>
+            <blockquote>"This semester in EIL 317 has been a valuable learning experience for me. I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. The class activities and discussions helped me become more confident when communicating in English. I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts."</blockquote>
+            <cite>— Student, Academic English 1: Reading and Writing</cite>
+          </figure>
 
-        <div class="fade fade-d3" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:2rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable."
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Academic English 1: Reading and Writing</p>
-        </div>
+          <figure class="quote-card fade fade-d2">
+            <span class="mark">"</span>
+            <blockquote>"I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English. These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey."</blockquote>
+            <cite>— Student, Academic English 1: Reading and Writing</cite>
+          </figure>
 
-        <div class="fade" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:2rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "The strength of this course is the teacher himself, not kidding! Dr. Pack is the best teacher, this course is really hard for both the native and non-native students but Dr. Pack did a really good job of explaining things simply. He builds up a good rapport and makes students feel safe to ask questions in his class. Another thing that I like about him is he will tailor the needs of students and change the way he teaches according to students' abilities. In our class we have a mix-ability class however are able to adjust this hard course to each student. He did not just give us assignment to do but give us meaningful assignment so we can really learn from this course. He knows what he is teaching, and he know what his purpose as a teacher!! Also willing to use his personal time to help each student!"
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Introduction to Linguistics</p>
-        </div>
+          <figure class="quote-card fade fade-d3">
+            <span class="mark">"</span>
+            <blockquote>"This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable."</blockquote>
+            <cite>— Student, Academic English 1: Reading and Writing</cite>
+          </figure>
 
-        <div class="fade fade-d1" style="max-width:680px;border-top:1px solid var(--line);padding-top:1.5rem;margin-top:2rem;">
-          <blockquote style="font-size:1rem;line-height:1.85;color:var(--black);font-style:italic;margin:0 0 1rem 0;">
-            "I really liked how passionate the teacher was about the course and he took it at our pace. The projects were fun and interesting and I actually felt interested in learning and not like I was having to do useless busywork."
-          </blockquote>
-          <p style="font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);">— Student, Introduction to Linguistics</p>
+          <figure class="quote-card fade">
+            <span class="mark">"</span>
+            <blockquote>"The strength of this course is the teacher himself, not kidding! Dr. Pack is the best teacher, this course is really hard for both the native and non-native students but Dr. Pack did a really good job of explaining things simply. He builds up a good rapport and makes students feel safe to ask questions in his class. Another thing that I like about him is he will tailor the needs of students and change the way he teaches according to students' abilities. In our class we have a mix-ability class however are able to adjust this hard course to each student. He did not just give us assignment to do but give us meaningful assignment so we can really learn from this course. He knows what he is teaching, and he know what his purpose as a teacher!! Also willing to use his personal time to help each student!"</blockquote>
+            <cite>— Student, Introduction to Linguistics</cite>
+          </figure>
+
+          <figure class="quote-card fade fade-d1">
+            <span class="mark">"</span>
+            <blockquote>"I really liked how passionate the teacher was about the course and he took it at our pace. The projects were fun and interesting and I actually felt interested in learning and not like I was having to do useless busywork."</blockquote>
+            <cite>— Student, Introduction to Linguistics</cite>
+          </figure>
         </div>
       </div>
     </section>
@@ -757,12 +1236,24 @@
         Brigham Young University–Hawaii<br>
         55-220 Kulanui Street, Bldg 5<br>
         Laie, Hawai'i 96762<br><br>
+        <button class="copy-email" id="copyEmailBtn" aria-label="Copy email address">austin.pack@byuh.edu</button>
+        <span class="copy-confirm" id="copyConfirm" aria-live="polite">copied ✓</span>
+        <br><br>
         <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener" class="contact-address-link">BYUH Directory ↗</a>
       </div>
     </section>
 
     <footer>
-      <span class="footer-copy">© 2026 Austin Pack</span>
+      <span class="footer-copy">
+        © 2026 Austin Pack
+        <span class="roach-wrap">
+          <button type="button" class="roach-btn" id="roachBtn" aria-label="Secret">🪳</button>
+          <span class="roach-bubble" id="roachBubble">
+            <label for="roachInput">Enter Password</label>
+            <input type="password" id="roachInput" autocomplete="off" placeholder="••••••••••••" />
+          </span>
+        </span>
+      </span>
       <a href="#home" class="footer-top">↑ Top</a>
     </footer>
 
@@ -770,33 +1261,70 @@
 
   <script>
     /* Scroll reveal */
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
-    }, { threshold: 0.08 });
-    document.querySelectorAll('.fade').forEach(el => obs.observe(el));
+    const fadeEls = document.querySelectorAll('.fade');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+      }, { threshold: .1, rootMargin: '0px 0px -60px 0px' });
+      fadeEls.forEach(el => io.observe(el));
+      // Safety net: reveal anything still hidden after 2s
+      setTimeout(() => fadeEls.forEach(el => el.classList.add('in')), 2000);
+    } else {
+      fadeEls.forEach(el => el.classList.add('in'));
+    }
 
-    /* Active sidebar link */
+    /* Scroll progress + active sidebar + sliding indicator */
     const sections = document.querySelectorAll('section[id]');
-    const links = document.querySelectorAll('.aside-nav a');
-    const activeObs = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          links.forEach(l => l.classList.remove('active'));
-          const idMap = { 'cv': 'cv', 'experience': 'cv', 'teaching': 'teaching', 'courses': 'teaching', 'philosophy': 'teaching', 'research': 'research', 'about': 'about', 'home': 'home' };
-          const mappedId = idMap[e.target.id] || e.target.id;
-          const a = document.querySelector(`.aside-nav a[href="#${mappedId}"]`);
-          if (a) a.classList.add('active');
-        }
+    const navLinks = document.querySelectorAll('.aside-nav a');
+    const bar = document.getElementById('progressBar');
+    const indicator = document.getElementById('navIndicator');
+    const asideNav = document.getElementById('asideNav');
+
+    function updateIndicator() {
+      const active = document.querySelector('.aside-nav a.active');
+      if (!active) { indicator.classList.remove('show'); return; }
+      const navRect = asideNav.getBoundingClientRect();
+      const r = active.getBoundingClientRect();
+      indicator.style.top = (r.top - navRect.top) + 'px';
+      indicator.style.height = r.height + 'px';
+      indicator.classList.add('show');
+    }
+
+    /* Marquee parallax */
+    const marqueeTrack = document.getElementById('marqueeTrack');
+
+    const onScroll = () => {
+      const st = window.scrollY;
+      const sh = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = Math.min(100, (st / sh) * 100) + '%';
+
+      let current = 'home';
+      sections.forEach(s => {
+        const top = s.offsetTop - 120;
+        if (st >= top) current = s.id;
       });
-    }, { threshold: 0.4 });
-    sections.forEach(s => activeObs.observe(s));
+      let changed = false;
+      navLinks.forEach(l => {
+        const isActive = l.getAttribute('href') === '#' + current;
+        if (l.classList.contains('active') !== isActive) changed = true;
+        l.classList.toggle('active', isActive);
+      });
+      if (changed) updateIndicator();
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', updateIndicator);
+    onScroll();
+    updateIndicator();
 
     /* Smooth scroll */
     document.querySelectorAll('a[href^="#"]').forEach(a => {
       a.addEventListener('click', e => {
-        const t = document.querySelector(a.getAttribute('href'));
-        if (!t) return; e.preventDefault();
-        t.scrollIntoView({ behavior: 'smooth' });
+        const href = a.getAttribute('href');
+        if (href === '#' || !href) return;
+        const t = document.querySelector(href);
+        if (!t) return;
+        e.preventDefault();
+        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
     });
 
@@ -804,33 +1332,248 @@
     const toggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
     let menuOpen = false;
-
-    function openMenu() {
+    const openMenu = () => {
       menuOpen = true;
       mobileNav.style.display = 'flex';
       requestAnimationFrame(() => mobileNav.classList.add('open'));
       toggle.classList.add('open');
       toggle.setAttribute('aria-expanded', 'true');
       document.body.style.overflow = 'hidden';
-    }
-
-    function closeMenu() {
+    };
+    const closeMenu = () => {
       menuOpen = false;
       mobileNav.classList.remove('open');
       toggle.classList.remove('open');
       toggle.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
       setTimeout(() => { if (!menuOpen) mobileNav.style.display = 'none'; }, 300);
+    };
+    toggle.addEventListener('click', () => (menuOpen ? closeMenu() : openMenu()));
+    document.querySelectorAll('.mobile-nav-item').forEach(a => a.addEventListener('click', closeMenu));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+
+    /* Theme toggle — with View Transitions API */
+    const sunSVG = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn        = document.getElementById('themeBtn');
+    const themeIcon       = document.getElementById('themeIcon');
+    const themeLabel      = document.getElementById('themeLabel');
+    const mobileThemeBtn  = document.getElementById('mobileThemeBtn');
+    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML       = isDark ? sunSVG : moonSVG;
+      mobileThemeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent    = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    function toggleTheme(ev) {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+
+      // Set origin for circular clip reveal
+      if (ev && ev.clientX !== undefined) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+      }
+
+      if (document.startViewTransition) {
+        document.documentElement.classList.add('vt-active');
+        const t = document.startViewTransition(() => applyTheme(next));
+        t.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    }
+    themeBtn.addEventListener('click', toggleTheme);
+    mobileThemeBtn.addEventListener('click', toggleTheme);
+
+    /* Cockroach Easter egg + Party mode */
+    const roachBtn     = document.getElementById('roachBtn');
+    const roachBubble  = document.getElementById('roachBubble');
+    const roachInput   = document.getElementById('roachInput');
+    const PLAYLIST = [
+      'La Putaracha (1).mp3',
+      'La Putaracha.mp3',
+      'La Putaracha (2).mp3',
+      'La Putaracha (3).mp3',
+      'La Putaracha (4).mp3'
+    ];
+    let trackIdx = 0;
+    const roachAudio   = new Audio(PLAYLIST[0]);
+    const partyOverlay = document.getElementById('partyOverlay');
+    const partyDock    = document.getElementById('partyDock');
+    const partyStop    = document.getElementById('partyStop');
+    const partySkip    = document.getElementById('partySkip');
+    const partyConfetti= document.getElementById('partyConfetti');
+    const vizEl        = document.getElementById('viz');
+
+    const VIZ_BARS = 28;
+    const vizBars = [];
+    for (let i = 0; i < VIZ_BARS; i++) {
+      const b = document.createElement('span');
+      b.className = 'viz-bar';
+      vizEl.appendChild(b);
+      vizBars.push(b);
     }
 
-    toggle.addEventListener('click', () => menuOpen ? closeMenu() : openMenu());
+    let vizTimer;
 
-    document.querySelectorAll('.mobile-nav-item').forEach(a => {
-      a.addEventListener('click', () => closeMenu());
+    const CONFETTI_COLORS = ['#ff2ea5','#29e5ff','#f5d76e','#9b4dff','#4aff7e','#ffffff'];
+
+    function spawnOneConfetti() {
+      const p = document.createElement('span');
+      p.className = 'confetti-piece';
+      p.style.left = Math.random() * 100 + 'vw';
+      p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+      const dur = 3 + Math.random() * 4;
+      p.style.animationDuration = dur + 's';
+      p.style.animationIterationCount = '1';
+      p.style.transform = `rotate(${Math.random()*360}deg)`;
+      partyConfetti.appendChild(p);
+      setTimeout(() => p.remove(), dur * 1000 + 200);
+    }
+
+    function spawnOneRoach() {
+      const r = document.createElement('span');
+      r.className = 'confetti-roach';
+      r.textContent = '🪳';
+      r.style.left = Math.random() * 95 + 'vw';
+      const dur = 5 + Math.random() * 4;
+      r.style.animationDuration = dur + 's';
+      r.style.animationIterationCount = '1';
+      r.style.fontSize = (1.3 + Math.random() * 0.8) + 'rem';
+      partyConfetti.appendChild(r);
+      setTimeout(() => r.remove(), dur * 1000 + 200);
+    }
+
+    function spawnInitialBurst() {
+      partyConfetti.innerHTML = '';
+      for (let i = 0; i < 60; i++) {
+        setTimeout(spawnOneConfetti, Math.random() * 1200);
+      }
+    }
+
+    let confettiLoop, roachLoop;
+    function startConfettiLoop() {
+      // Continuous light sprinkle of confetti
+      confettiLoop = setInterval(() => {
+        for (let i = 0; i < 3; i++) spawnOneConfetti();
+      }, 400);
+      // Occasional cockroach (every 3–7 seconds)
+      const scheduleRoach = () => {
+        roachLoop = setTimeout(() => {
+          spawnOneRoach();
+          scheduleRoach();
+        }, 3000 + Math.random() * 4000);
+      };
+      scheduleRoach();
+    }
+    function stopConfettiLoop() {
+      if (confettiLoop) { clearInterval(confettiLoop); confettiLoop = null; }
+      if (roachLoop)    { clearTimeout(roachLoop);    roachLoop = null; }
+    }
+
+    /* Pulsing dancey visualizer — bars roll left-to-right, no Web Audio rerouting */
+    function startViz() {
+      let t = 0;
+      const tick = () => {
+        t += 0.18;
+        for (let i = 0; i < VIZ_BARS; i++) {
+          // multi-sine for organic movement
+          const s = Math.sin(t + i * 0.4) * 0.5
+                  + Math.sin(t * 1.7 + i * 0.25) * 0.3
+                  + Math.sin(t * 0.6 + i * 0.9) * 0.2;
+          const h = 12 + Math.abs(s) * 80 + Math.random() * 8;
+          vizBars[i].style.height = Math.min(100, h) + '%';
+        }
+      };
+      vizTimer = setInterval(tick, 70);
+    }
+
+    function playTrack(i) {
+      trackIdx = ((i % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
+      roachAudio.src = PLAYLIST[trackIdx];
+      roachAudio.currentTime = 0;
+      const p = roachAudio.play();
+      if (p && p.catch) p.catch(err => console.warn('Audio play blocked:', err));
+    }
+
+    function startParty() {
+      partyOverlay.classList.add('active');
+      partyDock.classList.add('show');
+      spawnInitialBurst();
+      startConfettiLoop();
+      startViz();
+      // Start from a random track so the experience varies each time
+      playTrack(Math.floor(Math.random() * PLAYLIST.length));
+    }
+
+    function stopParty() {
+      roachAudio.pause();
+      roachAudio.currentTime = 0;
+      partyOverlay.classList.remove('active');
+      partyDock.classList.remove('show');
+      stopConfettiLoop();
+      partyConfetti.innerHTML = '';
+      if (vizTimer) { clearInterval(vizTimer); vizTimer = null; }
+    }
+
+    function skipTrack() { playTrack(trackIdx + 1); }
+
+    partyStop.addEventListener('click', stopParty);
+    partySkip.addEventListener('click', skipTrack);
+    // Auto-advance: when one track ends, play the next
+    roachAudio.addEventListener('ended', skipTrack);
+
+    roachBtn.addEventListener('click', e => {
+      e.stopPropagation();
+      roachBubble.classList.toggle('open');
+      if (roachBubble.classList.contains('open')) setTimeout(() => roachInput.focus(), 50);
+    });
+    document.addEventListener('click', e => {
+      if (!roachBtn.closest('.roach-wrap').contains(e.target)) roachBubble.classList.remove('open');
+    });
+    roachInput.addEventListener('keydown', e => {
+      if (e.key !== 'Enter') return;
+      if (roachInput.value.toLowerCase().trim() === 'la putaracha') {
+        roachBubble.classList.remove('open');
+        roachInput.value = '';
+        startParty();
+      } else {
+        roachInput.classList.add('wrong');
+        roachInput.addEventListener('animationend', () => roachInput.classList.remove('wrong'), { once: true });
+        roachInput.value = '';
+      }
     });
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && menuOpen) closeMenu();
+    /* Copy email to clipboard */
+    const copyBtn = document.getElementById('copyEmailBtn');
+    const copyConfirm = document.getElementById('copyConfirm');
+    let copyTimer;
+    copyBtn.addEventListener('click', async () => {
+      const email = 'austin.pack@byuh.edu';
+      try {
+        await navigator.clipboard.writeText(email);
+      } catch (e) {
+        // Fallback
+        const ta = document.createElement('textarea');
+        ta.value = email;
+        ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        try { document.execCommand('copy'); } catch (_) {}
+        document.body.removeChild(ta);
+      }
+      copyConfirm.classList.add('show');
+      clearTimeout(copyTimer);
+      copyTimer = setTimeout(() => copyConfirm.classList.remove('show'), 1500);
     });
   </script>
 </body>
