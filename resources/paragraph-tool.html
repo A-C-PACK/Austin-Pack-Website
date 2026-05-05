@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paragraph Structure Practice — Austin Pack</title>
+  <meta name="description" content="An interactive EAP exercise: drag scrambled sentences into the correct category." />
+  <meta name="theme-color" content="#f2ece0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif:   'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+      --ease:     cubic-bezier(.22,.61,.36,1);
+      --ease-out: cubic-bezier(.2,.9,.2,1);
+
+      --label-topic:           #5a3e28;  --label-topic-bg:      #f0e8d8;
+      --label-support:         #1e4a3a;  --label-support-bg:    #dff0e8;
+      --label-detail:          #2a3d6b;  --label-detail-bg:     #dce6f5;
+      --label-conclusion:      #5c2e6b;  --label-conclusion-bg: #ecdff5;
+      --correct-color: #1e4a3a;  --correct-bg: #d4edda;
+      --wrong-color:   #8b2a2a;  --wrong-bg:   #f8d7da;
+    }
+    [data-theme="dark"] {
+      --paper:   #141311;  --paper-2: #1c1a17;
+      --ink:     #f2ece0;  --ink-2:   #d8d0bd;
+      --mute:    #8a8476;  --mute-2:  #5b5649;
+      --line:    #2e2b26;  --accent:  #d97c6a;
+      --hl:      #2b251a;
+
+      --label-topic:      #d4b896;  --label-topic-bg:      #2e2318;
+      --label-support:    #7ecba8;  --label-support-bg:    #152a22;
+      --label-detail:     #7aaed6;  --label-detail-bg:     #162036;
+      --label-conclusion: #c49de0;  --label-conclusion-bg: #251535;
+      --correct-color: #7ecba8;  --correct-bg: #152a22;
+      --wrong-color:   #d97c6a;  --wrong-bg:   #2e1a17;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--serif); font-size: 1.0625rem; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      max-width: 900px; margin: 0 auto; padding: 0 2rem;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+
+    /* Paper grain */
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000; opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    /* View Transitions */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── HEADER ── */
+    .tool-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: 1rem 2rem; margin: 0 -2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: background .4s var(--ease), border-color .3s;
+    }
+    .back-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none;
+      transition: color .2s; white-space: nowrap;
+    }
+    .back-link:hover { color: var(--accent); }
+    .tool-header-title {
+      font-family: var(--display); font-size: 1rem; font-weight: 400;
+      font-variation-settings: "opsz" 24; color: var(--ink-2);
+      flex: 1; text-align: center;
+    }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+
+    /* ── INTRO ── */
+    .tool-intro { padding: 3rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .tool-title {
+      font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400; line-height: 1.05;
+      font-variation-settings: "opsz" 80; margin-bottom: .5rem;
+    }
+    .tool-subtitle {
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--mute);
+    }
+
+    /* ── REFERENCE PANEL ── */
+    .ref-panel { margin: 2rem 0; border: 1px solid var(--line); border-left: 3px solid var(--accent); }
+    .ref-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.25rem; cursor: pointer; list-style: none; user-select: none;
+    }
+    .ref-summary::-webkit-details-marker { display: none; }
+    .ref-summary-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+    }
+    .ref-chevron { font-family: var(--mono); font-size: .7rem; color: var(--mute); transition: transform .3s var(--ease); }
+    details[open] .ref-chevron { transform: rotate(180deg); }
+    .ref-body { padding: 1rem 1.25rem 1.25rem; }
+    .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(175px, 1fr)); gap: 1rem; }
+    .ref-item { padding: .85rem 1rem; border-top: 2px solid transparent; background: var(--paper-2); }
+    .ref-item--topic      { border-top-color: var(--label-topic); }
+    .ref-item--support    { border-top-color: var(--label-support); }
+    .ref-item--detail     { border-top-color: var(--label-detail); }
+    .ref-item--conclusion { border-top-color: var(--label-conclusion); }
+    .ref-tag { display: block; font-family: var(--mono); font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+    .ref-item--topic      .ref-tag { color: var(--label-topic); }
+    .ref-item--support    .ref-tag { color: var(--label-support); }
+    .ref-item--detail     .ref-tag { color: var(--label-detail); }
+    .ref-item--conclusion .ref-tag { color: var(--label-conclusion); }
+    .ref-desc { font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+
+    /* ── EXERCISE ── */
+    .exercise-area { padding-top: 2rem; padding-bottom: 4rem; }
+
+    .progress-bar-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .progress-indicator { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+    .progress-track { flex: 1; height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; background: var(--accent); width: 25%; transition: width .5s var(--ease); }
+
+    /* Bank */
+    .bank-label {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: .6rem;
+    }
+    .sentence-bank {
+      border: 1px dashed var(--line);
+      padding: .75rem; min-height: 64px;
+      display: flex; flex-direction: column; gap: .5rem;
+      margin-bottom: 1.5rem;
+      transition: background .2s var(--ease), border-color .2s;
+      position: relative;
+    }
+    .sentence-bank.over {
+      background: var(--hl);
+      border-color: var(--accent);
+      border-style: solid;
+    }
+    .bank-empty-hint {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute-2);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; white-space: nowrap;
+    }
+
+    /* Drop zones grid */
+    .zones-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 1rem; margin-bottom: 1.75rem;
+    }
+    .drop-zone {
+      border: 1px solid var(--line); border-left: 3px solid transparent;
+      transition: background .2s var(--ease), border-color .2s;
+    }
+    .drop-zone[data-zone="topic"]      { border-left-color: var(--label-topic); }
+    .drop-zone[data-zone="support"]    { border-left-color: var(--label-support); }
+    .drop-zone[data-zone="detail"]     { border-left-color: var(--label-detail); }
+    .drop-zone[data-zone="conclusion"] { border-left-color: var(--label-conclusion); }
+
+    .drop-zone[data-zone="topic"].over      { background: var(--label-topic-bg); }
+    .drop-zone[data-zone="support"].over    { background: var(--label-support-bg); }
+    .drop-zone[data-zone="detail"].over     { background: var(--label-detail-bg); }
+    .drop-zone[data-zone="conclusion"].over { background: var(--label-conclusion-bg); }
+
+    .zone-header { padding: .6rem 1rem; border-bottom: 1px solid var(--line); background: var(--paper-2); }
+    .zone-label { font-family: var(--mono); font-size: .6rem; letter-spacing: .1em; text-transform: uppercase; }
+    .drop-zone[data-zone="topic"]      .zone-label { color: var(--label-topic); }
+    .drop-zone[data-zone="support"]    .zone-label { color: var(--label-support); }
+    .drop-zone[data-zone="detail"]     .zone-label { color: var(--label-detail); }
+    .drop-zone[data-zone="conclusion"] .zone-label { color: var(--label-conclusion); }
+
+    .zone-body {
+      padding: .6rem; display: flex; flex-direction: column; gap: .5rem;
+      min-height: 90px; position: relative;
+    }
+    .zone-empty-hint {
+      font-family: var(--mono); font-size: .55rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute-2);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none; white-space: nowrap;
+    }
+
+    /* Sentence cards */
+    .sentence-card {
+      background: var(--paper); border: 1px solid var(--line);
+      padding: .7rem .75rem .7rem .5rem;
+      display: flex; align-items: flex-start; gap: .5rem;
+      font-family: var(--serif); font-size: .95rem; line-height: 1.65;
+      cursor: grab; touch-action: none;
+      user-select: none; -webkit-user-select: none;
+      transition: box-shadow .2s var(--ease), opacity .2s;
+    }
+    .sentence-card:hover { box-shadow: 0 2px 8px -2px rgba(20,19,17,.12); }
+    .sentence-card:active { cursor: grabbing; }
+    .sentence-card.dragging { opacity: .25; }
+    .sentence-card.correct {
+      background: var(--correct-bg);
+      border-color: var(--correct-color);
+      cursor: default;
+    }
+    .sentence-card.wrong {
+      background: var(--wrong-bg);
+      border-color: var(--wrong-color);
+      cursor: default;
+    }
+
+    .card-handle {
+      color: var(--mute-2); font-size: .85rem;
+      flex-shrink: 0; margin-top: .15em; line-height: 1;
+    }
+    .card-text { flex: 1; }
+
+    /* Dragging ghost */
+    .drag-ghost {
+      position: fixed; pointer-events: none; z-index: 9999;
+      opacity: .88; cursor: grabbing;
+      box-shadow: 0 10px 32px -6px rgba(20,19,17,.28);
+      transform: rotate(1.2deg) scale(1.01);
+      background: var(--paper); border: 1px solid var(--line);
+      padding: .7rem .75rem .7rem .5rem;
+      display: flex; align-items: flex-start; gap: .5rem;
+      font-family: var(--serif); font-size: .95rem; line-height: 1.65;
+      user-select: none;
+    }
+
+    /* Action row */
+    .action-row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-bottom: 2rem; }
+    .action-btn {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .7rem 1.5rem; border: 1px solid var(--line);
+      background: none; color: var(--ink); cursor: pointer;
+      position: relative; overflow: hidden; transition: color .25s, border-color .25s;
+    }
+    .action-btn::before {
+      content: ''; position: absolute; inset: 0; background: var(--hl);
+      transform: translateX(-101%); transition: transform .45s var(--ease); z-index: 0;
+    }
+    .action-btn:hover::before { transform: translateX(0); }
+    .action-btn span { position: relative; z-index: 1; }
+    .action-btn--check { border-left: 3px solid var(--accent); color: var(--accent); }
+    .action-btn--next     { margin-left: auto; }
+    .action-btn--download { border-left: 3px solid var(--label-support); color: var(--label-support); }
+    .action-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .action-btn:disabled::before { display: none; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-5px); }
+      60%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake .35s var(--ease); }
+
+    .warn-text {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--accent); display: none;
+    }
+    .warn-text.show { display: inline; }
+
+    /* Feedback */
+    .feedback-area { margin-top: 1.5rem; border-top: 2px solid var(--accent); padding-top: 1.25rem; }
+    .feedback-summary {
+      font-family: var(--display); font-size: 1.4rem; font-weight: 400;
+      font-variation-settings: "opsz" 36; color: var(--ink); margin-bottom: 1.25rem;
+    }
+    .feedback-row {
+      display: grid; grid-template-columns: 1.5rem 1fr; gap: .5rem 1rem;
+      padding: 1rem 0; border-bottom: 1px solid var(--line); align-items: start;
+    }
+    .feedback-row:last-child { border-bottom: none; }
+    .feedback-icon { font-size: 1rem; line-height: 1.7; }
+    .feedback-row.correct .feedback-icon { color: var(--correct-color); }
+    .feedback-row.wrong   .feedback-icon { color: var(--wrong-color); }
+    .feedback-text { font-size: .95rem; line-height: 1.7; color: var(--ink-2); }
+    .feedback-labels {
+      font-family: var(--mono); font-size: .57rem; letter-spacing: .08em;
+      text-transform: uppercase; margin-bottom: .3rem;
+      display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .feedback-labels .your  { color: var(--wrong-color); }
+    .feedback-labels .right { color: var(--correct-color); }
+    .feedback-row.correct .feedback-labels .your { color: var(--correct-color); }
+    .feedback-snippet { font-style: italic; color: var(--mute); font-size: .88rem; margin-bottom: .25rem; display: block; }
+    .feedback-explanation { font-size: .93rem; }
+
+    /* Footer */
+    .tool-footer {
+      margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tool-footer-copy { font-family: var(--mono); font-size: .55rem; color: var(--mute); letter-spacing: .06em; }
+    .tool-footer-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color .2s;
+    }
+    .tool-footer-link:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      body { padding: 0 1.25rem; }
+      .tool-header { padding: 1rem 1.25rem; margin: 0 -1.25rem; }
+      .tool-header-title { display: none; }
+      .zones-grid { grid-template-columns: 1fr; }
+      .action-btn--next { margin-left: 0; width: 100%; text-align: center; }
+      .ref-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 400px) {
+      .ref-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="tool-header">
+    <a href="../index.html#resources" class="back-link">← Austin Pack</a>
+    <span class="tool-header-title">Paragraph Structure Practice</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="tool-intro">
+      <h1 class="tool-title">Paragraph Structure Practice</h1>
+      <p class="tool-subtitle">Drag each sentence into the correct category</p>
+    </section>
+
+    <details class="ref-panel">
+      <summary class="ref-summary">
+        <span class="ref-summary-label">Sentence Type Reference</span>
+        <span class="ref-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="ref-body">
+        <div class="ref-grid">
+          <div class="ref-item ref-item--topic">
+            <span class="ref-tag">Topic Sentence</span>
+            <p class="ref-desc">States the main idea of the paragraph. Usually the first sentence. Tells the reader what the whole paragraph is about.</p>
+          </div>
+          <div class="ref-item ref-item--support">
+            <span class="ref-tag">Supporting Idea</span>
+            <p class="ref-desc">Introduces a reason, point, or aspect that develops the topic sentence. Explains the "how" or "why" without giving specific evidence yet.</p>
+          </div>
+          <div class="ref-item ref-item--detail">
+            <span class="ref-tag">Detail / Evidence</span>
+            <p class="ref-desc">Provides specific facts, examples, statistics, or quotations that back up a supporting idea.</p>
+          </div>
+          <div class="ref-item ref-item--conclusion">
+            <span class="ref-tag">Conclusion</span>
+            <p class="ref-desc">Closes the paragraph by restating the main idea in different words or drawing a final inference from the evidence.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <section class="exercise-area">
+
+      <div class="progress-bar-wrap">
+        <span class="progress-indicator" id="progressText">Paragraph 1 of 4</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <p class="bank-label">Sentence bank — drag sentences below into the correct category</p>
+      <div class="sentence-bank" id="sentenceBank">
+        <span class="bank-empty-hint" id="bankEmptyHint" style="display:none">All sentences placed ✓</span>
+      </div>
+
+      <div class="zones-grid">
+        <div class="drop-zone" data-zone="topic">
+          <div class="zone-header"><span class="zone-label">Topic Sentence</span></div>
+          <div class="zone-body" id="zone-topic">
+            <span class="zone-empty-hint">Drop here</span>
+          </div>
+        </div>
+        <div class="drop-zone" data-zone="support">
+          <div class="zone-header"><span class="zone-label">Supporting Idea</span></div>
+          <div class="zone-body" id="zone-support">
+            <span class="zone-empty-hint">Drop here</span>
+          </div>
+        </div>
+        <div class="drop-zone" data-zone="detail">
+          <div class="zone-header"><span class="zone-label">Detail / Evidence</span></div>
+          <div class="zone-body" id="zone-detail">
+            <span class="zone-empty-hint">Drop here</span>
+          </div>
+        </div>
+        <div class="drop-zone" data-zone="conclusion">
+          <div class="zone-header"><span class="zone-label">Conclusion</span></div>
+          <div class="zone-body" id="zone-conclusion">
+            <span class="zone-empty-hint">Drop here</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="action-btn action-btn--check" id="checkBtn"><span>Check Answers</span></button>
+        <button class="action-btn" id="resetBtn"><span>Reset</span></button>
+        <span class="warn-text" id="warnText">Place all sentences first</span>
+        <button class="action-btn action-btn--next" id="nextBtn" style="display:none"><span>Next Paragraph →</span></button>
+        <button class="action-btn action-btn--download" id="downloadBtn" style="display:none"><span>Download Results ↓</span></button>
+      </div>
+
+      <div class="feedback-area" id="feedbackArea" hidden>
+        <div class="feedback-summary" id="feedbackSummary"></div>
+        <div id="feedbackRows"></div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="tool-footer">
+    <span class="tool-footer-copy">© 2026 Austin Pack</span>
+    <a href="../index.html" class="tool-footer-link">← Back to Portfolio</a>
+  </footer>
+
+  <script>
+    /* ── DATA ── */
+    const LABEL_DISPLAY = {
+      topic:      'Topic Sentence',
+      support:    'Supporting Idea',
+      detail:     'Detail / Evidence',
+      conclusion: 'Conclusion',
+    };
+
+    const PARAGRAPHS = [
+      {
+        topic: 'Technology',
+        sentences: [
+          {
+            text: 'Smartphones have changed the way many university students study, giving them new tools that were not available before.',
+            correct: 'topic',
+            explanation: 'This is the topic sentence. It introduces the main idea of the paragraph: that smartphones have changed how students study. Everything else in the paragraph supports this idea.'
+          },
+          {
+            text: 'First, smartphones allow students to access study materials at any time and from almost any place.',
+            correct: 'support',
+            explanation: 'This is a supporting idea. It introduces the first main point that develops the topic sentence: access to materials. It makes a general claim but does not give a specific example yet.'
+          },
+          {
+            text: 'For example, a student on the bus can read an article, check their class notes, or watch a recorded lecture on their phone, making it possible to study in many different situations.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives a specific, concrete example that shows what the previous supporting idea looks like in real life.'
+          },
+          {
+            text: 'Second, smartphones have made it easier for students to work together with their classmates.',
+            correct: 'support',
+            explanation: 'This is a second supporting idea. It introduces a new, separate point that supports the topic sentence: better teamwork. It does not give evidence yet.'
+          },
+          {
+            text: 'For instance, students can use shared documents, messaging apps, and video calls to work on group projects and share ideas without needing to meet in person.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives specific tools as examples to show what the previous supporting idea about teamwork looks like in practice.'
+          },
+          {
+            text: 'While smartphones offer many benefits for learning, students still need to practice using them in a focused and organized way.',
+            correct: 'conclusion',
+            explanation: 'This is the concluding sentence. It closes the paragraph by making a final point that goes a little beyond the topic, rather than simply repeating it.'
+          },
+        ]
+      },
+      {
+        topic: 'Environment',
+        sentences: [
+          {
+            text: 'Green spaces in cities, such as parks and community gardens, can help protect the mental health of the people who live there.',
+            correct: 'topic',
+            explanation: 'This is the topic sentence. It introduces the main idea: green spaces in cities are good for mental health. The rest of the paragraph explains and supports this idea.'
+          },
+          {
+            text: 'One reason is that spending time in nature can help people feel less stressed.',
+            correct: 'support',
+            explanation: 'This is a supporting idea. It gives the first main reason why green spaces are good for mental health: they reduce stress. It does not yet give a specific example.'
+          },
+          {
+            text: 'For example, walking in a park or sitting near trees can lower a person\'s heart rate and help them feel calmer and more relaxed.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives a specific, concrete example to support the idea that nature reduces stress.'
+          },
+          {
+            text: 'Green spaces also support mental health by giving people chances to connect with others.',
+            correct: 'support',
+            explanation: 'This is a second supporting idea. It gives a different reason why green spaces help mental health: they help people make social connections. This is a new point, separate from reducing stress.'
+          },
+          {
+            text: 'For instance, local parks are often places where people meet their neighbors, make new friends, and feel part of a community, which can reduce feelings of loneliness.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives a specific example to show how green spaces help people connect with others and feel less lonely.'
+          },
+          {
+            text: 'For these reasons, many city planners now see parks and green areas as an important part of keeping communities healthy.',
+            correct: 'conclusion',
+            explanation: 'This is the concluding sentence. It closes the paragraph by showing a real-world result of the ideas above, rather than just repeating the topic sentence.'
+          },
+        ]
+      },
+      {
+        topic: 'Education',
+        sentences: [
+          {
+            text: 'Research shows that getting specific written feedback helps students learn more than receiving only a grade.',
+            correct: 'topic',
+            explanation: 'This is the topic sentence. It states the main idea of the paragraph: written feedback is better for learning than grades alone. Everything else supports this idea.'
+          },
+          {
+            text: 'In particular, when students read detailed comments on their work, they can see exactly what they need to improve and make better changes in future assignments.',
+            correct: 'support',
+            explanation: 'This is a supporting idea. It explains how written feedback works and why it helps. It is a general explanation, not yet specific evidence.'
+          },
+          {
+            text: 'For example, a large study by researchers John Hattie and Helen Timperley found that giving feedback was one of the most effective ways to help students improve.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives a specific study with named researchers as evidence to support the previous supporting idea.'
+          },
+          {
+            text: 'Further research has shown that students who receive specific comments on their work are more likely to try again and make real improvements than students who only get a score.',
+            correct: 'detail',
+            explanation: 'This is a second piece of detail/evidence. It adds more research support for the same supporting idea. More than one evidence sentence can follow a single supporting idea.'
+          },
+          {
+            text: 'By contrast, students who only get a grade often focus on the number itself rather than thinking about what they can do better.',
+            correct: 'detail',
+            explanation: 'This is also detail/evidence. It shows the opposite situation as a comparison, which helps to strengthen the main argument.'
+          },
+          {
+            text: 'Teachers who take time to give useful feedback are therefore helping their students build skills that will last beyond the classroom.',
+            correct: 'conclusion',
+            explanation: 'This is the concluding sentence. It closes the paragraph with a final thought about what this means for teachers, rather than just repeating the opening idea.'
+          },
+        ]
+      },
+      {
+        topic: 'Health',
+        sentences: [
+          {
+            text: 'Not getting enough sleep is a common problem among university students, and it can have a serious effect on how well they do in school.',
+            correct: 'topic',
+            explanation: 'This is the topic sentence. It introduces the main idea: not sleeping enough harms students\' academic performance. The rest of the paragraph explains and supports this.'
+          },
+          {
+            text: 'The main reason is that during sleep, the brain stores new information and makes it easier to remember later, and no amount of extra studying can replace this process.',
+            correct: 'support',
+            explanation: 'This is a supporting idea. It explains the main reason why sleep is important for learning: the brain needs sleep to store new information. It does not give specific evidence yet.'
+          },
+          {
+            text: 'For example, research from Harvard Medical School found that students who slept fewer than six hours a night scored about 12% lower on memory tests than students who got enough sleep.',
+            correct: 'detail',
+            explanation: 'This is detail/evidence. It gives a specific study with numbers to support the idea that less sleep leads to worse academic results.'
+          },
+          {
+            text: 'Furthermore, another study found that even one night of poor sleep can reduce the brain\'s ability to form new memories by up to 40%.',
+            correct: 'detail',
+            explanation: 'This is a second piece of detail/evidence from a different study. It adds more specific support for the same supporting idea about sleep and memory.'
+          },
+          {
+            text: 'Additionally, students who try to make up for lost sleep by drinking more coffee or studying at the last minute often do well on simple questions but poorly on tasks that need deeper thinking.',
+            correct: 'detail',
+            explanation: 'This is a third piece of detail/evidence. It gives a specific example of a common student behavior and shows why it does not work well.'
+          },
+          {
+            text: 'Ultimately, getting enough sleep is not just a good habit; for students who want to learn well, it is an essential part of their daily routine.',
+            correct: 'conclusion',
+            explanation: 'This is the concluding sentence. It closes the paragraph with a strong final statement that sums up the message without simply repeating the topic sentence.'
+          },
+        ]
+      },
+    ];
+
+    /* ── STATE ── */
+    const state = { current: 0, checked: false, results: [] };
+    let drag = null;
+
+    /* ── DOM ── */
+    const sentenceBank    = document.getElementById('sentenceBank');
+    const bankEmptyHint   = document.getElementById('bankEmptyHint');
+    const zoneBodies      = {
+      topic:      document.getElementById('zone-topic'),
+      support:    document.getElementById('zone-support'),
+      detail:     document.getElementById('zone-detail'),
+      conclusion: document.getElementById('zone-conclusion'),
+    };
+    const checkBtn        = document.getElementById('checkBtn');
+    const resetBtn        = document.getElementById('resetBtn');
+    const nextBtn         = document.getElementById('nextBtn');
+    const downloadBtn     = document.getElementById('downloadBtn');
+    const warnText        = document.getElementById('warnText');
+    const feedbackArea    = document.getElementById('feedbackArea');
+    const feedbackSummary = document.getElementById('feedbackSummary');
+    const feedbackRows    = document.getElementById('feedbackRows');
+    const progressText    = document.getElementById('progressText');
+    const progressFill    = document.getElementById('progressFill');
+
+    /* ── UTILITIES ── */
+    function shuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function updateBankHint() {
+      const hasCards = sentenceBank.querySelector('.sentence-card');
+      bankEmptyHint.style.display = hasCards ? 'none' : 'block';
+    }
+
+    function updateZoneHints() {
+      Object.entries(zoneBodies).forEach(([, body]) => {
+        const hint = body.querySelector('.zone-empty-hint');
+        if (!hint) return;
+        hint.style.display = body.querySelector('.sentence-card') ? 'none' : 'block';
+      });
+    }
+
+    /* ── RENDER ── */
+    function createCard(idx) {
+      const s = PARAGRAPHS[state.current].sentences[idx];
+      const card = document.createElement('div');
+      card.className = 'sentence-card';
+      card.dataset.index = idx;
+      card.innerHTML = `<span class="card-handle" aria-hidden="true">⠿</span><span class="card-text">${s.text}</span>`;
+      card.addEventListener('pointerdown', startDrag);
+      return card;
+    }
+
+    function renderParagraph(idx) {
+      sentenceBank.innerHTML = '';
+      sentenceBank.appendChild(bankEmptyHint);
+      Object.values(zoneBodies).forEach(body => {
+        const hint = body.querySelector('.zone-empty-hint');
+        body.innerHTML = '';
+        if (hint) body.appendChild(hint);
+      });
+
+      const indices = shuffle(PARAGRAPHS[idx].sentences.map((_, i) => i));
+      indices.forEach(i => sentenceBank.appendChild(createCard(i)));
+
+      updateBankHint();
+      updateZoneHints();
+      updateProgress();
+      clearFeedback();
+      nextBtn.style.display = 'none';
+      downloadBtn.style.display = 'none';
+      checkBtn.disabled = false;
+      warnText.classList.remove('show');
+      state.checked = false;
+    }
+
+    function updateProgress() {
+      progressText.textContent = `Paragraph ${state.current + 1} of ${PARAGRAPHS.length}`;
+      progressFill.style.width = `${((state.current + 1) / PARAGRAPHS.length) * 100}%`;
+    }
+
+    function clearFeedback() {
+      feedbackArea.hidden = true;
+      feedbackSummary.textContent = '';
+      feedbackRows.innerHTML = '';
+    }
+
+    /* ── DRAG ── */
+    function startDrag(e) {
+      if (state.checked) return;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      e.preventDefault();
+
+      const card = e.currentTarget;
+      const rect = card.getBoundingClientRect();
+
+      const ghost = document.createElement('div');
+      ghost.className = 'drag-ghost';
+      ghost.innerHTML = card.innerHTML;
+      ghost.style.width = rect.width + 'px';
+      ghost.style.left  = rect.left + 'px';
+      ghost.style.top   = rect.top + 'px';
+      document.body.appendChild(ghost);
+
+      card.classList.add('dragging');
+
+      drag = {
+        card,
+        ghost,
+        origin: card.parentElement,
+        offsetX: e.clientX - rect.left,
+        offsetY: e.clientY - rect.top,
+      };
+
+      document.addEventListener('pointermove', moveDrag, { passive: false });
+      document.addEventListener('pointerup',   endDrag);
+      document.addEventListener('pointercancel', cancelDrag);
+    }
+
+    function moveDrag(e) {
+      if (!drag) return;
+      e.preventDefault();
+
+      drag.ghost.style.left = (e.clientX - drag.offsetX) + 'px';
+      drag.ghost.style.top  = (e.clientY - drag.offsetY) + 'px';
+
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      clearOver();
+      const zoneEl = el?.closest('[data-zone]');
+      const bankEl = el?.closest('#sentenceBank');
+      if (zoneEl)      zoneEl.classList.add('over');
+      else if (bankEl) bankEl.classList.add('over');
+    }
+
+    function endDrag(e) {
+      if (!drag) return;
+      const { card, ghost, origin } = drag;
+
+      const el = document.elementFromPoint(e.clientX, e.clientY);
+      clearOver();
+
+      const zoneEl = el?.closest('[data-zone]');
+      const bankEl = el?.closest('#sentenceBank');
+
+      if (zoneEl) {
+        zoneBodies[zoneEl.dataset.zone].appendChild(card);
+      } else if (bankEl) {
+        sentenceBank.appendChild(card);
+      } else {
+        origin.appendChild(card);
+      }
+
+      card.classList.remove('dragging');
+      ghost.remove();
+      drag = null;
+
+      updateBankHint();
+      updateZoneHints();
+
+      document.removeEventListener('pointermove', moveDrag);
+      document.removeEventListener('pointerup',   endDrag);
+      document.removeEventListener('pointercancel', cancelDrag);
+    }
+
+    function cancelDrag() {
+      if (!drag) return;
+      drag.origin.appendChild(drag.card);
+      drag.card.classList.remove('dragging');
+      drag.ghost.remove();
+      clearOver();
+      drag = null;
+      updateBankHint();
+      updateZoneHints();
+      document.removeEventListener('pointermove', moveDrag);
+      document.removeEventListener('pointerup',   endDrag);
+      document.removeEventListener('pointercancel', cancelDrag);
+    }
+
+    function clearOver() {
+      document.querySelectorAll('.over').forEach(el => el.classList.remove('over'));
+    }
+
+    /* ── CHECK ── */
+    checkBtn.addEventListener('click', () => {
+      if (sentenceBank.querySelector('.sentence-card')) {
+        warnText.classList.add('show');
+        checkBtn.classList.add('shake');
+        checkBtn.addEventListener('animationend', () => checkBtn.classList.remove('shake'), { once: true });
+        return;
+      }
+
+      state.checked = true;
+      warnText.classList.remove('show');
+
+      const para = PARAGRAPHS[state.current];
+      const results = [];
+
+      Object.entries(zoneBodies).forEach(([zoneKey, body]) => {
+        body.querySelectorAll('.sentence-card').forEach(card => {
+          const idx = parseInt(card.dataset.index, 10);
+          const s = para.sentences[idx];
+          const isCorrect = s.correct === zoneKey;
+          card.classList.add(isCorrect ? 'correct' : 'wrong');
+          results.push({ s, idx, assigned: zoneKey, isCorrect });
+        });
+      });
+
+      results.sort((a, b) => a.idx - b.idx);
+      const correct = results.filter(r => r.isCorrect).length;
+
+      state.results[state.current] = {
+        topic: para.topic,
+        items: results,
+        score: correct,
+        total: para.sentences.length,
+      };
+
+      renderFeedback(results, correct, para.sentences.length);
+      checkBtn.disabled = true;
+
+      if (state.current < PARAGRAPHS.length - 1) {
+        nextBtn.style.display = '';
+      } else {
+        downloadBtn.style.display = '';
+      }
+    });
+
+    /* ── FEEDBACK ── */
+    function renderFeedback(results, correct, total) {
+      feedbackRows.innerHTML = '';
+
+      results.forEach(({ s, assigned, isCorrect }) => {
+        const row = document.createElement('div');
+        row.className = `feedback-row ${isCorrect ? 'correct' : 'wrong'}`;
+
+        const icon = document.createElement('div');
+        icon.className = 'feedback-icon';
+        icon.textContent = isCorrect ? '✓' : '✗';
+
+        const text = document.createElement('div');
+        text.className = 'feedback-text';
+
+        const labels = document.createElement('div');
+        labels.className = 'feedback-labels';
+        labels.innerHTML = isCorrect
+          ? `<span class="right">Correct: ${LABEL_DISPLAY[s.correct]}</span>`
+          : `<span class="your">Placed in: ${LABEL_DISPLAY[assigned]}</span><span class="right">Correct: ${LABEL_DISPLAY[s.correct]}</span>`;
+
+        const snippet = document.createElement('span');
+        snippet.className = 'feedback-snippet';
+        snippet.textContent = `"${s.text.length > 72 ? s.text.slice(0, 72) + '…' : s.text}"`;
+
+        const explanation = document.createElement('p');
+        explanation.className = 'feedback-explanation';
+        explanation.textContent = s.explanation;
+
+        text.appendChild(labels);
+        text.appendChild(snippet);
+        text.appendChild(explanation);
+        row.appendChild(icon);
+        row.appendChild(text);
+        feedbackRows.appendChild(row);
+      });
+
+      feedbackSummary.textContent = correct === total
+        ? 'Perfect — all correct!'
+        : correct === 0
+          ? `0 of ${total} correct. Review the explanations below.`
+          : `${correct} of ${total} correct.`;
+
+      feedbackArea.hidden = false;
+      feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ── DOWNLOAD ── */
+    function downloadResults() {
+      const divider  = '='.repeat(56);
+      const thin     = '-'.repeat(56);
+      const dateStr  = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const grandTotal   = state.results.reduce((s, r) => s + r.total, 0);
+      const grandCorrect = state.results.reduce((s, r) => s + r.score, 0);
+      const pct = Math.round((grandCorrect / grandTotal) * 100);
+
+      const lines = [
+        'PARAGRAPH STRUCTURE PRACTICE — STUDENT RESULTS',
+        `Generated: ${dateStr}`,
+        '',
+        divider,
+        `OVERALL SCORE:  ${grandCorrect} / ${grandTotal}  (${pct}%)`,
+        divider,
+        '',
+      ];
+
+      state.results.forEach((result, i) => {
+        lines.push(`PARAGRAPH ${i + 1} — ${result.topic.toUpperCase()}`);
+        lines.push(`Score: ${result.score} / ${result.total}`);
+        lines.push(thin);
+        lines.push('');
+
+        result.items.forEach(({ s, assigned, isCorrect }) => {
+          if (isCorrect) {
+            lines.push(`  [CORRECT]   ${LABEL_DISPLAY[s.correct]}`);
+          } else {
+            lines.push(`  [INCORRECT] Placed in:  ${LABEL_DISPLAY[assigned]}`);
+            lines.push(`               Should be:  ${LABEL_DISPLAY[s.correct]}`);
+          }
+          const full = s.text;
+          lines.push(`  "${full}"`);
+          lines.push('');
+        });
+
+        lines.push('');
+      });
+
+      // Error summary by sentence type
+      lines.push(divider);
+      lines.push('SUMMARY BY SENTENCE TYPE');
+      lines.push(thin);
+      lines.push('');
+
+      Object.entries(LABEL_DISPLAY).forEach(([key, label]) => {
+        const allOfType   = state.results.flatMap(r => r.items).filter(it => it.s.correct === key);
+        const correctOfType = allOfType.filter(it => it.isCorrect).length;
+        const totalOfType   = allOfType.length;
+        if (totalOfType === 0) return;
+        const typePct = Math.round((correctOfType / totalOfType) * 100);
+        const flag = typePct < 70 ? '  <-- area to review' : '';
+        lines.push(`  ${label.padEnd(22)} ${correctOfType} / ${totalOfType}  (${typePct}%)${flag}`);
+      });
+
+      lines.push('');
+
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'paragraph-structure-results.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    downloadBtn.addEventListener('click', downloadResults);
+
+    /* ── RESET / NEXT ── */
+    resetBtn.addEventListener('click', () => {
+      state.checked = false;
+      renderParagraph(state.current);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      state.current = (state.current + 1) % PARAGRAPHS.length;
+      renderParagraph(state.current);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── THEME ── */
+    const sunSVG  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    themeBtn.addEventListener('click', ev => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      if (document.startViewTransition) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+        document.documentElement.classList.add('vt-active');
+        const vt = document.startViewTransition(() => applyTheme(next));
+        vt.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    });
+
+    /* ── INIT ── */
+    renderParagraph(0);
+  </script>
+</body>
+</html>
