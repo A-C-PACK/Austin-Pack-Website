@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Detail Sentence Practice — Austin Pack</title>
+  <meta name="description" content="An interactive EAP exercise: read a detail sentence and identify whether it is a fact, statistic, example, or explanation." />
+  <meta name="theme-color" content="#f2ece0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif:   'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+      --ease:     cubic-bezier(.22,.61,.36,1);
+
+      --fact-color:    #5a3e28;  --fact-bg:    #f0e8d8;
+      --stat-color:    #2a3d6b;  --stat-bg:    #dce6f5;
+      --example-color: #1e4a3a;  --example-bg: #dff0e8;
+      --expl-color:    #5c2e6b;  --expl-bg:    #ecdff5;
+      --correct-color: #1e4a3a;  --correct-bg: #d4edda;
+      --wrong-color:   #8b2a2a;  --wrong-bg:   #f8d7da;
+    }
+    [data-theme="dark"] {
+      --paper:   #141311;  --paper-2: #1c1a17;
+      --ink:     #f2ece0;  --ink-2:   #d8d0bd;
+      --mute:    #8a8476;  --mute-2:  #5b5649;
+      --line:    #2e2b26;  --accent:  #d97c6a;
+      --hl:      #2b251a;
+
+      --fact-color:    #d4b896;  --fact-bg:    #2e2318;
+      --stat-color:    #7aaed6;  --stat-bg:    #162036;
+      --example-color: #7ecba8;  --example-bg: #152a22;
+      --expl-color:    #c49de0;  --expl-bg:    #251535;
+      --correct-color: #7ecba8;  --correct-bg: #152a22;
+      --wrong-color:   #d97c6a;  --wrong-bg:   #2e1a17;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--serif); font-size: 1.0625rem; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      max-width: 900px; margin: 0 auto; padding: 0 2rem;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000; opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── HEADER ── */
+    .tool-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: 1rem 2rem; margin: 0 -2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: background .4s var(--ease), border-color .3s;
+    }
+    .back-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none;
+      transition: color .2s; white-space: nowrap;
+    }
+    .back-link:hover { color: var(--accent); }
+    .tool-header-title {
+      font-family: var(--display); font-size: 1rem; font-weight: 400;
+      font-variation-settings: "opsz" 24; color: var(--ink-2);
+      flex: 1; text-align: center;
+    }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+
+    /* ── INTRO ── */
+    .tool-intro { padding: 3rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .tool-title {
+      font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400; line-height: 1.05;
+      font-variation-settings: "opsz" 80; margin-bottom: .5rem;
+    }
+    .tool-subtitle {
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--mute);
+    }
+
+    /* ── REFERENCE PANEL ── */
+    .ref-panel { margin: 2rem 0; border: 1px solid var(--line); border-left: 3px solid var(--accent); }
+    .ref-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.25rem; cursor: pointer; list-style: none; user-select: none;
+    }
+    .ref-summary::-webkit-details-marker { display: none; }
+    .ref-summary-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+    }
+    .ref-chevron { font-family: var(--mono); font-size: .7rem; color: var(--mute); transition: transform .3s var(--ease); }
+    details[open] .ref-chevron { transform: rotate(180deg); }
+    .ref-body { padding: 1rem 1.25rem 1.25rem; }
+    .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 1rem; }
+    .ref-item { padding: .85rem 1rem; border-top: 2px solid transparent; background: var(--paper-2); }
+    .ref-item--fact    { border-top-color: var(--fact-color); }
+    .ref-item--stat    { border-top-color: var(--stat-color); }
+    .ref-item--example { border-top-color: var(--example-color); }
+    .ref-item--expl    { border-top-color: var(--expl-color); }
+    .ref-tag { display: block; font-family: var(--mono); font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+    .ref-item--fact    .ref-tag { color: var(--fact-color); }
+    .ref-item--stat    .ref-tag { color: var(--stat-color); }
+    .ref-item--example .ref-tag { color: var(--example-color); }
+    .ref-item--expl    .ref-tag { color: var(--expl-color); }
+    .ref-desc { font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+    .ref-signals { margin-top: .6rem; font-family: var(--mono); font-size: .62rem; color: var(--mute); line-height: 1.7; }
+
+    /* ── EXERCISE ── */
+    .exercise-area { padding-top: 2rem; padding-bottom: 4rem; }
+
+    .progress-bar-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .progress-indicator { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+    .progress-track { flex: 1; height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; background: var(--accent); transition: width .5s var(--ease); }
+
+    /* Context card */
+    .context-card { border: 1px solid var(--line); margin-bottom: .75rem; }
+    .context-si {
+      padding: .9rem 1.5rem;
+      background: var(--paper-2); border-bottom: 1px solid var(--line);
+    }
+    .context-detail {
+      padding: 1.3rem 1.5rem; border-left: 4px solid var(--accent);
+    }
+    .context-label {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: .4rem; display: block;
+    }
+    .context-si .context-text {
+      font-family: var(--serif); font-size: .95rem; line-height: 1.7; color: var(--mute); font-style: italic;
+    }
+    .context-detail .context-text {
+      font-family: var(--serif); font-size: 1.08rem; line-height: 1.75; color: var(--ink); font-style: italic;
+    }
+
+    .question-prompt {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.1rem;
+    }
+
+    /* Choice grid — 2×2 */
+    .choices-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: .875rem; margin-bottom: 1.75rem;
+    }
+    .choice-btn {
+      border: 2px solid var(--line); background: var(--paper-2);
+      padding: 1.1rem 1rem; cursor: pointer;
+      text-align: center; transition: border-color .2s var(--ease), background .2s var(--ease), transform .1s;
+      display: flex; flex-direction: column; gap: .4rem; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .choice-btn::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0; transition: opacity .25s var(--ease); z-index: 0;
+    }
+    .choice-btn[data-choice="fact"]::before    { background: var(--fact-bg); }
+    .choice-btn[data-choice="stat"]::before    { background: var(--stat-bg); }
+    .choice-btn[data-choice="example"]::before { background: var(--example-bg); }
+    .choice-btn[data-choice="expl"]::before    { background: var(--expl-bg); }
+    .choice-btn:hover:not(:disabled)::before { opacity: 1; }
+    .choice-btn[data-choice="fact"]:hover:not(:disabled)    { border-color: var(--fact-color); transform: translateY(-1px); }
+    .choice-btn[data-choice="stat"]:hover:not(:disabled)    { border-color: var(--stat-color); transform: translateY(-1px); }
+    .choice-btn[data-choice="example"]:hover:not(:disabled) { border-color: var(--example-color); transform: translateY(-1px); }
+    .choice-btn[data-choice="expl"]:hover:not(:disabled)    { border-color: var(--expl-color); transform: translateY(-1px); }
+
+    .choice-btn > * { position: relative; z-index: 1; }
+
+    .choice-key {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 400;
+      font-variation-settings: "opsz" 48; line-height: 1.1; display: block;
+    }
+    .choice-btn[data-choice="fact"]    .choice-key { color: var(--fact-color); }
+    .choice-btn[data-choice="stat"]    .choice-key { color: var(--stat-color); }
+    .choice-btn[data-choice="example"] .choice-key { color: var(--example-color); }
+    .choice-btn[data-choice="expl"]    .choice-key { color: var(--expl-color); }
+    .choice-label {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink); display: block;
+    }
+    .choice-desc {
+      font-family: var(--serif); font-size: .8rem; line-height: 1.45;
+      color: var(--mute); display: block;
+    }
+
+    /* Selected states */
+    .choice-btn.selected-correct {
+      border-color: var(--correct-color) !important; background: var(--correct-bg) !important; transform: none !important;
+    }
+    .choice-btn.selected-correct::before { display: none; }
+    .choice-btn.selected-correct .choice-key { color: var(--correct-color) !important; }
+    .choice-btn.selected-wrong {
+      border-color: var(--wrong-color) !important; background: var(--wrong-bg) !important; transform: none !important;
+    }
+    .choice-btn.selected-wrong::before { display: none; }
+    .choice-btn.selected-wrong .choice-key { color: var(--wrong-color) !important; }
+    .choice-btn.show-correct {
+      border-color: var(--correct-color) !important; background: var(--correct-bg) !important; transform: none !important;
+    }
+    .choice-btn.show-correct::before { display: none; }
+    .choice-btn.show-correct .choice-key { color: var(--correct-color) !important; }
+    .choice-btn:disabled { cursor: not-allowed; opacity: .55; }
+    .choice-btn.selected-correct:disabled,
+    .choice-btn.selected-wrong:disabled,
+    .choice-btn.show-correct:disabled { opacity: 1; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-5px); }
+      60%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake .35s var(--ease); }
+
+    /* Feedback */
+    .feedback-area { margin-top: .25rem; border-top: 2px solid var(--accent); padding-top: 1.25rem; }
+    .feedback-result {
+      font-family: var(--display); font-size: 1.4rem; font-weight: 400;
+      font-variation-settings: "opsz" 36; margin-bottom: 1rem;
+    }
+    .feedback-result.correct { color: var(--correct-color); }
+    .feedback-result.wrong   { color: var(--wrong-color); }
+    .feedback-explanation { font-size: .95rem; line-height: 1.75; color: var(--ink-2); }
+
+    /* Action row */
+    .action-row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem; }
+    .action-btn {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .7rem 1.5rem; border: 1px solid var(--line);
+      background: none; color: var(--ink); cursor: pointer;
+      position: relative; overflow: hidden; transition: color .25s, border-color .25s;
+    }
+    .action-btn::before {
+      content: ''; position: absolute; inset: 0; background: var(--hl);
+      transform: translateX(-101%); transition: transform .45s var(--ease); z-index: 0;
+    }
+    .action-btn:hover::before { transform: translateX(0); }
+    .action-btn span { position: relative; z-index: 1; }
+    .action-btn--next     { margin-left: auto; }
+    .action-btn--download { border-left: 3px solid var(--example-color); color: var(--example-color); }
+    .action-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .action-btn:disabled::before { display: none; }
+
+    /* Score summary */
+    .score-summary { border-top: 2px solid var(--accent); padding-top: 1.5rem; margin-top: 1rem; }
+    .score-headline {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 400;
+      font-variation-settings: "opsz" 40; margin-bottom: .5rem;
+    }
+    .score-sub {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.5rem;
+    }
+    .score-breakdown { display: flex; flex-direction: column; }
+    .score-row {
+      display: grid; grid-template-columns: 1.25rem 1fr auto;
+      gap: .5rem 1rem; padding: .8rem 0;
+      border-bottom: 1px solid var(--line); align-items: start;
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-icon { font-size: .95rem; line-height: 1.75; }
+    .score-row.correct .score-icon { color: var(--correct-color); }
+    .score-row.wrong   .score-icon { color: var(--wrong-color); }
+    .score-text { font-size: .9rem; line-height: 1.65; color: var(--ink-2); font-style: italic; }
+    .score-badge {
+      font-family: var(--mono); font-size: .55rem; letter-spacing: .07em;
+      text-transform: uppercase; white-space: nowrap; padding: .2em .55em;
+      border: 1px solid; align-self: start; margin-top: .2rem;
+    }
+    .score-row.correct .score-badge { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+    .score-row.wrong   .score-badge { color: var(--wrong-color);   border-color: var(--wrong-color);   background: var(--wrong-bg); }
+
+    /* Footer */
+    .tool-footer {
+      margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tool-footer-copy { font-family: var(--mono); font-size: .55rem; color: var(--mute); letter-spacing: .06em; }
+    .tool-footer-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color .2s;
+    }
+    .tool-footer-link:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      body { padding: 0 1.25rem; }
+      .tool-header { padding: 1rem 1.25rem; margin: 0 -1.25rem; }
+      .tool-header-title { display: none; }
+      .action-btn--next { margin-left: 0; width: 100%; text-align: center; }
+      .context-si { padding: .8rem 1.1rem; }
+      .context-detail { padding: 1rem 1.1rem; }
+      .ref-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 420px) {
+      .choices-grid { grid-template-columns: 1fr; }
+      .ref-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="tool-header">
+    <a href="../index.html#resources" class="back-link">← Austin Pack</a>
+    <span class="tool-header-title">Detail Sentence Practice</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="tool-intro">
+      <h1 class="tool-title">Detail Sentence Practice</h1>
+      <p class="tool-subtitle">Read the detail sentence — what type of evidence does it provide?</p>
+    </section>
+
+    <details class="ref-panel">
+      <summary class="ref-summary">
+        <span class="ref-summary-label">Detail Sentence Types — Reference</span>
+        <span class="ref-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="ref-body">
+        <div class="ref-grid">
+          <div class="ref-item ref-item--fact">
+            <span class="ref-tag">Fact</span>
+            <p class="ref-desc">A general truth about the topic that is widely known or accepted. Does not include specific numbers from research or a named source.</p>
+            <p class="ref-signals">Signals: no "for example," no source, no percentages</p>
+          </div>
+          <div class="ref-item ref-item--stat">
+            <span class="ref-tag">Statistic</span>
+            <p class="ref-desc">A specific number, percentage, or research finding, usually from a named study, institution, or survey.</p>
+            <p class="ref-signals">Signals: %, numbers, "According to X," "A study found," researcher names</p>
+          </div>
+          <div class="ref-item ref-item--example">
+            <span class="ref-tag">Example</span>
+            <p class="ref-desc">A specific case or situation that illustrates the supporting idea. Usually introduces a particular place, event, person, or scenario.</p>
+            <p class="ref-signals">Signals: "For example," "For instance," "Such as," a specific event or place</p>
+          </div>
+          <div class="ref-item ref-item--expl">
+            <span class="ref-tag">Explanation</span>
+            <p class="ref-desc">Defines a term, describes a process, or adds further detail to develop what the supporting idea means. No new example or data.</p>
+            <p class="ref-signals">Signals: "This means," "This refers to," "In other words," definitions, mechanisms</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <section class="exercise-area">
+
+      <div class="progress-bar-wrap">
+        <span class="progress-indicator" id="progressText">Question 1 of 8</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:12.5%"></div></div>
+      </div>
+
+      <div id="questionArea">
+        <div class="context-card">
+          <div class="context-si">
+            <span class="context-label">Supporting Idea</span>
+            <p class="context-text" id="siText"></p>
+          </div>
+          <div class="context-detail">
+            <span class="context-label">Detail Sentence</span>
+            <p class="context-text" id="detailText"></p>
+          </div>
+        </div>
+
+        <p class="question-prompt">What type of detail sentence is this?</p>
+
+        <div class="choices-grid" id="choicesGrid">
+          <button class="choice-btn" data-choice="fact" id="btnFact">
+            <span class="choice-key">Fact</span>
+            <span class="choice-label">General truth</span>
+            <span class="choice-desc">a known truth stated without specific data or a source</span>
+          </button>
+          <button class="choice-btn" data-choice="stat" id="btnStat">
+            <span class="choice-key">Statistic</span>
+            <span class="choice-label">Data or research</span>
+            <span class="choice-desc">numbers or findings from a named study or source</span>
+          </button>
+          <button class="choice-btn" data-choice="example" id="btnExample">
+            <span class="choice-key">Example</span>
+            <span class="choice-label">Specific case</span>
+            <span class="choice-desc">a particular event or situation that illustrates the idea</span>
+          </button>
+          <button class="choice-btn" data-choice="expl" id="btnExpl">
+            <span class="choice-key">Explanation</span>
+            <span class="choice-label">Definition or detail</span>
+            <span class="choice-desc">defines a term, explains a mechanism, or adds further detail</span>
+          </button>
+        </div>
+
+        <div class="feedback-area" id="feedbackArea" hidden>
+          <div class="feedback-result" id="feedbackResult"></div>
+          <p class="feedback-explanation" id="feedbackExplanation"></p>
+          <div class="action-row">
+            <button class="action-btn action-btn--next" id="nextBtn"><span id="nextBtnLabel">Next Question →</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-summary" id="scoreSummary" hidden>
+        <div class="score-headline" id="scoreHeadline"></div>
+        <div class="score-sub" id="scoreSub"></div>
+        <div class="score-breakdown" id="scoreBreakdown"></div>
+        <div class="action-row" style="margin-top:1.5rem;">
+          <button class="action-btn" id="restartBtn"><span>Start Over</span></button>
+          <button class="action-btn action-btn--download action-btn--next" id="downloadBtn"><span>Download Results ↓</span></button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="tool-footer">
+    <span class="tool-footer-copy">© 2026 Austin Pack</span>
+    <a href="../index.html" class="tool-footer-link">← Back to Portfolio</a>
+  </footer>
+
+  <script>
+    /* ── DATA ── */
+    const TYPE_LABEL = {
+      fact:    'Fact',
+      stat:    'Statistic',
+      example: 'Example',
+      expl:    'Explanation',
+    };
+
+    const QUESTIONS = [
+      {
+        si:     "One reason sleep is important for students is that it helps the brain store new information.",
+        detail: "A study by the University of California found that students who slept at least seven hours the night before a test scored an average of 23% higher than those who stayed up late studying.",
+        correct: "stat",
+        explanation: "This is a statistic. It presents specific research findings — a named institution, a comparison group, and a precise percentage. These are the defining features of a statistic detail sentence."
+      },
+      {
+        si:     "Another benefit of joining a university club is the opportunity to develop real leadership skills.",
+        detail: "For instance, students who join the student government often practice running meetings, managing budgets, and representing their classmates — skills that prepare them directly for professional workplaces.",
+        correct: "example",
+        explanation: "This is an example. The phrase 'for instance' introduces a specific, illustrative case. It shows one particular way leadership development happens in practice, rather than stating a general truth or citing data."
+      },
+      {
+        si:     "One major challenge of living abroad is experiencing culture shock.",
+        detail: "Culture shock refers to the disorientation and discomfort a person feels when the social rules, customs, and expectations of their new environment are very different from those they grew up with.",
+        correct: "expl",
+        explanation: "This is an explanation. The phrase 'refers to' signals a definition. The sentence clarifies what 'culture shock' means and what it involves, developing the supporting idea by explaining the concept rather than providing data or a specific case."
+      },
+      {
+        si:     "Regular exercise also helps the body maintain strong muscles and healthy joints.",
+        detail: "Muscles that are not used regularly will begin to weaken and lose flexibility within a few weeks of inactivity.",
+        correct: "fact",
+        explanation: "This is a fact. It states a general biological truth about how muscles respond to inactivity. There are no specific numbers from research, no named source, and no particular example — it is a well-established fact used to support the idea."
+      },
+      {
+        si:     "One reason many people choose to live in cities is access to greater employment opportunities.",
+        detail: "According to the World Bank, workers in urban areas earn an average of 80% more than workers doing similar jobs in rural regions.",
+        correct: "stat",
+        explanation: "This is a statistic. The phrase 'According to the World Bank' names a specific source, and the 80% figure is precise numerical data — the defining characteristics of a statistic detail sentence."
+      },
+      {
+        si:     "Social media can also help communities come together during difficult times.",
+        detail: "For example, after a major earthquake struck central Italy in 2016, local Facebook groups were used to coordinate volunteers, share shelter locations, and organize food distribution within hours of the disaster.",
+        correct: "example",
+        explanation: "This is an example. The phrase 'for example' introduces a specific historical event. The named location, year, and concrete details (volunteers, shelter, food) all mark this as an example detail sentence that illustrates the supporting idea."
+      },
+      {
+        si:     "A second benefit of learning a second language is improved cognitive flexibility.",
+        detail: "Cognitive flexibility refers to the brain's ability to shift between different tasks or ways of thinking, and researchers believe that regularly switching between two languages strengthens this ability in ways that other mental exercises do not.",
+        correct: "expl",
+        explanation: "This is an explanation. The phrase 'refers to' introduces a definition of 'cognitive flexibility,' and the sentence goes on to explain the mechanism behind how language learning develops it. It clarifies the concept for the reader rather than providing data or a specific example."
+      },
+      {
+        si:     "Choosing reusable products is one of the most effective personal actions people can take to reduce plastic waste.",
+        detail: "A single reusable shopping bag can replace the need for hundreds of single-use plastic bags over the course of just a few years of regular use.",
+        correct: "fact",
+        explanation: "This is a fact. It states a general, widely understood truth about reusable products and their impact over time. It does not cite a specific study, present precise research numbers, or describe a particular event — it is a factual statement that supports the idea."
+      },
+    ];
+
+    /* ── STATE ── */
+    const state = { current: 0, answered: false, results: [] };
+
+    /* ── DOM ── */
+    const siText           = document.getElementById('siText');
+    const detailText       = document.getElementById('detailText');
+    const feedbackArea     = document.getElementById('feedbackArea');
+    const feedbackResult   = document.getElementById('feedbackResult');
+    const feedbackExplanation = document.getElementById('feedbackExplanation');
+    const nextBtn          = document.getElementById('nextBtn');
+    const nextBtnLabel     = document.getElementById('nextBtnLabel');
+    const questionArea     = document.getElementById('questionArea');
+    const scoreSummary     = document.getElementById('scoreSummary');
+    const scoreHeadline    = document.getElementById('scoreHeadline');
+    const scoreSub         = document.getElementById('scoreSub');
+    const scoreBreakdown   = document.getElementById('scoreBreakdown');
+    const restartBtn       = document.getElementById('restartBtn');
+    const downloadBtn      = document.getElementById('downloadBtn');
+    const progressText     = document.getElementById('progressText');
+    const progressFill     = document.getElementById('progressFill');
+
+    const choiceBtns = {
+      fact:    document.getElementById('btnFact'),
+      stat:    document.getElementById('btnStat'),
+      example: document.getElementById('btnExample'),
+      expl:    document.getElementById('btnExpl'),
+    };
+
+    /* ── RENDER ── */
+    function renderQuestion(idx) {
+      const q = QUESTIONS[idx];
+      siText.textContent     = q.si;
+      detailText.textContent = q.detail;
+
+      Object.values(choiceBtns).forEach(btn => {
+        btn.className = 'choice-btn';
+        btn.disabled  = false;
+      });
+      // Restore data-choice (class reset wipes nothing, but make sure)
+      choiceBtns.fact.dataset.choice    = 'fact';
+      choiceBtns.stat.dataset.choice    = 'stat';
+      choiceBtns.example.dataset.choice = 'example';
+      choiceBtns.expl.dataset.choice    = 'expl';
+
+      feedbackArea.hidden = true;
+      feedbackResult.textContent = '';
+      feedbackExplanation.textContent = '';
+
+      progressText.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+      progressFill.style.width = `${((idx + 1) / QUESTIONS.length) * 100}%`;
+      nextBtnLabel.textContent = idx < QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →';
+      state.answered = false;
+    }
+
+    /* ── CHOICE ── */
+    Object.entries(choiceBtns).forEach(([choice, btn]) => {
+      btn.addEventListener('click', () => {
+        if (state.answered) return;
+        state.answered = true;
+
+        const q = QUESTIONS[state.current];
+        const isCorrect = choice === q.correct;
+        state.results.push({ q, chosen: choice, isCorrect });
+
+        Object.entries(choiceBtns).forEach(([key, b]) => {
+          b.disabled = true;
+          if (key === choice && isCorrect)  b.classList.add('selected-correct');
+          if (key === choice && !isCorrect) b.classList.add('selected-wrong');
+          if (key === q.correct && !isCorrect) b.classList.add('show-correct');
+        });
+
+        feedbackResult.textContent = isCorrect ? 'Correct!' : 'Not quite.';
+        feedbackResult.className = `feedback-result ${isCorrect ? 'correct' : 'wrong'}`;
+        feedbackExplanation.textContent = q.explanation;
+        feedbackArea.hidden = false;
+
+        if (!isCorrect) {
+          choiceBtns[choice].classList.add('shake');
+          choiceBtns[choice].addEventListener('animationend', () => choiceBtns[choice].classList.remove('shake'), { once: true });
+        }
+
+        feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+
+    /* ── NEXT ── */
+    nextBtn.addEventListener('click', () => {
+      if (state.current < QUESTIONS.length - 1) {
+        state.current++;
+        renderQuestion(state.current);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    });
+
+    /* ── RESULTS ── */
+    function showResults() {
+      questionArea.hidden = true;
+      scoreSummary.hidden = false;
+
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      scoreHeadline.textContent = correct === total
+        ? 'Perfect score!'
+        : correct >= Math.ceil(total * .75)
+          ? `${correct} of ${total} correct — well done.`
+          : correct >= Math.ceil(total * .5)
+            ? `${correct} of ${total} correct — keep practicing.`
+            : `${correct} of ${total} correct — review the reference panel and try again.`;
+
+      scoreSub.textContent = `${pct}% — ${total} questions completed`;
+
+      scoreBreakdown.innerHTML = '';
+      state.results.forEach(r => {
+        const row = document.createElement('div');
+        row.className = `score-row ${r.isCorrect ? 'correct' : 'wrong'}`;
+        const badge = r.isCorrect
+          ? TYPE_LABEL[r.chosen]
+          : `${TYPE_LABEL[r.chosen]} → ${TYPE_LABEL[r.q.correct]}`;
+        row.innerHTML = `
+          <span class="score-icon">${r.isCorrect ? '✓' : '✗'}</span>
+          <span class="score-text">${r.q.detail}</span>
+          <span class="score-badge">${badge}</span>
+        `;
+        scoreBreakdown.appendChild(row);
+      });
+
+      progressText.textContent = 'Complete';
+      progressFill.style.width = '100%';
+      scoreSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── RESTART ── */
+    restartBtn.addEventListener('click', () => {
+      state.current = 0; state.answered = false; state.results = [];
+      questionArea.hidden = false; scoreSummary.hidden = true;
+      renderQuestion(0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── DOWNLOAD ── */
+    downloadBtn.addEventListener('click', () => {
+      const divider = '='.repeat(56);
+      const thin    = '-'.repeat(56);
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      const lines = [
+        'DETAIL SENTENCE PRACTICE — STUDENT RESULTS',
+        `Generated: ${dateStr}`,
+        '',
+        divider,
+        `OVERALL SCORE:  ${correct} / ${total}  (${pct}%)`,
+        divider,
+        '',
+      ];
+
+      state.results.forEach((r, i) => {
+        lines.push(`Q${i + 1}. ${r.isCorrect ? '[CORRECT]' : '[INCORRECT]'}`);
+        lines.push(`   Supporting idea: "${r.q.si}"`);
+        lines.push(`   Detail sentence: "${r.q.detail}"`);
+        if (r.isCorrect) {
+          lines.push(`   Type: ${TYPE_LABEL[r.chosen]}`);
+        } else {
+          lines.push(`   Your answer: ${TYPE_LABEL[r.chosen]}   Correct: ${TYPE_LABEL[r.q.correct]}`);
+          lines.push(`   ${r.q.explanation}`);
+        }
+        lines.push('');
+      });
+
+      lines.push(divider);
+      lines.push('SUMMARY BY DETAIL TYPE');
+      lines.push(thin);
+      lines.push('');
+      ['fact', 'stat', 'example', 'expl'].forEach(type => {
+        const ofType  = state.results.filter(r => r.q.correct === type);
+        const cOfType = ofType.filter(r => r.isCorrect).length;
+        if (!ofType.length) return;
+        const typePct = Math.round((cOfType / ofType.length) * 100);
+        const flag = typePct < 70 ? '  <-- review this type' : '';
+        lines.push(`  ${TYPE_LABEL[type].padEnd(14)} ${cOfType} / ${ofType.length}  (${typePct}%)${flag}`);
+      });
+      lines.push('');
+
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'detail-sentences-results.txt';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+    });
+
+    /* ── THEME ── */
+    const sunSVG  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    themeBtn.addEventListener('click', ev => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      if (document.startViewTransition) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+        document.documentElement.classList.add('vt-active');
+        const vt = document.startViewTransition(() => applyTheme(next));
+        vt.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    });
+
+    /* ── INIT ── */
+    renderQuestion(0);
+  </script>
+</body>
+</html>

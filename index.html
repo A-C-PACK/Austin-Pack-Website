@@ -527,6 +527,16 @@
       opacity: .85;
     }
 
+    /* ── RESOURCES SUBHEADINGS ── */
+    .exp-subhead {
+      font-family: var(--mono);
+      font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--mute); padding-bottom: .6rem;
+      border-bottom: 1px solid var(--accent);
+      max-width: 740px; margin-top: 2.5rem;
+    }
+    .exp-subhead:first-of-type { margin-top: 2rem; }
+
     /* ── TEACHING / QUOTE CARDS ── */
     .quotes-grid {
       display: grid;
@@ -1244,7 +1254,8 @@
     <section id="resources" class="section">
       <span class="section-num">05 — Resources for Students and Teachers</span>
 
-      <div class="exp-list" style="margin-top:2rem;">
+      <p class="exp-subhead">Tools</p>
+      <div class="exp-list">
         <div class="exp-item fade">
           <div class="exp-role">Screen Recorder</div>
           <p class="exp-desc">A lightweight screen recording tool for capturing lessons, presentations, and student work — and an example of the kind of practical software that educators and students can build with the help of an AI agent.</p>
@@ -1255,13 +1266,49 @@
             </a>
           </div>
         </div>
+      </div>
 
-        <div class="exp-item fade fade-d1">
+      <p class="exp-subhead">Practice Opportunities</p>
+      <div class="exp-list">
+        <div class="exp-item fade">
           <div class="exp-role">Paragraph Structure Practice</div>
-          <p class="exp-desc">An interactive EAP exercise where students identify topic sentences, supporting ideas, evidence, and conclusions in academic paragraphs. No login required.</p>
+          <p class="exp-desc">Drag scrambled sentences into the correct category — topic sentence, supporting idea, detail, or conclusion. A synthesis exercise that brings all four sentence types together.</p>
           <div style="margin-top:1rem;">
             <a href="resources/paragraph-tool.html" class="doc-link" style="max-width:420px;">
               <span class="doc-link-label">Open Paragraph Structure Tool</span>
+              <span class="doc-link-arrow">↗ Open</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="exp-item fade fade-d1">
+          <div class="exp-role">Topic Sentence Practice</div>
+          <p class="exp-desc">Read a writing prompt and choose the best topic sentence from three options. Each answer includes explanations of what makes a sentence too vague, too specific, or just right.</p>
+          <div style="margin-top:1rem;">
+            <a href="resources/topic-sentence-tool.html" class="doc-link" style="max-width:420px;">
+              <span class="doc-link-label">Open Topic Sentence Tool</span>
+              <span class="doc-link-arrow">↗ Open</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="exp-item fade fade-d2">
+          <div class="exp-role">Supporting Idea Practice</div>
+          <p class="exp-desc">Read a topic sentence and decide what question your supporting idea sentence needs to answer: What? Why? or How? Includes explanations and example sentences.</p>
+          <div style="margin-top:1rem;">
+            <a href="resources/supporting-ideas-tool.html" class="doc-link" style="max-width:420px;">
+              <span class="doc-link-label">Open Supporting Idea Tool</span>
+              <span class="doc-link-arrow">↗ Open</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="exp-item fade fade-d3">
+          <div class="exp-role">Detail Sentence Practice</div>
+          <p class="exp-desc">Read a detail sentence in context and identify what type of evidence it provides — a fact, statistic, example, or explanation. Includes signal words and feedback for every answer.</p>
+          <div style="margin-top:1rem;">
+            <a href="resources/detail-sentences-tool.html" class="doc-link" style="max-width:420px;">
+              <span class="doc-link-label">Open Detail Sentence Tool</span>
               <span class="doc-link-arrow">↗ Open</span>
             </a>
           </div>

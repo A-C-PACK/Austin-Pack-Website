@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Supporting Idea Practice — Austin Pack</title>
+  <meta name="description" content="An interactive EAP exercise: read a topic sentence and identify what question your supporting idea should answer." />
+  <meta name="theme-color" content="#f2ece0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif:   'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+      --ease:     cubic-bezier(.22,.61,.36,1);
+      --ease-out: cubic-bezier(.2,.9,.2,1);
+
+      --what-color:    #2a3d6b;  --what-bg:    #dce6f5;
+      --why-color:     #5c2e6b;  --why-bg:     #ecdff5;
+      --how-color:     #1e4a3a;  --how-bg:     #dff0e8;
+      --correct-color: #1e4a3a;  --correct-bg: #d4edda;
+      --wrong-color:   #8b2a2a;  --wrong-bg:   #f8d7da;
+    }
+    [data-theme="dark"] {
+      --paper:   #141311;  --paper-2: #1c1a17;
+      --ink:     #f2ece0;  --ink-2:   #d8d0bd;
+      --mute:    #8a8476;  --mute-2:  #5b5649;
+      --line:    #2e2b26;  --accent:  #d97c6a;
+      --hl:      #2b251a;
+
+      --what-color:    #7aaed6;  --what-bg:    #162036;
+      --why-color:     #c49de0;  --why-bg:     #251535;
+      --how-color:     #7ecba8;  --how-bg:     #152a22;
+      --correct-color: #7ecba8;  --correct-bg: #152a22;
+      --wrong-color:   #d97c6a;  --wrong-bg:   #2e1a17;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--serif); font-size: 1.0625rem; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      max-width: 900px; margin: 0 auto; padding: 0 2rem;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+
+    /* Paper grain */
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000; opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    /* View Transitions */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── HEADER ── */
+    .tool-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: 1rem 2rem; margin: 0 -2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: background .4s var(--ease), border-color .3s;
+    }
+    .back-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none;
+      transition: color .2s; white-space: nowrap;
+    }
+    .back-link:hover { color: var(--accent); }
+    .tool-header-title {
+      font-family: var(--display); font-size: 1rem; font-weight: 400;
+      font-variation-settings: "opsz" 24; color: var(--ink-2);
+      flex: 1; text-align: center;
+    }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+
+    /* ── INTRO ── */
+    .tool-intro { padding: 3rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .tool-title {
+      font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400; line-height: 1.05;
+      font-variation-settings: "opsz" 80; margin-bottom: .5rem;
+    }
+    .tool-subtitle {
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--mute);
+    }
+
+    /* ── REFERENCE PANEL ── */
+    .ref-panel { margin: 2rem 0; border: 1px solid var(--line); border-left: 3px solid var(--accent); }
+    .ref-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.25rem; cursor: pointer; list-style: none; user-select: none;
+    }
+    .ref-summary::-webkit-details-marker { display: none; }
+    .ref-summary-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+    }
+    .ref-chevron { font-family: var(--mono); font-size: .7rem; color: var(--mute); transition: transform .3s var(--ease); }
+    details[open] .ref-chevron { transform: rotate(180deg); }
+    .ref-body { padding: 1rem 1.25rem 1.25rem; }
+    .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; }
+    .ref-item { padding: .85rem 1rem; border-top: 2px solid transparent; background: var(--paper-2); }
+    .ref-item--what      { border-top-color: var(--what-color); }
+    .ref-item--why       { border-top-color: var(--why-color); }
+    .ref-item--how       { border-top-color: var(--how-color); }
+    .ref-tag { display: block; font-family: var(--mono); font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+    .ref-item--what  .ref-tag { color: var(--what-color); }
+    .ref-item--why   .ref-tag { color: var(--why-color); }
+    .ref-item--how   .ref-tag { color: var(--how-color); }
+    .ref-desc { font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+    .ref-example { margin-top: .65rem; padding-top: .65rem; border-top: 1px solid var(--line); }
+    .ref-example-label { font-family: var(--mono); font-size: .55rem; letter-spacing: .07em; text-transform: uppercase; color: var(--mute); margin-bottom: .25rem; }
+    .ref-example p { font-size: .83rem; line-height: 1.55; color: var(--ink-2); }
+    .ref-example p + p { margin-top: .35rem; }
+    .ref-example .ts { color: var(--mute); }
+    .ref-example .si { font-weight: 500; }
+
+    /* ── EXERCISE ── */
+    .exercise-area { padding-top: 2rem; padding-bottom: 4rem; }
+
+    .progress-bar-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .progress-indicator { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+    .progress-track { flex: 1; height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; background: var(--accent); transition: width .5s var(--ease); }
+
+    /* Topic card */
+    .topic-card {
+      border: 1px solid var(--line); border-left: 4px solid var(--accent);
+      padding: 1.5rem 1.75rem; margin-bottom: .75rem;
+      background: var(--paper-2);
+    }
+    .topic-card-label {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: .6rem;
+      display: block;
+    }
+    .topic-card-text {
+      font-family: var(--serif); font-size: 1.1rem; line-height: 1.75;
+      color: var(--ink); font-style: italic;
+    }
+
+    .question-prompt {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.25rem;
+    }
+
+    /* Choice buttons */
+    .choices-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: .875rem; margin-bottom: 1.75rem;
+    }
+    .choice-btn {
+      border: 2px solid var(--line); background: var(--paper-2);
+      padding: 1.25rem 1rem 1.1rem; cursor: pointer;
+      text-align: center; transition: border-color .2s var(--ease), background .2s var(--ease), transform .1s;
+      display: flex; flex-direction: column; gap: .45rem; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .choice-btn::before {
+      content: ''; position: absolute; inset: 0;
+      opacity: 0; transition: opacity .25s var(--ease); z-index: 0;
+    }
+    .choice-btn[data-choice="what"]::before { background: var(--what-bg); }
+    .choice-btn[data-choice="why"]::before  { background: var(--why-bg); }
+    .choice-btn[data-choice="how"]::before  { background: var(--how-bg); }
+    .choice-btn:hover:not(:disabled)::before { opacity: 1; }
+    .choice-btn:hover:not(:disabled) { border-color: var(--mute); transform: translateY(-1px); }
+    .choice-btn[data-choice="what"]:hover:not(:disabled) { border-color: var(--what-color); }
+    .choice-btn[data-choice="why"]:hover:not(:disabled)  { border-color: var(--why-color); }
+    .choice-btn[data-choice="how"]:hover:not(:disabled)  { border-color: var(--how-color); }
+
+    .choice-btn > * { position: relative; z-index: 1; }
+
+    .choice-key {
+      font-family: var(--display); font-size: 2rem; font-weight: 400;
+      font-variation-settings: "opsz" 56; line-height: 1; display: block;
+    }
+    .choice-btn[data-choice="what"] .choice-key { color: var(--what-color); }
+    .choice-btn[data-choice="why"]  .choice-key { color: var(--why-color); }
+    .choice-btn[data-choice="how"]  .choice-key { color: var(--how-color); }
+
+    .choice-label {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--ink); display: block;
+    }
+    .choice-desc {
+      font-family: var(--serif); font-size: .82rem; line-height: 1.5;
+      color: var(--mute); display: block;
+    }
+
+    /* Selected states */
+    .choice-btn.selected-correct {
+      border-color: var(--correct-color) !important;
+      background: var(--correct-bg) !important;
+      transform: none !important;
+    }
+    .choice-btn.selected-correct::before { display: none; }
+    .choice-btn.selected-correct .choice-key { color: var(--correct-color) !important; }
+
+    .choice-btn.selected-wrong {
+      border-color: var(--wrong-color) !important;
+      background: var(--wrong-bg) !important;
+      transform: none !important;
+    }
+    .choice-btn.selected-wrong::before { display: none; }
+    .choice-btn.selected-wrong .choice-key { color: var(--wrong-color) !important; }
+
+    .choice-btn.show-correct {
+      border-color: var(--correct-color) !important;
+      background: var(--correct-bg) !important;
+      transform: none !important;
+    }
+    .choice-btn.show-correct::before { display: none; }
+    .choice-btn.show-correct .choice-key { color: var(--correct-color) !important; }
+
+    .choice-btn:disabled {
+      cursor: not-allowed;
+      opacity: .55;
+    }
+    .choice-btn.selected-correct:disabled,
+    .choice-btn.selected-wrong:disabled,
+    .choice-btn.show-correct:disabled { opacity: 1; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-5px); }
+      60%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake .35s var(--ease); }
+
+    /* Feedback */
+    .feedback-area {
+      margin-top: .25rem; border-top: 2px solid var(--accent);
+      padding-top: 1.25rem;
+    }
+    .feedback-result {
+      font-family: var(--display); font-size: 1.4rem; font-weight: 400;
+      font-variation-settings: "opsz" 36; margin-bottom: 1rem;
+    }
+    .feedback-result.correct { color: var(--correct-color); }
+    .feedback-result.wrong   { color: var(--wrong-color); }
+
+    .feedback-explanation {
+      font-size: .95rem; line-height: 1.75; color: var(--ink-2);
+      margin-bottom: 1.25rem;
+    }
+
+    .example-si {
+      padding: 1rem 1.25rem;
+      background: var(--paper-2); border-left: 3px solid var(--how-color);
+    }
+    .example-si-label {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--how-color); margin-bottom: .4rem;
+      display: block;
+    }
+    .example-si-text {
+      font-family: var(--serif); font-size: .95rem; line-height: 1.7;
+      color: var(--ink-2); font-style: italic;
+    }
+
+    /* Action row */
+    .action-row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem; }
+    .action-btn {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .7rem 1.5rem; border: 1px solid var(--line);
+      background: none; color: var(--ink); cursor: pointer;
+      position: relative; overflow: hidden; transition: color .25s, border-color .25s;
+    }
+    .action-btn::before {
+      content: ''; position: absolute; inset: 0; background: var(--hl);
+      transform: translateX(-101%); transition: transform .45s var(--ease); z-index: 0;
+    }
+    .action-btn:hover::before { transform: translateX(0); }
+    .action-btn span { position: relative; z-index: 1; }
+    .action-btn--next     { margin-left: auto; }
+    .action-btn--download { border-left: 3px solid var(--how-color); color: var(--how-color); }
+    .action-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .action-btn:disabled::before { display: none; }
+
+    /* Score summary panel (shown at end) */
+    .score-summary {
+      border-top: 2px solid var(--accent); padding-top: 1.5rem; margin-top: 1rem;
+    }
+    .score-headline {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 400;
+      font-variation-settings: "opsz" 40; margin-bottom: .5rem;
+    }
+    .score-sub {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.5rem;
+    }
+    .score-breakdown { display: flex; flex-direction: column; gap: .5rem; }
+    .score-row {
+      display: grid; grid-template-columns: 1.25rem 1fr auto;
+      gap: .5rem 1rem; padding: .75rem 0;
+      border-bottom: 1px solid var(--line); align-items: start; font-size: .92rem;
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-icon { font-size: .95rem; line-height: 1.7; }
+    .score-row.correct .score-icon { color: var(--correct-color); }
+    .score-row.wrong   .score-icon { color: var(--wrong-color); }
+    .score-topic { font-style: italic; color: var(--ink-2); line-height: 1.65; flex: 1; }
+    .score-badge {
+      font-family: var(--mono); font-size: .57rem; letter-spacing: .07em;
+      text-transform: uppercase; white-space: nowrap; padding: .2em .55em;
+      border: 1px solid;
+    }
+    .score-row.correct .score-badge { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+    .score-row.wrong   .score-badge { color: var(--wrong-color);   border-color: var(--wrong-color);   background: var(--wrong-bg); }
+
+    /* Footer */
+    .tool-footer {
+      margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tool-footer-copy { font-family: var(--mono); font-size: .55rem; color: var(--mute); letter-spacing: .06em; }
+    .tool-footer-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color .2s;
+    }
+    .tool-footer-link:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      body { padding: 0 1.25rem; }
+      .tool-header { padding: 1rem 1.25rem; margin: 0 -1.25rem; }
+      .tool-header-title { display: none; }
+      .choices-grid { grid-template-columns: 1fr; }
+      .action-btn--next { margin-left: 0; width: 100%; text-align: center; }
+      .ref-grid { grid-template-columns: 1fr; }
+      .topic-card { padding: 1.1rem 1.25rem; }
+    }
+    @media (max-width: 400px) {
+      .choices-grid { gap: .6rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="tool-header">
+    <a href="../index.html#resources" class="back-link">← Austin Pack</a>
+    <span class="tool-header-title">Supporting Idea Practice</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="tool-intro">
+      <h1 class="tool-title">Supporting Idea Practice</h1>
+      <p class="tool-subtitle">Read the topic sentence — what question does your SI sentence need to answer?</p>
+    </section>
+
+    <details class="ref-panel">
+      <summary class="ref-summary">
+        <span class="ref-summary-label">Supporting Idea Types — Reference</span>
+        <span class="ref-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="ref-body">
+        <div class="ref-grid">
+          <div class="ref-item ref-item--what">
+            <span class="ref-tag">What?</span>
+            <p class="ref-desc">The topic sentence introduces a list of things — challenges, benefits, effects, factors, types, or advantages. Your SI sentence names what one of those things is.</p>
+            <div class="ref-example">
+              <p class="ref-example-label">Example</p>
+              <p class="ts">TS: "There are several factors that affect students' success studying abroad."</p>
+              <p class="si">SI: "One major factor is support from new friends in the host country."</p>
+            </div>
+          </div>
+          <div class="ref-item ref-item--why">
+            <span class="ref-tag">Why?</span>
+            <p class="ref-desc">The topic sentence says something is true, important, or worth doing. Your SI sentence gives a reason that explains why this is the case.</p>
+            <div class="ref-example">
+              <p class="ref-example-label">Example</p>
+              <p class="ts">TS: "There are several reasons why obtaining a college degree is worth the time and money."</p>
+              <p class="si">SI: "To begin with, a college degree often leads to better job opportunities and higher salaries."</p>
+            </div>
+          </div>
+          <div class="ref-item ref-item--how">
+            <span class="ref-tag">How?</span>
+            <p class="ref-desc">The topic sentence describes ways, steps, methods, or strategies. Your SI sentence explains how something is done — describing one specific approach or step.</p>
+            <div class="ref-example">
+              <p class="ref-example-label">Example</p>
+              <p class="ts">TS: "There are several ways foreign students experience culture shock."</p>
+              <p class="si">SI: "One common way is feeling uncomfortable with unfamiliar food."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <section class="exercise-area">
+
+      <div class="progress-bar-wrap">
+        <span class="progress-indicator" id="progressText">Question 1 of 8</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:12.5%"></div></div>
+      </div>
+
+      <div id="questionArea">
+        <div class="topic-card">
+          <span class="topic-card-label">Topic Sentence</span>
+          <p class="topic-card-text" id="topicText"></p>
+        </div>
+
+        <p class="question-prompt">What question should your supporting idea sentence answer?</p>
+
+        <div class="choices-grid" id="choicesGrid">
+          <button class="choice-btn" data-choice="what" id="btnWhat">
+            <span class="choice-key">What?</span>
+            <span class="choice-label">Naming things</span>
+            <span class="choice-desc">challenges, effects, benefits, factors, types</span>
+          </button>
+          <button class="choice-btn" data-choice="why" id="btnWhy">
+            <span class="choice-key">Why?</span>
+            <span class="choice-label">Giving reasons</span>
+            <span class="choice-desc">explains why something is true or important</span>
+          </button>
+          <button class="choice-btn" data-choice="how" id="btnHow">
+            <span class="choice-key">How?</span>
+            <span class="choice-label">Explaining methods</span>
+            <span class="choice-desc">steps, ways, strategies, approaches</span>
+          </button>
+        </div>
+
+        <div class="feedback-area" id="feedbackArea" hidden>
+          <div class="feedback-result" id="feedbackResult"></div>
+          <p class="feedback-explanation" id="feedbackExplanation"></p>
+          <div class="example-si" id="exampleSI">
+            <span class="example-si-label">Example Supporting Idea Sentence</span>
+            <p class="example-si-text" id="exampleSIText"></p>
+          </div>
+          <div class="action-row">
+            <button class="action-btn action-btn--next" id="nextBtn"><span id="nextBtnLabel">Next Question →</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="score-summary" id="scoreSummary" hidden>
+        <div class="score-headline" id="scoreHeadline"></div>
+        <div class="score-sub" id="scoreSub"></div>
+        <div class="score-breakdown" id="scoreBreakdown"></div>
+        <div class="action-row" style="margin-top:1.5rem;">
+          <button class="action-btn" id="restartBtn"><span>Start Over</span></button>
+          <button class="action-btn action-btn--download action-btn--next" id="downloadBtn"><span>Download Results ↓</span></button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="tool-footer">
+    <span class="tool-footer-copy">© 2026 Austin Pack</span>
+    <a href="../index.html" class="tool-footer-link">← Back to Portfolio</a>
+  </footer>
+
+  <script>
+    /* ── DATA ── */
+    const LABEL_DISPLAY = { what: 'What?', why: 'Why?', how: 'How?' };
+
+    const QUESTIONS = [
+      {
+        topicSentence: "There are several challenges that new university students face when they first arrive on campus.",
+        correct: "what",
+        explanation: "The phrase \"challenges that students face\" tells the reader that the paragraph will describe what those challenges are. Each supporting idea sentence should introduce one specific challenge.",
+        exampleSI: "One major challenge is managing time independently without parents or teachers to remind them of deadlines."
+      },
+      {
+        topicSentence: "There are many reasons why eating a balanced diet is important for students' academic performance.",
+        correct: "why",
+        explanation: "The phrase \"reasons why\" is a clear signal that supporting idea sentences need to explain why a balanced diet matters for academic performance. Each supporting idea sentence should give one reason.",
+        exampleSI: "One important reason is that nutritious food provides the energy the brain needs to focus and retain new information during long study sessions."
+      },
+      {
+        topicSentence: "There are several effective ways to improve your English writing skills outside of class.",
+        correct: "how",
+        explanation: "The phrase \"ways to improve\" means your supporting idea sentences should explain how a student can get better at writing — each one describing a specific strategy or method.",
+        exampleSI: "One effective way is to keep a daily journal in English, since writing regularly helps build fluency and confidence with sentence structure."
+      },
+      {
+        topicSentence: "Living away from home for the first time has a number of significant effects on young people.",
+        correct: "what",
+        explanation: "The phrase \"effects on young people\" signals that the paragraph will describe what those effects are. Each supporting idea sentence should name and introduce one specific effect.",
+        exampleSI: "One significant effect is that young people develop stronger self-management skills as they learn to handle daily responsibilities on their own."
+      },
+      {
+        topicSentence: "There are several reasons why many people prefer to live in large cities rather than small towns.",
+        correct: "why",
+        explanation: "\"Reasons why\" directly tells the reader that the paragraph will explain why people make this choice. Each supporting idea sentence should give one reason.",
+        exampleSI: "One key reason is that large cities offer more diverse job opportunities and career paths than smaller communities."
+      },
+      {
+        topicSentence: "There are several important steps that students should follow when writing a research paper.",
+        correct: "how",
+        explanation: "\"Steps that students should follow\" means the paragraph will explain how to write a research paper. Each supporting idea sentence should introduce one step in the process and describe how it works.",
+        exampleSI: "One important first step is to narrow the topic and develop a clear research question before searching for sources."
+      },
+      {
+        topicSentence: "Joining a university club or sports team has several benefits for students' personal development.",
+        correct: "what",
+        explanation: "The phrase \"benefits for students' development\" signals that the paragraph will identify what those benefits are. Each supporting idea sentence should name a specific benefit.",
+        exampleSI: "One major benefit is that students build leadership and teamwork skills that will be valuable throughout their future careers."
+      },
+      {
+        topicSentence: "There are many ways that a good teacher can help students feel more confident when speaking English.",
+        correct: "how",
+        explanation: "\"Ways that a teacher can help\" tells the reader the paragraph will explain how a teacher can build students' confidence. Each supporting idea sentence should describe one specific approach or technique.",
+        exampleSI: "One effective way is to create regular low-stakes speaking activities where mistakes are treated as a normal part of learning."
+      },
+    ];
+
+    /* ── STATE ── */
+    const state = { current: 0, answered: false, results: [] };
+
+    /* ── DOM ── */
+    const topicText        = document.getElementById('topicText');
+    const choicesGrid      = document.getElementById('choicesGrid');
+    const feedbackArea     = document.getElementById('feedbackArea');
+    const feedbackResult   = document.getElementById('feedbackResult');
+    const feedbackExplanation = document.getElementById('feedbackExplanation');
+    const exampleSIText    = document.getElementById('exampleSIText');
+    const nextBtn          = document.getElementById('nextBtn');
+    const nextBtnLabel     = document.getElementById('nextBtnLabel');
+    const questionArea     = document.getElementById('questionArea');
+    const scoreSummary     = document.getElementById('scoreSummary');
+    const scoreHeadline    = document.getElementById('scoreHeadline');
+    const scoreSub         = document.getElementById('scoreSub');
+    const scoreBreakdown   = document.getElementById('scoreBreakdown');
+    const restartBtn       = document.getElementById('restartBtn');
+    const downloadBtn      = document.getElementById('downloadBtn');
+    const progressText     = document.getElementById('progressText');
+    const progressFill     = document.getElementById('progressFill');
+
+    const choiceBtns = {
+      what: document.getElementById('btnWhat'),
+      why:  document.getElementById('btnWhy'),
+      how:  document.getElementById('btnHow'),
+    };
+
+    /* ── RENDER ── */
+    function renderQuestion(idx) {
+      const q = QUESTIONS[idx];
+      topicText.textContent = q.topicSentence;
+
+      Object.values(choiceBtns).forEach(btn => {
+        btn.className = 'choice-btn';
+        btn.disabled = false;
+      });
+
+      feedbackArea.hidden = true;
+      feedbackResult.textContent = '';
+      feedbackExplanation.textContent = '';
+      exampleSIText.textContent = '';
+
+      progressText.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+      progressFill.style.width = `${((idx + 1) / QUESTIONS.length) * 100}%`;
+
+      nextBtnLabel.textContent = idx < QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →';
+      state.answered = false;
+    }
+
+    /* ── CHOICE HANDLER ── */
+    Object.entries(choiceBtns).forEach(([choice, btn]) => {
+      btn.addEventListener('click', () => {
+        if (state.answered) return;
+        state.answered = true;
+
+        const q = QUESTIONS[state.current];
+        const isCorrect = choice === q.correct;
+
+        state.results.push({ q, chosen: choice, isCorrect });
+
+        Object.entries(choiceBtns).forEach(([key, b]) => {
+          b.disabled = true;
+          if (key === choice && isCorrect)  b.classList.add('selected-correct');
+          if (key === choice && !isCorrect) b.classList.add('selected-wrong');
+          if (key === q.correct && !isCorrect) b.classList.add('show-correct');
+        });
+
+        feedbackResult.textContent = isCorrect ? 'Correct!' : 'Not quite.';
+        feedbackResult.className = `feedback-result ${isCorrect ? 'correct' : 'wrong'}`;
+        feedbackExplanation.textContent = q.explanation;
+        exampleSIText.textContent = q.exampleSI;
+        feedbackArea.hidden = false;
+
+        if (!isCorrect) {
+          choiceBtns[choice].classList.add('shake');
+          choiceBtns[choice].addEventListener('animationend', () => choiceBtns[choice].classList.remove('shake'), { once: true });
+        }
+
+        feedbackArea.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      });
+    });
+
+    /* ── NEXT ── */
+    nextBtn.addEventListener('click', () => {
+      if (state.current < QUESTIONS.length - 1) {
+        state.current++;
+        renderQuestion(state.current);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    });
+
+    /* ── RESULTS ── */
+    function showResults() {
+      questionArea.hidden = true;
+      scoreSummary.hidden = false;
+
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      scoreHeadline.textContent = correct === total
+        ? 'Perfect score!'
+        : correct >= total * 0.75
+          ? `${correct} of ${total} correct — well done.`
+          : correct >= total * 0.5
+            ? `${correct} of ${total} correct — keep practicing.`
+            : `${correct} of ${total} correct — review the reference panel and try again.`;
+
+      scoreSub.textContent = `${pct}% — ${total} questions completed`;
+
+      scoreBreakdown.innerHTML = '';
+      state.results.forEach((r, i) => {
+        const row = document.createElement('div');
+        row.className = `score-row ${r.isCorrect ? 'correct' : 'wrong'}`;
+
+        row.innerHTML = `
+          <span class="score-icon">${r.isCorrect ? '✓' : '✗'}</span>
+          <span class="score-topic">${r.q.topicSentence}</span>
+          <span class="score-badge">${r.isCorrect ? LABEL_DISPLAY[r.chosen] : `${LABEL_DISPLAY[r.chosen]} → ${LABEL_DISPLAY[r.q.correct]}`}</span>
+        `;
+        scoreBreakdown.appendChild(row);
+      });
+
+      scoreSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      progressText.textContent = `Complete`;
+      progressFill.style.width = '100%';
+    }
+
+    /* ── RESTART ── */
+    restartBtn.addEventListener('click', () => {
+      state.current = 0;
+      state.answered = false;
+      state.results = [];
+      questionArea.hidden = false;
+      scoreSummary.hidden = true;
+      renderQuestion(0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── DOWNLOAD ── */
+    downloadBtn.addEventListener('click', () => {
+      const divider = '='.repeat(56);
+      const thin    = '-'.repeat(56);
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      const lines = [
+        'SUPPORTING IDEA PRACTICE — STUDENT RESULTS',
+        `Generated: ${dateStr}`,
+        '',
+        divider,
+        `OVERALL SCORE:  ${correct} / ${total}  (${pct}%)`,
+        divider,
+        '',
+      ];
+
+      state.results.forEach((r, i) => {
+        lines.push(`Q${i + 1}. ${r.isCorrect ? '[CORRECT]' : '[INCORRECT]'}`);
+        lines.push(`   Topic Sentence: "${r.q.topicSentence}"`);
+        if (r.isCorrect) {
+          lines.push(`   Answer: ${LABEL_DISPLAY[r.chosen]}`);
+        } else {
+          lines.push(`   Your answer: ${LABEL_DISPLAY[r.chosen]}   Correct: ${LABEL_DISPLAY[r.q.correct]}`);
+        }
+        lines.push(`   ${r.q.explanation}`);
+        lines.push('');
+      });
+
+      lines.push(divider);
+      lines.push('SUMMARY BY QUESTION TYPE');
+      lines.push(thin);
+      lines.push('');
+      ['what', 'why', 'how'].forEach(type => {
+        const ofType   = state.results.filter(r => r.q.correct === type);
+        const cOfType  = ofType.filter(r => r.isCorrect).length;
+        if (!ofType.length) return;
+        const typePct  = Math.round((cOfType / ofType.length) * 100);
+        const flag = typePct < 70 ? '  <-- review this type' : '';
+        lines.push(`  ${LABEL_DISPLAY[type].padEnd(10)} ${cOfType} / ${ofType.length}  (${typePct}%)${flag}`);
+      });
+      lines.push('');
+
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href     = url;
+      a.download = 'supporting-idea-results.txt';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    });
+
+    /* ── THEME ── */
+    const sunSVG  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    themeBtn.addEventListener('click', ev => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      if (document.startViewTransition) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+        document.documentElement.classList.add('vt-active');
+        const vt = document.startViewTransition(() => applyTheme(next));
+        vt.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    });
+
+    /* ── INIT ── */
+    renderQuestion(0);
+  </script>
+</body>
+</html>

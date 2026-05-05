@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Topic Sentence Practice — Austin Pack</title>
+  <meta name="description" content="An interactive EAP exercise: read a writing prompt and identify the best topic sentence." />
+  <meta name="theme-color" content="#f2ece0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif:   'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+      --ease:     cubic-bezier(.22,.61,.36,1);
+
+      --correct-color: #1e4a3a;  --correct-bg: #d4edda;
+      --wrong-color:   #8b2a2a;  --wrong-bg:   #f8d7da;
+      --neutral-color: #5a3e28;  --neutral-bg: #f0e8d8;
+    }
+    [data-theme="dark"] {
+      --paper:   #141311;  --paper-2: #1c1a17;
+      --ink:     #f2ece0;  --ink-2:   #d8d0bd;
+      --mute:    #8a8476;  --mute-2:  #5b5649;
+      --line:    #2e2b26;  --accent:  #d97c6a;
+      --hl:      #2b251a;
+
+      --correct-color: #7ecba8;  --correct-bg: #152a22;
+      --wrong-color:   #d97c6a;  --wrong-bg:   #2e1a17;
+      --neutral-color: #d4b896;  --neutral-bg: #2e2318;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--serif); font-size: 1.0625rem; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      max-width: 900px; margin: 0 auto; padding: 0 2rem;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000; opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── HEADER ── */
+    .tool-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: 1rem 2rem; margin: 0 -2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: background .4s var(--ease), border-color .3s;
+    }
+    .back-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none;
+      transition: color .2s; white-space: nowrap;
+    }
+    .back-link:hover { color: var(--accent); }
+    .tool-header-title {
+      font-family: var(--display); font-size: 1rem; font-weight: 400;
+      font-variation-settings: "opsz" 24; color: var(--ink-2);
+      flex: 1; text-align: center;
+    }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+
+    /* ── INTRO ── */
+    .tool-intro { padding: 3rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .tool-title {
+      font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400; line-height: 1.05;
+      font-variation-settings: "opsz" 80; margin-bottom: .5rem;
+    }
+    .tool-subtitle {
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--mute);
+    }
+
+    /* ── REFERENCE PANEL ── */
+    .ref-panel { margin: 2rem 0; border: 1px solid var(--line); border-left: 3px solid var(--accent); }
+    .ref-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.25rem; cursor: pointer; list-style: none; user-select: none;
+    }
+    .ref-summary::-webkit-details-marker { display: none; }
+    .ref-summary-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+    }
+    .ref-chevron { font-family: var(--mono); font-size: .7rem; color: var(--mute); transition: transform .3s var(--ease); }
+    details[open] .ref-chevron { transform: rotate(180deg); }
+    .ref-body { padding: 1rem 1.25rem 1.25rem; display: flex; flex-direction: column; gap: 1.25rem; }
+
+    .ref-section-title {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .09em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: .6rem;
+    }
+    .ref-rule-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .75rem; }
+    .ref-rule {
+      padding: .85rem 1rem; background: var(--paper-2);
+      border-top: 2px solid var(--line);
+    }
+    .ref-rule-head {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--ink); margin-bottom: .35rem;
+      display: flex; align-items: center; gap: .4rem;
+    }
+    .ref-rule-head .icon { font-size: .75rem; }
+    .ref-rule p { font-size: .87rem; line-height: 1.6; color: var(--ink-2); }
+
+    .ref-patterns { border-top: 1px solid var(--line); padding-top: 1rem; }
+    .ref-pattern-row { display: grid; gap: .3rem; padding: .75rem 0; border-bottom: 1px solid var(--line); }
+    .ref-pattern-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .ref-pattern-label {
+      font-family: var(--mono); font-size: .57rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    .ref-pattern-prompt { font-size: .85rem; color: var(--mute); font-style: italic; }
+    .ref-pattern-ts { font-size: .88rem; color: var(--ink-2); font-weight: 500; }
+
+    /* ── EXERCISE ── */
+    .exercise-area { padding-top: 2rem; padding-bottom: 4rem; }
+
+    .progress-bar-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .progress-indicator { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+    .progress-track { flex: 1; height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; background: var(--accent); transition: width .5s var(--ease); }
+
+    /* Prompt card */
+    .prompt-card {
+      border: 1px solid var(--line); border-left: 4px solid var(--accent);
+      padding: 1.4rem 1.75rem; margin-bottom: .75rem;
+      background: var(--paper-2);
+    }
+    .prompt-card-label {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: .55rem;
+      display: block;
+    }
+    .prompt-card-text {
+      font-family: var(--serif); font-size: 1.1rem; line-height: 1.75; color: var(--ink);
+    }
+
+    .question-prompt {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.1rem;
+    }
+
+    /* Option cards */
+    .options-list { display: flex; flex-direction: column; gap: .75rem; margin-bottom: .5rem; }
+
+    .option-btn {
+      border: 2px solid var(--line); background: var(--paper-2);
+      padding: 1rem 1.1rem 1rem 1rem; cursor: pointer; text-align: left;
+      display: grid; grid-template-columns: 2.25rem 1fr;
+      gap: 0 .75rem; align-items: start; width: 100%;
+      transition: border-color .2s var(--ease), background .2s var(--ease);
+      position: relative;
+    }
+    .option-btn:hover:not(:disabled) {
+      border-color: var(--accent); background: var(--hl);
+    }
+    .option-btn:disabled { cursor: not-allowed; }
+
+    .option-letter {
+      font-family: var(--display); font-size: 1.5rem; font-weight: 400;
+      font-variation-settings: "opsz" 40; line-height: 1.55;
+      color: var(--mute-2); transition: color .2s;
+      grid-row: span 2;
+      display: flex; flex-direction: column; align-items: center; gap: .3rem;
+    }
+    .option-status {
+      font-size: .85rem; line-height: 1; display: none;
+    }
+    .option-text {
+      font-family: var(--serif); font-size: 1rem; line-height: 1.7; color: var(--ink);
+      padding-top: .15rem;
+    }
+    .option-explanation {
+      font-size: .88rem; line-height: 1.65; color: var(--ink-2);
+      margin-top: .55rem; display: none;
+      border-top: 1px solid var(--line); padding-top: .55rem;
+    }
+
+    /* Answered states */
+    .option-btn.ans-correct {
+      border-color: var(--correct-color);
+      background: var(--correct-bg);
+    }
+    .option-btn.ans-correct .option-letter { color: var(--correct-color); }
+    .option-btn.ans-correct .option-status { display: block; color: var(--correct-color); }
+    .option-btn.ans-correct .option-explanation { display: block; }
+
+    .option-btn.ans-wrong {
+      border-color: var(--wrong-color);
+      background: var(--wrong-bg);
+    }
+    .option-btn.ans-wrong .option-letter { color: var(--wrong-color); }
+    .option-btn.ans-wrong .option-status { display: block; color: var(--wrong-color); }
+    .option-btn.ans-wrong .option-explanation { display: block; }
+
+    .option-btn.ans-reveal {
+      border-color: var(--correct-color);
+      background: var(--correct-bg);
+    }
+    .option-btn.ans-reveal .option-letter { color: var(--correct-color); }
+    .option-btn.ans-reveal .option-status { display: block; color: var(--correct-color); }
+    .option-btn.ans-reveal .option-explanation { display: block; }
+
+    .option-btn.ans-neutral {
+      border-color: var(--line); opacity: .7;
+    }
+    .option-btn.ans-neutral .option-explanation { display: block; }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-5px); }
+      60%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake .35s var(--ease); }
+
+    /* Result banner */
+    .result-banner {
+      font-family: var(--display); font-size: 1.3rem; font-weight: 400;
+      font-variation-settings: "opsz" 36; margin: 1.25rem 0 .5rem;
+    }
+    .result-banner.correct { color: var(--correct-color); }
+    .result-banner.wrong   { color: var(--wrong-color); }
+
+    /* Action row */
+    .action-row { display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; margin-top: 1.5rem; }
+    .action-btn {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .7rem 1.5rem; border: 1px solid var(--line);
+      background: none; color: var(--ink); cursor: pointer;
+      position: relative; overflow: hidden; transition: color .25s, border-color .25s;
+    }
+    .action-btn::before {
+      content: ''; position: absolute; inset: 0; background: var(--hl);
+      transform: translateX(-101%); transition: transform .45s var(--ease); z-index: 0;
+    }
+    .action-btn:hover::before { transform: translateX(0); }
+    .action-btn span { position: relative; z-index: 1; }
+    .action-btn--next     { margin-left: auto; }
+    .action-btn--download { border-left: 3px solid var(--correct-color); color: var(--correct-color); }
+    .action-btn:disabled { opacity: .4; cursor: not-allowed; }
+    .action-btn:disabled::before { display: none; }
+
+    /* Score summary */
+    .score-summary { border-top: 2px solid var(--accent); padding-top: 1.5rem; margin-top: 1rem; }
+    .score-headline {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 400;
+      font-variation-settings: "opsz" 40; margin-bottom: .5rem;
+    }
+    .score-sub {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.5rem;
+    }
+    .score-breakdown { display: flex; flex-direction: column; gap: 0; }
+    .score-row {
+      display: grid; grid-template-columns: 1.25rem 1fr auto;
+      gap: .5rem 1rem; padding: .8rem 0;
+      border-bottom: 1px solid var(--line); align-items: start;
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-icon { font-size: .95rem; line-height: 1.75; }
+    .score-row.correct .score-icon { color: var(--correct-color); }
+    .score-row.wrong   .score-icon { color: var(--wrong-color); }
+    .score-text { font-size: .9rem; line-height: 1.65; color: var(--ink-2); font-style: italic; }
+    .score-badge {
+      font-family: var(--mono); font-size: .55rem; letter-spacing: .07em;
+      text-transform: uppercase; white-space: nowrap; padding: .2em .55em;
+      border: 1px solid; align-self: start; margin-top: .2rem;
+    }
+    .score-row.correct .score-badge { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+    .score-row.wrong   .score-badge { color: var(--wrong-color); border-color: var(--wrong-color); background: var(--wrong-bg); }
+
+    /* Footer */
+    .tool-footer {
+      margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tool-footer-copy { font-family: var(--mono); font-size: .55rem; color: var(--mute); letter-spacing: .06em; }
+    .tool-footer-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color .2s;
+    }
+    .tool-footer-link:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      body { padding: 0 1.25rem; }
+      .tool-header { padding: 1rem 1.25rem; margin: 0 -1.25rem; }
+      .tool-header-title { display: none; }
+      .action-btn--next { margin-left: 0; width: 100%; text-align: center; }
+      .prompt-card { padding: 1.1rem 1.25rem; }
+      .option-btn { grid-template-columns: 1.75rem 1fr; gap: 0 .6rem; }
+      .option-letter { font-size: 1.2rem; }
+      .ref-rule-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="tool-header">
+    <a href="../index.html#resources" class="back-link">← Austin Pack</a>
+    <span class="tool-header-title">Topic Sentence Practice</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="tool-intro">
+      <h1 class="tool-title">Topic Sentence Practice</h1>
+      <p class="tool-subtitle">Read the writing prompt — which sentence is the best topic sentence?</p>
+    </section>
+
+    <details class="ref-panel">
+      <summary class="ref-summary">
+        <span class="ref-summary-label">Topic Sentence Guide — Reference</span>
+        <span class="ref-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="ref-body">
+
+        <div>
+          <p class="ref-section-title">What makes a strong topic sentence?</p>
+          <div class="ref-rule-grid">
+            <div class="ref-rule">
+              <div class="ref-rule-head"><span class="icon">✓</span> Uses prompt language</div>
+              <p>A strong topic sentence reflects the key words and direction of the writing prompt. If the prompt says "benefits," your TS should mention benefits.</p>
+            </div>
+            <div class="ref-rule">
+              <div class="ref-rule-head"><span class="icon">✓</span> Introduces — doesn't prove</div>
+              <p>A topic sentence states the main idea of the paragraph. It does not give specific details, examples, or evidence. Those come later.</p>
+            </div>
+            <div class="ref-rule">
+              <div class="ref-rule-head"><span class="icon">✗</span> Not too vague</div>
+              <p>Avoid sentences like "Exercise is important." This tells the reader almost nothing and gives no direction for the rest of the paragraph.</p>
+            </div>
+            <div class="ref-rule">
+              <div class="ref-rule-head"><span class="icon">✗</span> Not too specific</div>
+              <p>Avoid jumping straight into details or examples. If a sentence reads like evidence (a statistic, a specific name, a personal story), it is not a topic sentence.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ref-patterns">
+          <p class="ref-section-title">Common topic sentence patterns</p>
+          <div class="ref-pattern-row">
+            <span class="ref-pattern-label">List pattern — "There are several..."</span>
+            <span class="ref-pattern-prompt">Prompt: How might students experience culture shock?</span>
+            <span class="ref-pattern-ts">→ There are several ways students at BYU-Hawaii experience culture shock.</span>
+          </div>
+          <div class="ref-pattern-row">
+            <span class="ref-pattern-label">Reasons pattern — "...because of..."</span>
+            <span class="ref-pattern-prompt">Prompt: Why is a college degree worth the time and money?</span>
+            <span class="ref-pattern-ts">→ A college degree is worth pursuing because of the career opportunities and higher earning potential it provides.</span>
+          </div>
+          <div class="ref-pattern-row">
+            <span class="ref-pattern-label">Focus pattern — "Although there are many..., the most important is..."</span>
+            <span class="ref-pattern-prompt">Prompt: How might students experience culture shock?</span>
+            <span class="ref-pattern-ts">→ Although there are many ways students experience culture shock, perhaps the most common challenge is finding food that is affordable and familiar.</span>
+          </div>
+        </div>
+
+      </div>
+    </details>
+
+    <section class="exercise-area">
+
+      <div class="progress-bar-wrap">
+        <span class="progress-indicator" id="progressText">Question 1 of 8</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:12.5%"></div></div>
+      </div>
+
+      <div id="questionArea">
+        <div class="prompt-card">
+          <span class="prompt-card-label">Writing Prompt</span>
+          <p class="prompt-card-text" id="promptText"></p>
+        </div>
+
+        <p class="question-prompt">Which sentence is the best topic sentence for this prompt?</p>
+
+        <div class="options-list" id="optionsList"></div>
+
+        <div id="resultBanner" hidden></div>
+
+        <div class="action-row" id="nextRow" hidden>
+          <button class="action-btn action-btn--next" id="nextBtn"><span id="nextBtnLabel">Next Question →</span></button>
+        </div>
+      </div>
+
+      <div class="score-summary" id="scoreSummary" hidden>
+        <div class="score-headline" id="scoreHeadline"></div>
+        <div class="score-sub" id="scoreSub"></div>
+        <div class="score-breakdown" id="scoreBreakdown"></div>
+        <div class="action-row" style="margin-top:1.5rem;">
+          <button class="action-btn" id="restartBtn"><span>Start Over</span></button>
+          <button class="action-btn action-btn--download action-btn--next" id="downloadBtn"><span>Download Results ↓</span></button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="tool-footer">
+    <span class="tool-footer-copy">© 2026 Austin Pack</span>
+    <a href="../index.html" class="tool-footer-link">← Back to Portfolio</a>
+  </footer>
+
+  <script>
+    /* ── DATA ── */
+    const QUESTIONS = [
+      {
+        prompt: "What are some benefits of learning a second language?",
+        options: [
+          {
+            text: "Learning a second language is beneficial.",
+            correct: false,
+            explanation: "Too vague. This sentence restates the word 'beneficial' from the prompt without saying what kinds of benefits or setting up a clear paragraph structure. A reader would have no idea what to expect next."
+          },
+          {
+            text: "I learned Spanish because my grandmother only spoke that language.",
+            correct: false,
+            explanation: "Too personal and too specific. This describes one person's individual reason for learning a language. It reads like a detail or personal anecdote, not a topic sentence that introduces a general argument."
+          },
+          {
+            text: "There are several important benefits of learning a second language.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses key language from the prompt ('benefits of learning a second language') and the phrase 'several important benefits' signals that the paragraph will explain multiple benefits — giving the reader a clear direction."
+          },
+        ]
+      },
+      {
+        prompt: "How can university students manage stress during exam periods?",
+        options: [
+          {
+            text: "Stress is a problem that many university students experience at some point during their studies.",
+            correct: false,
+            explanation: "Too vague and only loosely connected to the prompt. It mentions stress but ignores the specific focus — how students can manage it during exams. 'At some point' drifts away from the prompt's 'exam periods' focus."
+          },
+          {
+            text: "There are several effective strategies that university students can use to manage stress during exam periods.",
+            correct: true,
+            explanation: "Strong topic sentence. It mirrors the key language of the prompt ('manage stress during exam periods') and signals that the paragraph will discuss strategies — matching the 'how' framing perfectly."
+          },
+          {
+            text: "Some students listen to music, go for short walks, or call their parents when they feel overwhelmed by exams.",
+            correct: false,
+            explanation: "Too specific — this reads like a detail or evidence sentence. It gives specific examples right away instead of introducing the main idea. In a paragraph, this type of sentence would come after a supporting idea sentence."
+          },
+        ]
+      },
+      {
+        prompt: "Why do some young people struggle to maintain a healthy lifestyle?",
+        options: [
+          {
+            text: "There are several reasons why some young people struggle to maintain a healthy lifestyle.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses the language of the prompt directly — 'reasons why,' 'young people,' 'maintain a healthy lifestyle' — and sets up a clear 'why' structure where each supporting idea will explain one reason."
+          },
+          {
+            text: "Young people should make better choices, eat well, and exercise every day to stay healthy.",
+            correct: false,
+            explanation: "This gives advice, not a topic sentence. The prompt asks why young people struggle, but this sentence tells them what they should do instead. A topic sentence must match the direction of the prompt."
+          },
+          {
+            text: "Many young people eat fast food several times a week and spend hours sitting in front of screens.",
+            correct: false,
+            explanation: "Too specific — this reads like evidence or a detail sentence. It describes specific behaviors without making a broader claim about why young people struggle. This type of sentence belongs later in the paragraph to support an idea."
+          },
+        ]
+      },
+      {
+        prompt: "What impact has social media had on how young people communicate with their friends?",
+        options: [
+          {
+            text: "Social media can be good or bad, and it really depends on how each person uses it.",
+            correct: false,
+            explanation: "Too vague and doesn't use the prompt's language. It mentions social media but drops the focus on 'communication' and 'friends.' The 'depends on how you use it' framing doesn't set up a clear, focused paragraph."
+          },
+          {
+            text: "Many young people now use Instagram, Snapchat, and TikTok to send messages and share photos with friends.",
+            correct: false,
+            explanation: "Too specific — this reads like a detail sentence. It lists specific apps and describes behaviors, which is the kind of evidence that would come after a supporting idea, not as the opening topic sentence."
+          },
+          {
+            text: "Social media has had a significant impact on how young people communicate with their friends.",
+            correct: true,
+            explanation: "Strong topic sentence. It closely mirrors the language of the prompt ('impact,' 'social media,' 'young people,' 'communicate with friends') and sets the reader up to expect a focused paragraph about these specific effects."
+          },
+        ]
+      },
+      {
+        prompt: "What challenges do international students face when adjusting to life in a new country?",
+        options: [
+          {
+            text: "International students face several significant challenges when adjusting to life in a new country.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses the key language of the prompt ('challenges,' 'international students,' 'new country') and the phrase 'several significant challenges' signals that multiple challenges will be discussed."
+          },
+          {
+            text: "Studying in another country can be a very difficult experience for some people.",
+            correct: false,
+            explanation: "Too vague. It doesn't use the specific language from the prompt — 'international students,' 'challenges,' and 'adjusting' are all missing. 'Difficult experience for some people' gives very little direction for the paragraph."
+          },
+          {
+            text: "One challenge is that international students often feel lonely because they are far from their families.",
+            correct: false,
+            explanation: "Too specific — this is a supporting idea sentence, not a topic sentence. The phrase 'one challenge' signals that it is introducing one particular point, not setting up the whole paragraph. This sentence should come after the topic sentence."
+          },
+        ]
+      },
+      {
+        prompt: "How does getting regular exercise affect a person's mental health?",
+        options: [
+          {
+            text: "Exercise is very important for everyone's overall health and well-being.",
+            correct: false,
+            explanation: "Too vague and doesn't match the prompt closely. The prompt is specifically about mental health, but this sentence just says exercise is good for 'overall health.' It also doesn't signal a clear paragraph structure."
+          },
+          {
+            text: "After I started running three times a week, I noticed that I felt much less anxious during the day.",
+            correct: false,
+            explanation: "Too personal and too specific. This describes one person's individual experience, which would work well as a supporting example or detail — not as a topic sentence that makes a general claim about exercise and mental health."
+          },
+          {
+            text: "Regular exercise affects a person's mental health in several important ways.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses the language of the prompt ('regular exercise,' 'mental health') and the phrase 'in several important ways' signals that the paragraph will explain how — directly matching the 'how' framing of the prompt."
+          },
+        ]
+      },
+      {
+        prompt: "Compare the advantages of living on campus with the advantages of living off campus for university students.",
+        options: [
+          {
+            text: "Many students prefer to live on campus because it is more convenient and they feel safer there.",
+            correct: false,
+            explanation: "This only addresses one side of the comparison and takes a personal-preference stance. The prompt asks to compare both sides, so the topic sentence should introduce both living on campus and off campus."
+          },
+          {
+            text: "Both living on campus and living off campus offer distinct advantages for university students.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses key language from the prompt ('living on campus,' 'off campus,' 'advantages,' 'university students') and sets up a balanced comparison by acknowledging both sides — exactly what the prompt asks for."
+          },
+          {
+            text: "On-campus housing typically costs around $700–$1,000 per month, while off-campus apartments can sometimes be cheaper.",
+            correct: false,
+            explanation: "Too specific — this reads like a detail or evidence sentence. Topic sentences introduce a main idea; they do not jump straight into specific numbers or direct comparisons between two options."
+          },
+        ]
+      },
+      {
+        prompt: "Why is it important for university students to develop strong time management skills?",
+        options: [
+          {
+            text: "Time management means planning how to use your time wisely so that you can meet your deadlines and achieve your goals.",
+            correct: false,
+            explanation: "This defines time management rather than arguing why it is important for students. It reads like the opening of a definition paragraph, not a response to a 'why' prompt. The word 'important' from the prompt is never addressed."
+          },
+          {
+            text: "There are several important reasons why developing strong time management skills is essential for university students.",
+            correct: true,
+            explanation: "Strong topic sentence. It uses the language of the prompt directly — 'reasons why,' 'time management,' 'university students' — and the phrase 'several important reasons' sets up a 'why' structure where each supporting idea will explain one reason."
+          },
+          {
+            text: "University students often feel overwhelmed by assignments, part-time jobs, and social activities all at the same time.",
+            correct: false,
+            explanation: "This describes the problem students face, but it doesn't answer why time management is important. It reads like background context or a supporting detail. It also doesn't use the key term 'time management' from the prompt."
+          },
+        ]
+      },
+    ];
+
+    /* ── STATE ── */
+    const state = { current: 0, answered: false, results: [] };
+
+    /* ── DOM ── */
+    const promptText    = document.getElementById('promptText');
+    const optionsList   = document.getElementById('optionsList');
+    const resultBanner  = document.getElementById('resultBanner');
+    const nextRow       = document.getElementById('nextRow');
+    const nextBtn       = document.getElementById('nextBtn');
+    const nextBtnLabel  = document.getElementById('nextBtnLabel');
+    const questionArea  = document.getElementById('questionArea');
+    const scoreSummary  = document.getElementById('scoreSummary');
+    const scoreHeadline = document.getElementById('scoreHeadline');
+    const scoreSub      = document.getElementById('scoreSub');
+    const scoreBreakdown = document.getElementById('scoreBreakdown');
+    const restartBtn    = document.getElementById('restartBtn');
+    const downloadBtn   = document.getElementById('downloadBtn');
+    const progressText  = document.getElementById('progressText');
+    const progressFill  = document.getElementById('progressFill');
+
+    const LETTERS = ['A', 'B', 'C'];
+
+    /* ── RENDER ── */
+    function renderQuestion(idx) {
+      const q = QUESTIONS[idx];
+      promptText.textContent = q.prompt;
+      optionsList.innerHTML = '';
+
+      q.options.forEach((opt, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.dataset.index = i;
+        btn.innerHTML = `
+          <span class="option-letter">
+            ${LETTERS[i]}
+            <span class="option-status" aria-hidden="true"></span>
+          </span>
+          <span class="option-text">${opt.text}</span>
+          <span class="option-explanation">${opt.explanation}</span>
+        `;
+        btn.addEventListener('click', () => handleChoice(i));
+        optionsList.appendChild(btn);
+      });
+
+      resultBanner.hidden = true;
+      resultBanner.textContent = '';
+      resultBanner.className = 'result-banner';
+      nextRow.hidden = true;
+
+      progressText.textContent = `Question ${idx + 1} of ${QUESTIONS.length}`;
+      progressFill.style.width = `${((idx + 1) / QUESTIONS.length) * 100}%`;
+      nextBtnLabel.textContent = idx < QUESTIONS.length - 1 ? 'Next Question →' : 'See Results →';
+      state.answered = false;
+    }
+
+    /* ── CHOICE HANDLER ── */
+    function handleChoice(chosenIdx) {
+      if (state.answered) return;
+      state.answered = true;
+
+      const q = QUESTIONS[state.current];
+      const isCorrect = q.options[chosenIdx].correct;
+
+      state.results.push({ q, chosenIdx, isCorrect });
+
+      const btns = optionsList.querySelectorAll('.option-btn');
+      btns.forEach((btn, i) => {
+        btn.disabled = true;
+        const status = btn.querySelector('.option-status');
+        const opt = q.options[i];
+
+        if (i === chosenIdx && isCorrect) {
+          btn.classList.add('ans-correct');
+          status.textContent = '✓';
+        } else if (i === chosenIdx && !isCorrect) {
+          btn.classList.add('ans-wrong');
+          status.textContent = '✗';
+        } else if (opt.correct) {
+          btn.classList.add('ans-reveal');
+          status.textContent = '✓';
+        } else {
+          btn.classList.add('ans-neutral');
+        }
+      });
+
+      resultBanner.hidden = false;
+      resultBanner.textContent = isCorrect ? 'Correct!' : 'Not quite — see the explanations below.';
+      resultBanner.className = `result-banner ${isCorrect ? 'correct' : 'wrong'}`;
+
+      if (!isCorrect) {
+        const wrongBtn = btns[chosenIdx];
+        wrongBtn.classList.add('shake');
+        wrongBtn.addEventListener('animationend', () => wrongBtn.classList.remove('shake'), { once: true });
+      }
+
+      nextRow.hidden = false;
+      resultBanner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    /* ── NEXT ── */
+    nextBtn.addEventListener('click', () => {
+      if (state.current < QUESTIONS.length - 1) {
+        state.current++;
+        renderQuestion(state.current);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    });
+
+    /* ── RESULTS ── */
+    function showResults() {
+      questionArea.hidden = true;
+      scoreSummary.hidden = false;
+
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      scoreHeadline.textContent = correct === total
+        ? 'Perfect score!'
+        : correct >= Math.ceil(total * 0.75)
+          ? `${correct} of ${total} correct — well done.`
+          : correct >= Math.ceil(total * 0.5)
+            ? `${correct} of ${total} correct — keep practicing.`
+            : `${correct} of ${total} correct — review the guide and try again.`;
+
+      scoreSub.textContent = `${pct}% — ${total} questions completed`;
+
+      scoreBreakdown.innerHTML = '';
+      state.results.forEach(r => {
+        const row = document.createElement('div');
+        row.className = `score-row ${r.isCorrect ? 'correct' : 'wrong'}`;
+        const chosenLetter = LETTERS[r.chosenIdx];
+        const correctLetter = LETTERS[r.q.options.findIndex(o => o.correct)];
+        const badge = r.isCorrect
+          ? `${chosenLetter} — correct`
+          : `chose ${chosenLetter}, answer: ${correctLetter}`;
+
+        row.innerHTML = `
+          <span class="score-icon">${r.isCorrect ? '✓' : '✗'}</span>
+          <span class="score-text">${r.q.prompt}</span>
+          <span class="score-badge">${badge}</span>
+        `;
+        scoreBreakdown.appendChild(row);
+      });
+
+      progressText.textContent = 'Complete';
+      progressFill.style.width = '100%';
+      scoreSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── RESTART ── */
+    restartBtn.addEventListener('click', () => {
+      state.current = 0;
+      state.answered = false;
+      state.results = [];
+      questionArea.hidden = false;
+      scoreSummary.hidden = true;
+      renderQuestion(0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── DOWNLOAD ── */
+    downloadBtn.addEventListener('click', () => {
+      const divider = '='.repeat(56);
+      const thin    = '-'.repeat(56);
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const total   = state.results.length;
+      const correct = state.results.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      const lines = [
+        'TOPIC SENTENCE PRACTICE — STUDENT RESULTS',
+        `Generated: ${dateStr}`,
+        '',
+        divider,
+        `OVERALL SCORE:  ${correct} / ${total}  (${pct}%)`,
+        divider,
+        '',
+      ];
+
+      state.results.forEach((r, i) => {
+        const chosenLetter  = LETTERS[r.chosenIdx];
+        const correctLetter = LETTERS[r.q.options.findIndex(o => o.correct)];
+        lines.push(`Q${i + 1}. ${r.isCorrect ? '[CORRECT]' : '[INCORRECT]'}`);
+        lines.push(`   Prompt: "${r.q.prompt}"`);
+        if (r.isCorrect) {
+          lines.push(`   Answer: ${chosenLetter} — ${r.q.options[r.chosenIdx].text}`);
+        } else {
+          lines.push(`   Chose:  ${chosenLetter} — ${r.q.options[r.chosenIdx].text}`);
+          lines.push(`   Correct: ${correctLetter} — ${r.q.options.find(o => o.correct).text}`);
+          lines.push(`   Why: ${r.q.options.find(o => o.correct).explanation}`);
+        }
+        lines.push('');
+      });
+
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = 'topic-sentence-results.txt';
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+    });
+
+    /* ── THEME ── */
+    const sunSVG  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    themeBtn.addEventListener('click', ev => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      if (document.startViewTransition) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+        document.documentElement.classList.add('vt-active');
+        const vt = document.startViewTransition(() => applyTheme(next));
+        vt.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    });
+
+    /* ── INIT ── */
+    renderQuestion(0);
+  </script>
+</body>
+</html>
