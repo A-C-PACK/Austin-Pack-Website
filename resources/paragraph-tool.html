@@ -736,12 +736,34 @@
       document.addEventListener('pointercancel', cancelDrag);
     }
 
+    const SCROLL_ZONE = 80;
+    const SCROLL_SPEED = 12;
+
+    function edgeScroll() {
+      if (!drag || !drag.scrollSpeed) { drag && (drag.scrollRaf = null); return; }
+      window.scrollBy(0, drag.scrollSpeed);
+      drag.scrollRaf = requestAnimationFrame(edgeScroll);
+    }
+
     function moveDrag(e) {
       if (!drag) return;
       e.preventDefault();
 
       drag.ghost.style.left = (e.clientX - drag.offsetX) + 'px';
       drag.ghost.style.top  = (e.clientY - drag.offsetY) + 'px';
+
+      const vy = e.clientY;
+      const vh = window.innerHeight;
+      if (vy < SCROLL_ZONE) {
+        drag.scrollSpeed = -SCROLL_SPEED * (1 - vy / SCROLL_ZONE);
+      } else if (vy > vh - SCROLL_ZONE) {
+        drag.scrollSpeed = SCROLL_SPEED * (1 - (vh - vy) / SCROLL_ZONE);
+      } else {
+        drag.scrollSpeed = 0;
+      }
+      if (drag.scrollSpeed && !drag.scrollRaf) {
+        drag.scrollRaf = requestAnimationFrame(edgeScroll);
+      }
 
       const el = document.elementFromPoint(e.clientX, e.clientY);
       clearOver();
@@ -771,6 +793,7 @@
 
       card.classList.remove('dragging');
       ghost.remove();
+      if (drag.scrollRaf) cancelAnimationFrame(drag.scrollRaf);
       drag = null;
 
       updateBankHint();
@@ -786,6 +809,7 @@
       drag.origin.appendChild(drag.card);
       drag.card.classList.remove('dragging');
       drag.ghost.remove();
+      if (drag.scrollRaf) cancelAnimationFrame(drag.scrollRaf);
       clearOver();
       drag = null;
       updateBankHint();
