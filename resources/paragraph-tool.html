@@ -741,7 +741,7 @@
 
     function edgeScroll() {
       if (!drag || !drag.scrollSpeed) { drag && (drag.scrollRaf = null); return; }
-      window.scrollBy(0, drag.scrollSpeed);
+      document.documentElement.scrollTop += drag.scrollSpeed;
       drag.scrollRaf = requestAnimationFrame(edgeScroll);
     }
 
