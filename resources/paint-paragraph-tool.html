@@ -1,0 +1,943 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paint the Paragraph — Austin Pack</title>
+  <meta name="description" content="An interactive EAP exercise: paint each sentence with its function — topic sentence, supporting idea, detail, or conclusion." />
+  <meta name="theme-color" content="#f2ece0" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --paper:   #f2ece0;
+      --paper-2: #ebe3d1;
+      --ink:     #141311;
+      --ink-2:   #2a2824;
+      --mute:    #7a756b;
+      --mute-2:  #a8a294;
+      --line:    #d6ceba;
+      --accent:  #8b2a2a;
+      --hl:      #e3d9bf;
+
+      --serif:   'EB Garamond', Georgia, serif;
+      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
+      --mono:    'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
+      --ease:     cubic-bezier(.22,.61,.36,1);
+
+      --label-topic:           #5a3e28;  --label-topic-bg:      #f0e8d8;
+      --label-support:         #1e4a3a;  --label-support-bg:    #dff0e8;
+      --label-detail:          #2a3d6b;  --label-detail-bg:     #dce6f5;
+      --label-conclusion:      #5c2e6b;  --label-conclusion-bg: #ecdff5;
+      --correct-color: #1e4a3a;  --correct-bg: #d4edda;
+      --wrong-color:   #8b2a2a;  --wrong-bg:   #f8d7da;
+    }
+    [data-theme="dark"] {
+      --paper:   #141311;  --paper-2: #1c1a17;
+      --ink:     #f2ece0;  --ink-2:   #d8d0bd;
+      --mute:    #8a8476;  --mute-2:  #5b5649;
+      --line:    #2e2b26;  --accent:  #d97c6a;
+      --hl:      #2b251a;
+
+      --label-topic:      #d4b896;  --label-topic-bg:      #2e2318;
+      --label-support:    #7ecba8;  --label-support-bg:    #152a22;
+      --label-detail:     #7aaed6;  --label-detail-bg:     #162036;
+      --label-conclusion: #c49de0;  --label-conclusion-bg: #251535;
+      --correct-color: #7ecba8;  --correct-bg: #152a22;
+      --wrong-color:   #d97c6a;  --wrong-bg:   #2e1a17;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      background: var(--paper); color: var(--ink);
+      font-family: var(--serif); font-size: 1.0625rem; line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+      max-width: 900px; margin: 0 auto; padding: 0 2rem;
+      transition: background .4s var(--ease), color .4s var(--ease);
+    }
+    body::before {
+      content: ''; position: fixed; inset: 0;
+      pointer-events: none; z-index: 1000; opacity: .3;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      mix-blend-mode: multiply;
+    }
+    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
+
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    ::view-transition-old(root) { z-index: 1; }
+    ::view-transition-new(root) { z-index: 2; }
+    @keyframes vt-clip-in {
+      from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
+      to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
+    }
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+    ::selection { background: var(--accent); color: var(--paper); }
+
+    /* ── HEADER ── */
+    .tool-header {
+      position: sticky; top: 0; z-index: 50;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: 1rem 2rem; margin: 0 -2rem;
+      display: flex; align-items: center; gap: 1rem;
+      transition: background .4s var(--ease), border-color .3s;
+    }
+    .back-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none;
+      transition: color .2s; white-space: nowrap;
+    }
+    .back-link:hover { color: var(--accent); }
+    .tool-header-title {
+      font-family: var(--display); font-size: 1rem; font-weight: 400;
+      font-variation-settings: "opsz" 24; color: var(--ink-2);
+      flex: 1; text-align: center;
+    }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); padding: 0;
+      display: inline-flex; align-items: center; gap: .45rem;
+      transition: color .2s; white-space: nowrap;
+    }
+    .theme-btn:hover { color: var(--ink); }
+    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+
+    /* ── INTRO ── */
+    .tool-intro { padding: 3rem 0 2rem; border-bottom: 1px solid var(--line); }
+    .tool-title {
+      font-family: var(--display); font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 400; line-height: 1.05;
+      font-variation-settings: "opsz" 80; margin-bottom: .5rem;
+    }
+    .tool-subtitle {
+      font-family: var(--mono); font-size: .68rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--mute);
+    }
+
+    /* ── REFERENCE PANEL ── */
+    .ref-panel { margin: 2rem 0; border: 1px solid var(--line); border-left: 3px solid var(--accent); }
+    .ref-summary {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .9rem 1.25rem; cursor: pointer; list-style: none; user-select: none;
+    }
+    .ref-summary::-webkit-details-marker { display: none; }
+    .ref-summary-label {
+      font-family: var(--mono); font-size: .65rem;
+      letter-spacing: .1em; text-transform: uppercase; color: var(--ink);
+    }
+    .ref-chevron { font-family: var(--mono); font-size: .7rem; color: var(--mute); transition: transform .3s var(--ease); }
+    details[open] .ref-chevron { transform: rotate(180deg); }
+    .ref-body { padding: 1rem 1.25rem 1.25rem; }
+    .ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(195px, 1fr)); gap: 1rem; }
+    .ref-item { padding: .85rem 1rem; border-top: 2px solid transparent; background: var(--paper-2); }
+    .ref-item--topic      { border-top-color: var(--label-topic); }
+    .ref-item--support    { border-top-color: var(--label-support); }
+    .ref-item--detail     { border-top-color: var(--label-detail); }
+    .ref-item--conclusion { border-top-color: var(--label-conclusion); }
+    .ref-tag { display: block; font-family: var(--mono); font-size: .57rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .45rem; }
+    .ref-item--topic      .ref-tag { color: var(--label-topic); }
+    .ref-item--support    .ref-tag { color: var(--label-support); }
+    .ref-item--detail     .ref-tag { color: var(--label-detail); }
+    .ref-item--conclusion .ref-tag { color: var(--label-conclusion); }
+    .ref-desc { font-size: .88rem; line-height: 1.6; color: var(--ink-2); }
+
+    /* ── EXERCISE ── */
+    .exercise-area { padding-top: 2rem; padding-bottom: 4rem; }
+
+    .progress-bar-wrap { display: flex; align-items: center; gap: 1rem; margin-bottom: 2rem; }
+    .progress-indicator { font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mute); white-space: nowrap; }
+    .progress-track { flex: 1; height: 2px; background: var(--line); }
+    .progress-fill { height: 100%; background: var(--accent); transition: width .5s var(--ease); }
+
+    /* ── PALETTE BAR ── */
+    .palette-bar {
+      position: sticky; top: 61px; z-index: 40;
+      background: var(--paper); border-bottom: 1px solid var(--line);
+      padding: .65rem 2rem; margin: 0 -2rem 1.75rem;
+      display: flex; gap: .5rem; flex-wrap: wrap; align-items: center;
+      transition: background .4s var(--ease);
+    }
+    .palette-hint {
+      font-family: var(--mono); font-size: .58rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute-2); margin-right: .25rem;
+    }
+    .swatch {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .45rem .85rem; border: 2px solid var(--line);
+      background: var(--paper-2); cursor: pointer;
+      transition: border-color .2s var(--ease), background .2s var(--ease), transform .15s;
+      user-select: none;
+    }
+    .swatch:hover { transform: translateY(-1px); }
+    .swatch.is-active { transform: translateY(-2px); box-shadow: 0 3px 8px rgba(0,0,0,.12); }
+
+    .swatch[data-role="ts"]  .swatch-dot { background: var(--label-topic); }
+    .swatch[data-role="si"]  .swatch-dot { background: var(--label-support); }
+    .swatch[data-role="det"] .swatch-dot { background: var(--label-detail); }
+    .swatch[data-role="conc"].swatch-dot { background: var(--label-conclusion); }
+
+    .swatch[data-role="ts"].is-active   { border-color: var(--label-topic);      background: var(--label-topic-bg); }
+    .swatch[data-role="si"].is-active   { border-color: var(--label-support);    background: var(--label-support-bg); }
+    .swatch[data-role="det"].is-active  { border-color: var(--label-detail);     background: var(--label-detail-bg); }
+    .swatch[data-role="conc"].is-active { border-color: var(--label-conclusion); background: var(--label-conclusion-bg); }
+
+    .swatch[data-role="ts"]:hover   { border-color: var(--label-topic); }
+    .swatch[data-role="si"]:hover   { border-color: var(--label-support); }
+    .swatch[data-role="det"]:hover  { border-color: var(--label-detail); }
+    .swatch[data-role="conc"]:hover { border-color: var(--label-conclusion); }
+
+    .swatch-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .swatch-label { font-family: var(--mono); font-size: .57rem; letter-spacing: .07em; text-transform: uppercase; color: var(--ink); }
+
+    /* ── PARAGRAPH BLOCK ── */
+    .para-label {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1rem;
+    }
+    .sentences-list { display: flex; flex-direction: column; gap: .5rem; }
+
+    .sentence-block {
+      display: flex; align-items: flex-start; gap: .75rem;
+      padding: .9rem 1.1rem; border: 1px solid var(--line);
+      border-left: 4px solid transparent;
+      background: var(--paper-2);
+      transition: border-left-color .25s var(--ease), background .25s var(--ease), border-color .2s;
+      position: relative;
+    }
+    .sentence-block.is-paintable { cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23141311' stroke-width='2'%3E%3Cpath d='M18.37 2.63 14 7l-1.59-1.59a2 2 0 0 0-2.82 0L8 7l9 9 1.59-1.59a2 2 0 0 0 0-2.82L17 10l4.37-4.37a2.12 2.12 0 0 0-3-3Z'/%3E%3Cpath d='M9 8c-2 3-4 3.5-7 4l8 10c2-1 6-5 6-7'/%3E%3C/svg%3E") 0 20, crosshair; }
+    .sentence-block.is-paintable:hover { border-color: var(--mute-2); }
+
+    /* painted states */
+    .sentence-block[data-paint="ts"]   { border-left-color: var(--label-topic);      background: var(--label-topic-bg); }
+    .sentence-block[data-paint="si"]   { border-left-color: var(--label-support);    background: var(--label-support-bg); }
+    .sentence-block[data-paint="det"]  { border-left-color: var(--label-detail);     background: var(--label-detail-bg); }
+    .sentence-block[data-paint="conc"] { border-left-color: var(--label-conclusion); background: var(--label-conclusion-bg); }
+
+    /* checked states */
+    .sentence-block.checked-correct { border-left-width: 4px; outline: 2px solid var(--correct-color); outline-offset: -1px; }
+    .sentence-block.checked-wrong   { border-left-color: var(--wrong-color) !important; background: var(--wrong-bg) !important; outline: 2px solid var(--wrong-color); outline-offset: -1px; }
+
+    .sentence-text { font-family: var(--serif); font-size: 1rem; line-height: 1.75; flex: 1; }
+
+    .sentence-meta { display: flex; flex-direction: column; align-items: flex-end; gap: .3rem; flex-shrink: 0; }
+
+    .sentence-badge {
+      font-family: var(--mono); font-size: .52rem; letter-spacing: .07em;
+      text-transform: uppercase; padding: .15em .55em; border: 1px solid; white-space: nowrap;
+    }
+    .sentence-block[data-paint="ts"]   .sentence-badge--paint { color: var(--label-topic);      border-color: var(--label-topic);      background: var(--label-topic-bg); }
+    .sentence-block[data-paint="si"]   .sentence-badge--paint { color: var(--label-support);    border-color: var(--label-support);    background: var(--label-support-bg); }
+    .sentence-block[data-paint="det"]  .sentence-badge--paint { color: var(--label-detail);     border-color: var(--label-detail);     background: var(--label-detail-bg); }
+    .sentence-block[data-paint="conc"] .sentence-badge--paint { color: var(--label-conclusion); border-color: var(--label-conclusion); background: var(--label-conclusion-bg); }
+
+    .sentence-badge--correct { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+    .sentence-badge--wrong   { color: var(--wrong-color);   border-color: var(--wrong-color);   background: var(--wrong-bg); }
+    .sentence-badge--answer  { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+
+    .sentence-icon { font-size: .85rem; line-height: 1; flex-shrink: 0; }
+    .sentence-icon--correct { color: var(--correct-color); }
+    .sentence-icon--wrong   { color: var(--wrong-color); }
+
+    /* ── CONTROLS ── */
+    .controls-row {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 1.5rem; flex-wrap: wrap; gap: .75rem;
+    }
+    .paint-count {
+      font-family: var(--mono); font-size: .62rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute);
+    }
+    .paint-count strong { color: var(--ink); }
+
+    .action-btn {
+      font-family: var(--mono); font-size: .65rem; letter-spacing: .1em; text-transform: uppercase;
+      padding: .7rem 1.5rem; border: 1px solid var(--line);
+      background: none; color: var(--ink); cursor: pointer;
+      position: relative; overflow: hidden; transition: color .25s, border-color .25s;
+    }
+    .action-btn::before {
+      content: ''; position: absolute; inset: 0; background: var(--hl);
+      transform: translateX(-101%); transition: transform .45s var(--ease); z-index: 0;
+    }
+    .action-btn:hover:not(:disabled)::before { transform: translateX(0); }
+    .action-btn span { position: relative; z-index: 1; }
+    .action-btn:disabled { opacity: .35; cursor: not-allowed; }
+    .action-btn:disabled::before { display: none; }
+    .action-btn--primary { border-left: 3px solid var(--accent); color: var(--accent); }
+    .action-btn--next    { border-left: 3px solid var(--label-support); color: var(--label-support); }
+
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      20%      { transform: translateX(-5px); }
+      60%      { transform: translateX(5px); }
+    }
+    .shake { animation: shake .35s var(--ease); }
+
+    @keyframes pop-in {
+      from { transform: scale(.85); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+    .pop-in { animation: pop-in .2s var(--ease) forwards; }
+
+    /* ── FEEDBACK BAND ── */
+    .feedback-band {
+      border-top: 2px solid var(--accent); padding-top: 1.25rem; margin-top: 1.75rem;
+    }
+    .feedback-headline {
+      font-family: var(--display); font-size: 1.4rem; font-weight: 400;
+      font-variation-settings: "opsz" 36; margin-bottom: .3rem;
+    }
+    .feedback-headline.perfect { color: var(--correct-color); }
+    .feedback-headline.partial { color: var(--ink); }
+    .feedback-sub { font-family: var(--mono); font-size: .62rem; letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin-bottom: 1.25rem; }
+    .feedback-actions { display: flex; gap: .75rem; flex-wrap: wrap; }
+
+    /* ── SCORE SUMMARY ── */
+    .score-summary { border-top: 2px solid var(--accent); padding-top: 1.5rem; margin-top: 1rem; }
+    .score-headline {
+      font-family: var(--display); font-size: 1.6rem; font-weight: 400;
+      font-variation-settings: "opsz" 40; margin-bottom: .5rem;
+    }
+    .score-sub {
+      font-family: var(--mono); font-size: .64rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--mute); margin-bottom: 1.5rem;
+    }
+    .score-breakdown { display: flex; flex-direction: column; }
+    .score-row {
+      display: grid; grid-template-columns: 1.25rem 1fr auto;
+      gap: .5rem 1rem; padding: .8rem 0;
+      border-bottom: 1px solid var(--line); align-items: start;
+    }
+    .score-row:last-child { border-bottom: none; }
+    .score-icon { font-size: .95rem; line-height: 1.75; }
+    .score-row.correct .score-icon { color: var(--correct-color); }
+    .score-row.wrong   .score-icon { color: var(--wrong-color); }
+    .score-text { font-size: .9rem; line-height: 1.65; color: var(--ink-2); font-style: italic; }
+    .score-badge {
+      font-family: var(--mono); font-size: .55rem; letter-spacing: .07em;
+      text-transform: uppercase; white-space: nowrap; padding: .2em .55em;
+      border: 1px solid; align-self: start; margin-top: .2rem;
+    }
+    .score-row.correct .score-badge { color: var(--correct-color); border-color: var(--correct-color); background: var(--correct-bg); }
+    .score-row.wrong   .score-badge { color: var(--wrong-color);   border-color: var(--wrong-color);   background: var(--wrong-bg); }
+
+    /* ── NAME FIELD ── */
+    .name-field-wrap {
+      margin-bottom: 1.5rem; padding: .9rem 1.25rem;
+      border: 1px solid var(--line); background: var(--paper-2);
+    }
+    .name-field-label {
+      display: block; font-family: var(--mono); font-size: .6rem;
+      letter-spacing: .08em; text-transform: uppercase; color: var(--mute); margin-bottom: .5rem;
+    }
+    .name-field-input {
+      width: 100%; background: transparent; border: none;
+      border-bottom: 1px solid var(--line);
+      padding: .3rem 0; font-family: var(--serif); font-size: 1rem; color: var(--ink);
+      outline: none; transition: border-color .2s;
+    }
+    .name-field-input:focus { border-bottom-color: var(--accent); }
+    .name-field-input::placeholder { color: var(--mute-2); font-style: italic; }
+    .action-btn--download { border-left: 3px solid var(--label-support); color: var(--label-support); }
+
+    /* ── FOOTER ── */
+    .tool-footer {
+      margin-top: 2rem; padding: 1.5rem 0; border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tool-footer-copy { font-family: var(--mono); font-size: .55rem; color: var(--mute); letter-spacing: .06em; }
+    .tool-footer-link {
+      font-family: var(--mono); font-size: .6rem; letter-spacing: .1em;
+      text-transform: uppercase; color: var(--mute); text-decoration: none; transition: color .2s;
+    }
+    .tool-footer-link:hover { color: var(--accent); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      body { padding: 0 1.25rem; }
+      .tool-header { padding: 1rem 1.25rem; margin: 0 -1.25rem; }
+      .tool-header-title { display: none; }
+      .palette-bar { padding: .65rem 1.25rem; margin: 0 -1.25rem 1.5rem; gap: .4rem; }
+      .palette-hint { display: none; }
+      .swatch { padding: .4rem .7rem; }
+      .swatch-label { font-size: .54rem; }
+      .ref-grid { grid-template-columns: 1fr 1fr; }
+      .sentence-block { padding: .8rem .9rem; }
+    }
+    @media (max-width: 420px) {
+      .ref-grid { grid-template-columns: 1fr; }
+      .swatch-label { display: none; }
+      .swatch { padding: .45rem .6rem; }
+      .swatch-dot { width: 12px; height: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="tool-header">
+    <a href="../index.html#resources" class="back-link">← Austin Pack</a>
+    <span class="tool-header-title">Paint the Paragraph</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+      </svg>
+      <span id="themeLabel">Dark mode</span>
+    </button>
+  </header>
+
+  <main>
+
+    <section class="tool-intro">
+      <h1 class="tool-title">Paint the Paragraph</h1>
+      <p class="tool-subtitle">Select a color — then click each sentence to label its function.</p>
+    </section>
+
+    <details class="ref-panel">
+      <summary class="ref-summary">
+        <span class="ref-summary-label">Sentence Functions — Reference</span>
+        <span class="ref-chevron" aria-hidden="true">▾</span>
+      </summary>
+      <div class="ref-body">
+        <div class="ref-grid">
+          <div class="ref-item ref-item--topic">
+            <span class="ref-tag">Topic Sentence</span>
+            <p class="ref-desc">Introduces the paragraph's main idea. States the topic and a controlling idea. Usually the first sentence.</p>
+          </div>
+          <div class="ref-item ref-item--support">
+            <span class="ref-tag">Supporting Idea</span>
+            <p class="ref-desc">Introduces one reason, benefit, challenge, or point that develops the topic sentence. Does not include evidence yet.</p>
+          </div>
+          <div class="ref-item ref-item--detail">
+            <span class="ref-tag">Detail</span>
+            <p class="ref-desc">Provides specific evidence for the supporting idea above it: a fact, statistic, example, or explanation.</p>
+          </div>
+          <div class="ref-item ref-item--conclusion">
+            <span class="ref-tag">Conclusion</span>
+            <p class="ref-desc">Closes the paragraph by restating the main idea in new words and signaling the end of the argument.</p>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <section class="exercise-area" id="exerciseArea">
+
+      <div class="progress-bar-wrap">
+        <span class="progress-indicator" id="progressText">Paragraph 1 of 5</span>
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:20%"></div></div>
+      </div>
+
+      <div id="questionArea">
+
+        <!-- Sticky palette -->
+        <div class="palette-bar" id="paletteBar" role="group" aria-label="Paint colors">
+          <span class="palette-hint">Paint:</span>
+          <button class="swatch" data-role="ts" aria-pressed="false">
+            <span class="swatch-dot"></span>
+            <span class="swatch-label">Topic Sentence</span>
+          </button>
+          <button class="swatch" data-role="si" aria-pressed="false">
+            <span class="swatch-dot"></span>
+            <span class="swatch-label">Supporting Idea</span>
+          </button>
+          <button class="swatch" data-role="det" aria-pressed="false">
+            <span class="swatch-dot"></span>
+            <span class="swatch-label">Detail</span>
+          </button>
+          <button class="swatch" data-role="conc" aria-pressed="false">
+            <span class="swatch-dot"></span>
+            <span class="swatch-label">Conclusion</span>
+          </button>
+        </div>
+
+        <p class="para-label" id="paraLabel"></p>
+        <div class="sentences-list" id="sentencesList"></div>
+
+        <div class="controls-row">
+          <span class="paint-count" id="paintCount"><strong>0</strong> of 0 labeled</span>
+          <button class="action-btn action-btn--primary" id="checkBtn" disabled>
+            <span>Check Answers</span>
+          </button>
+        </div>
+
+        <div class="feedback-band" id="feedbackBand" hidden>
+          <div class="feedback-headline" id="feedbackHeadline"></div>
+          <div class="feedback-sub" id="feedbackSub"></div>
+          <div class="feedback-actions">
+            <button class="action-btn" id="retryBtn"><span>Try Again</span></button>
+            <button class="action-btn action-btn--next" id="nextBtn"><span id="nextBtnLabel">Next Paragraph →</span></button>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="score-summary" id="scoreSummary" hidden>
+        <div class="score-headline" id="scoreHeadline"></div>
+        <div class="score-sub" id="scoreSub"></div>
+        <div class="name-field-wrap">
+          <label class="name-field-label" for="studentName">Your name (for the report)</label>
+          <input class="name-field-input" type="text" id="studentName" placeholder="e.g. Maria Chen" autocomplete="name" />
+        </div>
+        <div class="score-breakdown" id="scoreBreakdown"></div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-top:1.5rem;">
+          <button class="action-btn" id="restartBtn"><span>Start Over</span></button>
+          <button class="action-btn action-btn--download" id="downloadBtn"><span>Download Report ↓</span></button>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="tool-footer">
+    <span class="tool-footer-copy">© 2026 Austin Pack</span>
+    <a href="../index.html" class="tool-footer-link">← Back to Portfolio</a>
+  </footer>
+
+  <script>
+    /* ── DATA ── */
+    const ROLES = {
+      ts:   { label: 'Topic Sentence',  short: 'TS',   css: 'topic' },
+      si:   { label: 'Supporting Idea', short: 'SI',   css: 'support' },
+      det:  { label: 'Detail',          short: 'Det',  css: 'detail' },
+      conc: { label: 'Conclusion',      short: 'Conc', css: 'conclusion' },
+    };
+
+    const PARAGRAPHS = [
+      {
+        // Structure: TS · SI · Det · Det · Conc  (5 sentences — 1 supporting idea, 2 details)
+        topic: 'Exercise and Stress',
+        sentences: [
+          { text: 'Regular physical exercise is one of the most effective ways for university students to manage stress.', role: 'ts' },
+          { text: 'One reason for this is that exercise causes the body to release chemicals that directly improve mood and reduce tension.', role: 'si' },
+          { text: 'When a person engages in aerobic activity such as running or swimming, the brain produces endorphins — natural compounds that create feelings of calm and well-being.', role: 'det' },
+          { text: 'Research published in the Journal of Clinical Psychiatry found that thirty minutes of moderate exercise three times a week was as effective as antidepressant medication for reducing mild to moderate stress symptoms in young adults.', role: 'det' },
+          { text: 'For these reasons, building regular physical activity into a daily routine is one of the most accessible tools students have for managing the pressures of university life.', role: 'conc' },
+        ]
+      },
+      {
+        // Structure: TS · SI · Det · SI · Det · Conc  (6 sentences — 2 supporting ideas, 1 detail each)
+        topic: 'Technology and Educational Inequality',
+        sentences: [
+          { text: 'Unequal access to technology creates significant barriers to academic achievement for students from low-income families.', role: 'ts' },
+          { text: 'First, students without reliable internet access at home are unable to complete online assignments or use digital learning tools outside of school hours.', role: 'si' },
+          { text: 'This means that while students from wealthier households can research, revise, and submit work at any time, those without connectivity are restricted to working only when school facilities are available.', role: 'det' },
+          { text: 'Second, a lack of personal devices forces some students to share computers with other family members, limiting the time they can dedicate to their studies.', role: 'si' },
+          { text: 'In households where one device is shared among several people, a student may have only a few hours each week for academic work — far less than their peers.', role: 'det' },
+          { text: 'Without targeted efforts to close this digital divide, technology risks widening existing gaps in educational outcomes rather than reducing them.', role: 'conc' },
+        ]
+      },
+      {
+        // Structure: TS · SI · Det · Det · SI · Det · Conc  (7 sentences — 2 supporting ideas, first has 2 details)
+        topic: 'Reading and Academic Skills',
+        sentences: [
+          { text: 'Developing strong reading habits is essential for students who want to succeed in their academic studies.', role: 'ts' },
+          { text: 'One important benefit of regular reading is that it builds the vocabulary students need to understand and produce academic language.', role: 'si' },
+          { text: 'Every time a reader encounters an unfamiliar word in context, they gain exposure to both its meaning and the grammatical patterns that surround it.', role: 'det' },
+          { text: 'Over time, this repeated exposure is more effective at building vocabulary than studying word lists in isolation, because the reader develops a sense of how words are actually used in real texts.', role: 'det' },
+          { text: 'In addition, regular reading develops the critical thinking skills required to analyze and evaluate complex arguments — a skill that is central to academic writing and discussion.', role: 'si' },
+          { text: 'Students who read widely are better equipped to identify the structure of an argument, assess the quality of evidence, and form independent judgments about what they read.', role: 'det' },
+          { text: 'For these reasons, students who commit to reading regularly are far more likely to develop the academic language and analytical skills that their studies demand.', role: 'conc' },
+        ]
+      },
+      {
+        // Structure: TS · SI · Det · SI · Det · Det · Conc  (7 sentences — 2 supporting ideas, second has 2 details)
+        topic: 'Urban Green Spaces',
+        sentences: [
+          { text: 'Green spaces such as parks and urban forests play a vital role in supporting the health and well-being of city residents.', role: 'ts' },
+          { text: 'First, access to green spaces provides urban residents with opportunities for physical activity, which has well-documented benefits for cardiovascular health and weight management.', role: 'si' },
+          { text: 'Studies have shown that people who live within 500 meters of a park are significantly more likely to meet recommended weekly guidelines for physical activity.', role: 'det' },
+          { text: 'Second, time spent in natural environments has been shown to reduce psychological stress and improve mental health outcomes for people of all ages.', role: 'si' },
+          { text: 'When individuals walk through green spaces, their heart rate and levels of the stress hormone cortisol decrease more rapidly than when they walk through built urban environments.', role: 'det' },
+          { text: 'A large-scale study across European cities found that residents with easy access to urban parks reported higher life satisfaction and lower rates of anxiety and depression than those in neighborhoods without green space.', role: 'det' },
+          { text: 'Given these wide-ranging benefits, city planners should treat the creation and preservation of green spaces as a public health priority, not merely an aesthetic one.', role: 'conc' },
+        ]
+      },
+      {
+        // Structure: TS · SI · Det · Det · Det · Conc  (6 sentences — 1 supporting idea, 3 details)
+        topic: 'Part-time Work for Students',
+        sentences: [
+          { text: 'Working part-time while studying can provide students with valuable professional experience that complements their academic learning.', role: 'ts' },
+          { text: 'One key way part-time work benefits students is by giving them the chance to develop real workplace skills that university courses alone cannot provide.', role: 'si' },
+          { text: 'Students who work in customer service, for example, practice communication and problem-solving in high-pressure situations that classroom environments rarely replicate.', role: 'det' },
+          { text: 'Managing the demands of both a job and a course schedule also requires students to develop discipline, time management, and prioritization — skills that employers consistently rank among their most sought-after qualities in new graduates.', role: 'det' },
+          { text: 'According to a survey by the National Association of Colleges and Employers, graduates with part-time work experience were hired at a 20% higher rate than those without any work history outside of their studies.', role: 'det' },
+          { text: 'Although balancing employment with academic commitments requires careful planning, the professional skills and self-discipline gained from part-time work can give students a meaningful advantage both during and after university.', role: 'conc' },
+        ]
+      },
+    ];
+
+    /* ── STATE ── */
+    const state = {
+      current:    0,
+      activeRole: null,
+      paints:     [],   // painted role per sentence (null if unpainted)
+      checked:    false,
+      allResults: [],   // { paraIdx, sentence, correct, chosen } for score screen
+    };
+
+    /* ── DOM ── */
+    const progressText   = document.getElementById('progressText');
+    const progressFill   = document.getElementById('progressFill');
+    const paraLabel      = document.getElementById('paraLabel');
+    const sentencesList  = document.getElementById('sentencesList');
+    const paintCount     = document.getElementById('paintCount');
+    const checkBtn       = document.getElementById('checkBtn');
+    const feedbackBand   = document.getElementById('feedbackBand');
+    const feedbackHeadline = document.getElementById('feedbackHeadline');
+    const feedbackSub    = document.getElementById('feedbackSub');
+    const retryBtn       = document.getElementById('retryBtn');
+    const nextBtn        = document.getElementById('nextBtn');
+    const nextBtnLabel   = document.getElementById('nextBtnLabel');
+    const questionArea   = document.getElementById('questionArea');
+    const scoreSummary   = document.getElementById('scoreSummary');
+    const scoreHeadline  = document.getElementById('scoreHeadline');
+    const scoreSub       = document.getElementById('scoreSub');
+    const scoreBreakdown = document.getElementById('scoreBreakdown');
+    const restartBtn     = document.getElementById('restartBtn');
+    const downloadBtn    = document.getElementById('downloadBtn');
+    const swatches       = document.querySelectorAll('.swatch');
+
+    /* ── PALETTE ── */
+    swatches.forEach(sw => {
+      sw.addEventListener('click', () => {
+        if (state.checked) return;
+        const role = sw.dataset.role;
+        state.activeRole = state.activeRole === role ? null : role;
+        updatePalette();
+        updateSentenceCursors();
+      });
+    });
+
+    function updatePalette() {
+      swatches.forEach(sw => {
+        const active = sw.dataset.role === state.activeRole;
+        sw.classList.toggle('is-active', active);
+        sw.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
+    }
+
+    function updateSentenceCursors() {
+      document.querySelectorAll('.sentence-block').forEach(block => {
+        block.classList.toggle('is-paintable', !!state.activeRole && !state.checked);
+      });
+    }
+
+    /* ── RENDER PARAGRAPH ── */
+    function renderParagraph(idx) {
+      const para = PARAGRAPHS[idx];
+      state.paints  = new Array(para.sentences.length).fill(null);
+      state.checked = false;
+      state.activeRole = null;
+
+      updatePalette();
+
+      const total = PARAGRAPHS.length;
+      progressText.textContent = `Paragraph ${idx + 1} of ${total}`;
+      progressFill.style.width = `${((idx + 1) / total) * 100}%`;
+      nextBtnLabel.textContent = idx < total - 1 ? 'Next Paragraph →' : 'See Results →';
+
+      paraLabel.textContent = `Paragraph ${idx + 1} — ${para.topic}`;
+
+      sentencesList.innerHTML = '';
+      para.sentences.forEach((s, i) => {
+        const block = document.createElement('div');
+        block.className = 'sentence-block';
+        block.dataset.idx = i;
+        block.innerHTML = `
+          <div class="sentence-text">${s.text}</div>
+          <div class="sentence-meta">
+            <span class="sentence-badge sentence-badge--paint" hidden></span>
+            <span class="sentence-icon" hidden></span>
+            <span class="sentence-badge sentence-badge--answer" hidden></span>
+          </div>
+        `;
+        block.addEventListener('click', () => onSentenceClick(block, i));
+        sentencesList.appendChild(block);
+      });
+
+      feedbackBand.hidden = true;
+      checkBtn.disabled   = true;
+      updatePaintCount();
+      updateSentenceCursors();
+    }
+
+    /* ── SENTENCE CLICK ── */
+    function onSentenceClick(block, idx) {
+      if (!state.activeRole || state.checked) return;
+
+      state.paints[idx] = state.activeRole;
+      block.dataset.paint = state.activeRole;
+
+      const badge = block.querySelector('.sentence-badge--paint');
+      badge.textContent = ROLES[state.activeRole].label;
+      badge.hidden = false;
+      badge.classList.add('pop-in');
+      badge.addEventListener('animationend', () => badge.classList.remove('pop-in'), { once: true });
+
+      updatePaintCount();
+    }
+
+    function updatePaintCount() {
+      const total   = PARAGRAPHS[state.current].sentences.length;
+      const painted = state.paints.filter(p => p !== null).length;
+      paintCount.innerHTML = `<strong>${painted}</strong> of ${total} labeled`;
+      checkBtn.disabled = painted < total;
+    }
+
+    /* ── CHECK ANSWERS ── */
+    checkBtn.addEventListener('click', () => {
+      if (state.checked) return;
+      state.checked = true;
+      state.activeRole = null;
+      updatePalette();
+      updateSentenceCursors();
+
+      const para = PARAGRAPHS[state.current];
+      let correct = 0;
+
+      document.querySelectorAll('.sentence-block').forEach((block, i) => {
+        const chosen    = state.paints[i];
+        const expected  = para.sentences[i].role;
+        const isCorrect = chosen === expected;
+        if (isCorrect) correct++;
+
+        state.allResults.push({ paraIdx: state.current, sentence: para.sentences[i].text, chosen, expected, isCorrect });
+
+        const icon   = block.querySelector('.sentence-icon');
+        const answer = block.querySelector('.sentence-badge--answer');
+
+        if (isCorrect) {
+          block.classList.add('checked-correct');
+          icon.textContent = '✓';
+          icon.className   = 'sentence-icon sentence-icon--correct';
+          icon.hidden      = false;
+        } else {
+          block.classList.add('checked-wrong');
+          delete block.dataset.paint;
+          block.querySelector('.sentence-badge--paint').hidden = true;
+          icon.textContent = '✗';
+          icon.className   = 'sentence-icon sentence-icon--wrong';
+          icon.hidden      = false;
+          answer.textContent = ROLES[expected].label;
+          answer.hidden      = false;
+          answer.classList.add('pop-in');
+        }
+      });
+
+      const total = para.sentences.length;
+      const pct   = Math.round((correct / total) * 100);
+      const isPerfect = correct === total;
+
+      feedbackHeadline.textContent = isPerfect
+        ? 'Perfect — every sentence labeled correctly!'
+        : correct >= Math.ceil(total * .67)
+          ? `${correct} of ${total} correct — well done.`
+          : `${correct} of ${total} correct — review the paragraph and try again.`;
+      feedbackHeadline.className = `feedback-headline ${isPerfect ? 'perfect' : 'partial'}`;
+      feedbackSub.textContent    = `${pct}% — ${total} sentences`;
+      feedbackBand.hidden        = false;
+      feedbackBand.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    /* ── RETRY ── */
+    retryBtn.addEventListener('click', () => {
+      const toRemove = state.allResults.filter(r => r.paraIdx === state.current).length;
+      state.allResults.splice(state.allResults.length - toRemove, toRemove);
+      renderParagraph(state.current);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── NEXT ── */
+    nextBtn.addEventListener('click', () => {
+      if (state.current < PARAGRAPHS.length - 1) {
+        state.current++;
+        renderParagraph(state.current);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showResults();
+      }
+    });
+
+    /* ── RESULTS ── */
+    function showResults() {
+      questionArea.hidden = true;
+      scoreSummary.hidden = false;
+
+      const total   = state.allResults.length;
+      const correct = state.allResults.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+
+      scoreHeadline.textContent = correct === total
+        ? 'Perfect score!'
+        : correct >= Math.ceil(total * .75)
+          ? `${correct} of ${total} correct — well done.`
+          : correct >= Math.ceil(total * .5)
+            ? `${correct} of ${total} correct — keep practicing.`
+            : `${correct} of ${total} correct — review the reference panel and try again.`;
+
+      scoreSub.textContent = `${pct}% — ${PARAGRAPHS.length} paragraphs, ${total} sentences`;
+
+      scoreBreakdown.innerHTML = '';
+      state.allResults.filter(r => !r.isCorrect).forEach(r => {
+        const row = document.createElement('div');
+        row.className = 'score-row wrong';
+        row.innerHTML = `
+          <span class="score-icon">✗</span>
+          <span class="score-text">${r.sentence}</span>
+          <span class="score-badge">${ROLES[r.chosen].label} → ${ROLES[r.expected].label}</span>
+        `;
+        scoreBreakdown.appendChild(row);
+      });
+
+      if (correct === total) {
+        const row = document.createElement('div');
+        row.className = 'score-row correct';
+        row.innerHTML = `<span class="score-icon">✓</span><span class="score-text">All ${total} sentences labeled correctly across all paragraphs.</span><span class="score-badge">100%</span>`;
+        scoreBreakdown.appendChild(row);
+      }
+
+      progressText.textContent = 'Complete';
+      progressFill.style.width = '100%';
+      scoreSummary.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /* ── RESTART ── */
+    restartBtn.addEventListener('click', () => {
+      state.current = 0; state.allResults = [];
+      questionArea.hidden = false; scoreSummary.hidden = true;
+      renderParagraph(0);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    /* ── DOWNLOAD ── */
+    downloadBtn.addEventListener('click', () => {
+      const name    = document.getElementById('studentName').value.trim() || '—';
+      const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const total   = state.allResults.length;
+      const correct = state.allResults.filter(r => r.isCorrect).length;
+      const pct     = Math.round((correct / total) * 100);
+      const DIV     = '='.repeat(58);
+      const thin    = '-'.repeat(58);
+
+      const lines = [
+        'PAINT THE PARAGRAPH — STUDENT RESULTS',
+        thin,
+        `Name:    ${name}`,
+        `Date:    ${dateStr}`,
+        '',
+        `OVERALL SCORE:  ${correct} / ${total} sentences correct  (${pct}%)`,
+        DIV, '',
+      ];
+
+      // Per-paragraph score table
+      lines.push('PARAGRAPH SCORES');
+      lines.push(thin);
+      PARAGRAPHS.forEach((para, pIdx) => {
+        const pr = state.allResults.filter(r => r.paraIdx === pIdx);
+        if (!pr.length) return;
+        const pc   = pr.filter(r => r.isCorrect).length;
+        const flag = pc === pr.length ? '  [perfect]' : '';
+        const num  = `${pIdx + 1}.`.padEnd(4);
+        const top  = para.topic.padEnd(36);
+        lines.push(`  ${num}${top}${pc} / ${pr.length}${flag}`);
+      });
+      lines.push('');
+      lines.push(DIV);
+      lines.push('');
+
+      // Accuracy by sentence type
+      lines.push('ACCURACY BY SENTENCE TYPE');
+      lines.push(thin);
+      [['ts','Topic Sentence'],['si','Supporting Idea'],['det','Detail'],['conc','Conclusion']].forEach(([role, label]) => {
+        const ofType = state.allResults.filter(r => r.expected === role);
+        if (!ofType.length) return;
+        const c    = ofType.filter(r => r.isCorrect).length;
+        const tPct = Math.round((c / ofType.length) * 100);
+        const flag = tPct < 70 ? '  <-- needs review' : tPct === 100 ? '' : '';
+        lines.push(`  ${label.padEnd(20)} ${String(c).padStart(2)} / ${ofType.length}   (${tPct}%)${flag}`);
+      });
+      lines.push('');
+      lines.push(DIV);
+      lines.push('');
+
+      // Sentence-by-sentence detail
+      lines.push('SENTENCE-BY-SENTENCE DETAIL');
+      PARAGRAPHS.forEach((para, pIdx) => {
+        const pr = state.allResults.filter(r => r.paraIdx === pIdx);
+        if (!pr.length) return;
+        const pc = pr.filter(r => r.isCorrect).length;
+        lines.push('');
+        lines.push(thin);
+        lines.push(`Paragraph ${pIdx + 1} — ${para.topic}  [${pc}/${pr.length} correct]`);
+        lines.push('');
+        para.sentences.forEach((s, sIdx) => {
+          const r = pr[sIdx];
+          if (!r) return;
+          const icon    = r.isCorrect ? '[correct]' : '[WRONG]  ';
+          const roleTag = ROLES[s.role].short.padEnd(4);
+          const excerpt = s.text.length > 65 ? s.text.slice(0, 62) + '...' : s.text;
+          lines.push(`  ${icon}  ${roleTag}  "${excerpt}"`);
+          if (!r.isCorrect) {
+            lines.push(`                  Labeled: ${ROLES[r.chosen].label}  ->  Correct: ${ROLES[r.expected].label}`);
+          }
+        });
+      });
+
+      lines.push('');
+      lines.push(DIV);
+      lines.push('Generated by Paint the Paragraph — austinpack.com');
+
+      const slug = name === '—' ? 'student' : name.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+      const url  = URL.createObjectURL(blob);
+      const a    = document.createElement('a');
+      a.href = url; a.download = `paint-paragraph-${slug}.txt`;
+      document.body.appendChild(a); a.click();
+      document.body.removeChild(a); URL.revokeObjectURL(url);
+    });
+
+    /* ── THEME ── */
+    const sunSVG  = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+    const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    const themeBtn   = document.getElementById('themeBtn');
+    const themeIcon  = document.getElementById('themeIcon');
+    const themeLabel = document.getElementById('themeLabel');
+
+    function applyTheme(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      const isDark = t === 'dark';
+      themeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      themeLabel.textContent = isDark ? 'Light mode' : 'Dark mode';
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      localStorage.setItem('theme', t);
+    }
+
+    const saved = localStorage.getItem('theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    applyTheme(saved);
+
+    themeBtn.addEventListener('click', ev => {
+      const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      if (document.startViewTransition) {
+        document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
+        document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
+        document.documentElement.classList.add('vt-active');
+        const vt = document.startViewTransition(() => applyTheme(next));
+        vt.finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else {
+        applyTheme(next);
+      }
+    });
+
+    /* ── INIT ── */
+    renderParagraph(0);
+  </script>
+</body>
+</html>
