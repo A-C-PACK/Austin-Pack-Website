@@ -527,7 +527,30 @@
       opacity: .85;
     }
 
-    /* ── RESOURCES SUBHEADINGS ── */
+    /* ── RESOURCES SUBHEADINGS & PRACTICE LINKS ── */
+    .practice-list {
+      max-width: 740px;
+      display: flex; flex-direction: column; gap: .1rem;
+      margin-top: .75rem;
+    }
+    .practice-link {
+      position: relative;
+      font-family: var(--serif); font-size: 1.1rem;
+      color: var(--ink-2); text-decoration: none;
+      display: inline-block; padding: .5rem 0;
+      transition: color .2s;
+    }
+    .practice-link::after {
+      content: '';
+      position: absolute; left: 0; bottom: .45rem;
+      height: 1px; width: 100%;
+      background: var(--accent);
+      transform: scaleX(0); transform-origin: right center;
+      transition: transform .4s var(--ease);
+    }
+    .practice-link:hover { color: var(--accent); }
+    .practice-link:hover::after { transform: scaleX(1); transform-origin: left center; }
+
     .exp-subhead {
       font-family: var(--mono);
       font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
@@ -1269,50 +1292,11 @@
       </div>
 
       <p class="exp-subhead">Practice Opportunities</p>
-      <div class="exp-list">
-        <div class="exp-item fade">
-          <div class="exp-role">Paragraph Structure Practice</div>
-          <p class="exp-desc">Drag scrambled sentences into the correct category — topic sentence, supporting idea, detail, or conclusion. A synthesis exercise that brings all four sentence types together.</p>
-          <div style="margin-top:1rem;">
-            <a href="resources/paragraph-tool.html" class="doc-link" style="max-width:420px;">
-              <span class="doc-link-label">Open Paragraph Structure Tool</span>
-              <span class="doc-link-arrow">↗ Open</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="exp-item fade fade-d1">
-          <div class="exp-role">Topic Sentence Practice</div>
-          <p class="exp-desc">Read a writing prompt and choose the best topic sentence from three options. Each answer includes explanations of what makes a sentence too vague, too specific, or just right.</p>
-          <div style="margin-top:1rem;">
-            <a href="resources/topic-sentence-tool.html" class="doc-link" style="max-width:420px;">
-              <span class="doc-link-label">Open Topic Sentence Tool</span>
-              <span class="doc-link-arrow">↗ Open</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="exp-item fade fade-d2">
-          <div class="exp-role">Supporting Idea Practice</div>
-          <p class="exp-desc">Read a topic sentence and decide what question your supporting idea sentence needs to answer: What? Why? or How? Includes explanations and example sentences.</p>
-          <div style="margin-top:1rem;">
-            <a href="resources/supporting-ideas-tool.html" class="doc-link" style="max-width:420px;">
-              <span class="doc-link-label">Open Supporting Idea Tool</span>
-              <span class="doc-link-arrow">↗ Open</span>
-            </a>
-          </div>
-        </div>
-
-        <div class="exp-item fade fade-d3">
-          <div class="exp-role">Detail Sentence Practice</div>
-          <p class="exp-desc">Read a detail sentence in context and identify what type of evidence it provides — a fact, statistic, example, or explanation. Includes signal words and feedback for every answer.</p>
-          <div style="margin-top:1rem;">
-            <a href="resources/detail-sentences-tool.html" class="doc-link" style="max-width:420px;">
-              <span class="doc-link-label">Open Detail Sentence Tool</span>
-              <span class="doc-link-arrow">↗ Open</span>
-            </a>
-          </div>
-        </div>
+      <div class="practice-list">
+        <a href="resources/paragraph-tool.html" class="practice-link fade">Paragraph Structure Practice</a>
+        <a href="resources/topic-sentence-tool.html" class="practice-link fade fade-d1">Topic Sentence Practice</a>
+        <a href="resources/supporting-ideas-tool.html" class="practice-link fade fade-d2">Supporting Idea Practice</a>
+        <a href="resources/detail-sentences-tool.html" class="practice-link fade fade-d3">Detail Sentence Practice</a>
       </div>
     </section>
 
