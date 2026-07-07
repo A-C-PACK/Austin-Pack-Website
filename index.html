@@ -5,704 +5,362 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Austin Pack</title>
   <meta name="description" content="Austin Pack — Assistant Professor of English Language Teaching at BYU–Hawaii. Research in AI, SLA, motivation, and technology-enhanced language learning." />
-  <meta name="theme-color" content="#f2ece0" />
+  <meta name="theme-color" content="#fbfaf7" />
   <meta property="og:title" content="Austin Pack — Teaching Portfolio" />
   <meta property="og:description" content="Assistant Professor of English Language Teaching &amp; Learning at Brigham Young University–Hawaii." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='23' font-family='Georgia,serif' font-size='18' font-style='italic' fill='%23f2ece0' text-anchor='middle'>A</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b3b4c'/><text x='16' y='23' font-family='Arial,sans-serif' font-size='18' font-weight='700' fill='%23fbfaf7' text-anchor='middle'>A</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&display=swap" />
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     /* ── TOKENS ── */
     :root {
-      --paper:   #f2ece0;
-      --paper-2: #ebe3d1;
-      --ink:     #141311;
-      --ink-2:   #2a2824;
-      --mute:    #7a756b;
-      --mute-2:  #a8a294;
-      --line:    #d6ceba;
-      --accent:  #8b2a2a;
-      --hl:      #e3d9bf;
-
-      --serif: 'EB Garamond', Georgia, serif;
-      --display: 'Fraunces', 'EB Garamond', Georgia, serif;
-      --mono: 'JetBrains Mono', 'Space Mono', ui-monospace, monospace;
-
-      --ease: cubic-bezier(.22,.61,.36,1);
-      --ease-out: cubic-bezier(.2,.9,.2,1);
+      --bg:      #fbfaf7;
+      --surface: #ffffff;
+      --head:    #0b3b4c;
+      --accent:  #0e7c86;
+      --chip:    #e9e2d4;
+      --sand:    #e9e2d4;
+      --text:    #46565e;
+      --line:    #e3ded2;
+      --btn:     #0b3b4c;
+      --band:    #0b3b4c;
+      --band-tx: #cfe0e3;
+      --band-ln: #8fd0d6;
+      --shadow:  rgba(11,59,76,.35);
+      --display: 'Schibsted Grotesk', system-ui, sans-serif;
+      --body:    'Inter', system-ui, sans-serif;
+      --ease:    cubic-bezier(.22,.61,.36,1);
     }
     [data-theme="dark"] {
-      --paper:   #141311;
-      --paper-2: #1c1a17;
-      --ink:     #f2ece0;
-      --ink-2:   #d8d0bd;
-      --mute:    #8a8476;
-      --mute-2:  #5b5649;
-      --line:    #2e2b26;
-      --accent:  #d97c6a;
-      --hl:      #2b251a;
+      --bg:      #0c161b;
+      --surface: #12222a;
+      --head:    #e7f0ef;
+      --accent:  #4fb3bc;
+      --chip:    #1d3038;
+      --sand:    #3a4b46;
+      --text:    #a8bcc2;
+      --line:    #22343c;
+      --btn:     #0e7c86;
+      --band:    #10303c;
+      --band-tx: #b8ced3;
+      --band-ln: #8fd0d6;
+      --shadow:  rgba(0,0,0,.5);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
-      font-feature-settings: "kern", "liga", "calt", "ss01", "cv11";
-    }
-
+    html { scroll-behavior: smooth; }
     body {
-      background: var(--paper);
-      color: var(--ink);
-      font-family: var(--serif);
-      font-size: 1.0625rem;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body);
+      font-size: 1rem;
       line-height: 1.75;
       -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-      overflow-x: hidden;
-      display: flex;
       transition: background .4s var(--ease), color .4s var(--ease);
     }
+    ::selection { background: var(--accent); color: #fff; }
+    img { max-width: 100%; display: block; }
+    a { color: var(--accent); }
 
-    /* ── VIEW TRANSITIONS — circular clip-reveal from toggle ── */
+    /* ── VIEW TRANSITIONS — circular clip-reveal from theme toggle ── */
     ::view-transition-old(root),
-    ::view-transition-new(root) {
-      animation: none;
-      mix-blend-mode: normal;
-    }
+    ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
     ::view-transition-old(root) { z-index: 1; }
     ::view-transition-new(root) { z-index: 2; }
     @keyframes vt-clip-in {
       from { clip-path: circle(0% at var(--vt-x,50%) var(--vt-y,50%)); }
       to   { clip-path: circle(150% at var(--vt-x,50%) var(--vt-y,50%)); }
     }
-    .vt-active::view-transition-new(root) {
-      animation: vt-clip-in .6s var(--ease) forwards;
+    .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
+
+    /* Signature: the waterline — deep ocean → reef → shore */
+    .waterline {
+      height: 3px; width: 100%;
+      background: linear-gradient(90deg, #0b3b4c 0%, #0e7c86 45%, #6db3ad 70%, #e9e2d4 100%);
     }
 
-    /* ── PAPER GRAIN ── */
-    body::before {
-      content: '';
-      position: fixed; inset: 0;
-      pointer-events: none; z-index: 1000;
-      opacity: .3;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .14 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      mix-blend-mode: multiply;
-    }
-    [data-theme="dark"] body::before { mix-blend-mode: screen; opacity: .2; }
-
-    ::selection { background: var(--accent); color: var(--paper); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
 
     /* ── SCROLL PROGRESS ── */
     .scroll-progress {
       position: fixed; top: 0; left: 0; right: 0;
-      height: 2px; z-index: 900;
-      pointer-events: none;
+      height: 2px; z-index: 200; pointer-events: none;
     }
-    .scroll-progress__bar {
-      height: 100%; width: 0;
-      background: var(--accent);
-      transition: width .08s linear;
-      transform-origin: left center;
-      transform: scaleX(0);
-      animation: progressDraw 1.2s var(--ease) .2s forwards;
-    }
-    @keyframes progressDraw { to { transform: scaleX(1); } }
-
-    /* Tabular figures for all mono */
-    .mono, [class*="mono"], .hero-role, .section-num, .doc-link, .interest-item, .quote-card cite, .footer-copy, .footer-top, .aside-nav a, .aside-bottom, .contact-address-link {
-      font-feature-settings: "tnum", "ss01", "cv11";
-    }
+    .scroll-progress__bar { height: 100%; width: 0; background: var(--accent); }
 
     /* ── SKIP LINK ── */
     .skip-link {
       position: absolute; top: -100%; left: 1rem;
-      background: var(--ink); color: var(--paper);
-      font-family: var(--mono);
-      font-size: .62rem; letter-spacing: .08em;
+      background: var(--head); color: var(--bg);
+      font-size: .78rem; font-weight: 600;
       padding: .5rem 1rem; text-decoration: none;
-      z-index: 1001; transition: top .2s;
+      border-radius: 0 0 8px 8px;
+      z-index: 300; transition: top .2s;
     }
-    .skip-link:focus { top: 1rem; }
+    .skip-link:focus { top: 0; }
 
-    /* ── SIDEBAR ── */
-    aside {
-      position: fixed; top: 0; left: 0;
-      width: 220px; height: 100vh;
-      padding: 3rem 2rem;
-      border-right: 1px solid var(--line);
-      display: flex; flex-direction: column;
-      overflow-y: auto;
-      z-index: 10;
-      background: var(--paper);
-      transition: background .3s, border-color .3s;
-      transform: translateX(-110%);
-      animation: sidebarIn .7s var(--ease) .1s forwards;
-    }
-    @keyframes sidebarIn { to { transform: translateX(0); } }
-
-    .aside-nav {
-      display: flex; flex-direction: column; gap: 0;
-      position: relative;
-    }
-    .aside-nav a {
-      position: relative;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--mute);
-      text-decoration: none; padding: .5rem 0;
+    /* ── NAV ── */
+    header.site {
+      position: sticky; top: 0; z-index: 100;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      transition: color .25s var(--ease), padding-left .35s var(--ease);
-      overflow: hidden;
+      transition: background .4s var(--ease), border-color .4s var(--ease);
     }
-    /* wipe underline — unified hover grammar */
-    .aside-nav a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -1px;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right center;
-      transition: transform .5s var(--ease);
-    }
-    .aside-nav a:hover::after,
-    .aside-nav a.active::after {
-      transform: scaleX(1);
-      transform-origin: left center;
-    }
-    .aside-nav a:hover, .aside-nav a.active { color: var(--ink); padding-left: .4rem; }
-
-    /* Sliding active indicator */
-    .aside-nav__indicator {
-      position: absolute;
-      left: -2rem;
-      width: 2px;
-      background: var(--accent);
-      top: 0; height: 0;
-      transition: top .45s var(--ease), height .45s var(--ease), opacity .3s;
-      opacity: 0;
-      pointer-events: none;
-    }
-    .aside-nav__indicator.show { opacity: 1; }
-
-    .aside-bottom {
-      margin-top: auto;
-      padding-top: 2rem;
-      font-family: var(--mono);
-      font-size: .55rem; color: var(--mute);
-      letter-spacing: .06em;
-      line-height: 1.7;
-    }
-    .aside-bottom a {
-      position: relative;
-      color: var(--mute); text-decoration: none;
-      transition: color .25s;
-    }
-    .aside-bottom a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: -1px;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right center;
-      transition: transform .45s var(--ease);
-    }
-    .aside-bottom a:hover { color: var(--ink); }
-    .aside-bottom a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left center;
-    }
-
-    /* ── THEME TOGGLE ── */
-    .theme-btn {
-      background: none; border: none; cursor: pointer;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--mute); padding: 0;
-      display: inline-flex; align-items: center; gap: .45rem;
-      transition: color .2s;
-    }
-    .theme-btn:hover { color: var(--ink); }
-    .theme-btn svg { width: 12px; height: 12px; transition: transform .4s var(--ease); }
-    .theme-btn:hover svg { transform: rotate(-18deg); }
-    .theme-btn--top {
-      align-self: flex-start;
-      padding: .5rem 0;
-      margin-bottom: 1.5rem;
-      border-bottom: 1px solid var(--line);
-      width: 100%;
-      justify-content: flex-start;
-    }
-    .mobile-theme-btn {
-      background: none; border: none; cursor: pointer;
-      padding: .35rem; color: var(--ink);
-      display: flex; align-items: center;
-    }
-    .mobile-theme-btn svg { width: 15px; height: 15px; }
-
-    /* ── MOBILE HEADER ── */
-    .mobile-header {
-      display: none;
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 56px;
-      background: var(--paper);
-      border-bottom: 1px solid var(--line);
-      z-index: 100;
-      padding: 0 1.5rem;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .mobile-header-name {
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-name {
       font-family: var(--display);
-      font-size: .95rem; font-weight: 500;
-      font-variation-settings: "opsz" 14;
-    }
-    .mobile-header-right { display: flex; align-items: center; gap: .5rem; }
-    .hamburger {
-      background: none; border: none; cursor: pointer;
-      padding: .25rem; display: flex; flex-direction: column;
-      gap: 5px; align-items: flex-end;
-    }
-    .hamburger span {
-      display: block; height: 1px; background: var(--ink);
-      transition: width .25s, opacity .2s, transform .3s;
-    }
-    .hamburger span:nth-child(1) { width: 22px; }
-    .hamburger span:nth-child(2) { width: 16px; }
-    .hamburger span:nth-child(3) { width: 22px; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); width: 22px; }
-    .hamburger.open span:nth-child(2) { opacity: 0; width: 0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); width: 22px; }
-
-    .mobile-nav-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: var(--paper);
-      z-index: 99;
-      flex-direction: column;
-      justify-content: center;
-      padding: 6rem 2.5rem 3rem;
-      opacity: 0;
-      transition: opacity .3s;
-    }
-    .mobile-nav-overlay.open { opacity: 1; }
-    .mobile-nav-overlay nav {
-      display: flex; flex-direction: column; gap: 0;
-      border-top: 1px solid var(--line);
-    }
-    .mobile-nav-overlay nav a {
-      font-family: var(--display);
-      font-size: 2rem; font-weight: 400;
-      font-variation-settings: "opsz" 80;
-      color: var(--ink); text-decoration: none;
-      padding: .6rem 0;
-      border-bottom: 1px solid var(--line);
-      display: flex; justify-content: space-between; align-items: center;
-    }
-    .mobile-nav-overlay nav a .nav-arrow {
-      font-family: var(--mono);
-      font-size: .65rem; color: var(--mute);
-    }
-    .mobile-nav-links {
-      margin-top: 2.5rem;
-      font-family: var(--mono);
-      font-size: .58rem; color: var(--mute);
-      letter-spacing: .06em; line-height: 2;
-    }
-    .mobile-nav-links a { color: var(--mute); text-decoration: none; }
-
-    /* ── MAIN ── */
-    main { margin-left: 220px; width: calc(100% - 220px); position: relative; }
-
-    /* ── SECTIONS ── */
-    .section {
-      padding: 6rem 5rem;
-      border-bottom: 1px solid var(--line);
-    }
-    .section:last-child { border-bottom: none; }
-    .section-num {
-      font-family: var(--mono);
-      font-size: .68rem; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--ink);
-      display: block; margin-bottom: 2.5rem;
-    }
-
-    /* ── DOC LINKS ── */
-    .doc-link {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 2rem;
-      width: 100%;
-      max-width: 600px;
-      padding: 1.5rem 1.75rem;
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent);
-      color: var(--ink);
-      text-decoration: none;
-      overflow: hidden;
-      transition: border-color .35s var(--ease), color .35s var(--ease);
-    }
-    /* sliding background fill */
-    .doc-link::before {
-      content: '';
-      position: absolute; inset: 0;
-      background: var(--hl);
-      transform: translateX(-101%);
-      transition: transform .55s var(--ease);
-      z-index: 0;
-    }
-    .doc-link:hover::before { transform: translateX(0); }
-    .doc-link:hover { border-color: var(--accent); }
-    .doc-link-label {
-      position: relative; z-index: 1;
-      font-family: var(--display);
-      font-size: 1.15rem; font-weight: 400;
-      font-variation-settings: "opsz" 36;
+      font-weight: 700; font-size: 1.05rem;
+      color: var(--head); text-decoration: none;
       letter-spacing: -.01em;
     }
-    .doc-link-arrow {
-      position: relative; z-index: 1;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      white-space: nowrap;
-      flex-shrink: 0;
-      transition: transform .4s var(--ease);
+    .nav-links { display: flex; gap: 1.6rem; align-items: center; }
+    .nav-links a {
+      font-size: .82rem; font-weight: 500;
+      color: var(--text); text-decoration: none;
+      transition: color .2s;
     }
-    .doc-link:hover .doc-link-arrow { transform: translate(5px, -3px); }
+    .nav-links a:hover { color: var(--accent); }
+    .nav-cta {
+      font-size: .82rem; font-weight: 600;
+      color: #fff !important; background: var(--btn);
+      padding: .5rem 1.05rem; border-radius: 999px;
+      transition: background .25s;
+    }
+    .nav-cta:hover { background: var(--accent); color: #fff !important; }
+    .theme-btn {
+      background: none; border: none; cursor: pointer;
+      color: var(--text); padding: .35rem;
+      display: inline-flex; align-items: center;
+      border-radius: 999px;
+      transition: color .2s;
+    }
+    .theme-btn:hover { color: var(--accent); }
+    .theme-btn svg { width: 16px; height: 16px; transition: transform .4s var(--ease); }
+    .theme-btn:hover svg { transform: rotate(-18deg); }
+    .nav-right-mobile { display: none; align-items: center; gap: .4rem; }
+    .menu-btn { display: none; background: none; border: none; cursor: pointer; padding: .4rem; }
+    .menu-btn span { display: block; width: 22px; height: 2px; background: var(--head); margin: 5px 0; border-radius: 2px; transition: transform .25s, opacity .2s; }
+    .menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-btn.open span:nth-child(2) { opacity: 0; }
+    .menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    .mobile-menu {
+      display: none;
+      border-top: 1px solid var(--line);
+      background: var(--bg);
+      padding: 1rem 2rem 1.5rem;
+      flex-direction: column; gap: .2rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: var(--display); font-weight: 600;
+      font-size: 1.1rem; color: var(--head);
+      text-decoration: none; padding: .55rem 0;
+      border-bottom: 1px solid var(--line);
+    }
 
     /* ── HERO ── */
-    #home {
-      padding: 3rem 8rem 3rem 5rem;
-      display: flex; flex-direction: column;
-      border-bottom: 1px solid var(--line);
+    .hero { padding: 5rem 0 4.5rem; }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.25fr .75fr;
+      gap: 4rem; align-items: center;
     }
-    .hero-large {
+    .hero-kicker {
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 1.1rem;
+    }
+    .hero h1 {
       font-family: var(--display);
-      font-size: clamp(4rem, 9vw, 10rem);
-      font-weight: 400; line-height: .95;
-      letter-spacing: -.025em;
-      font-variation-settings: "opsz" 144, "SOFT" 50;
+      font-size: clamp(2.8rem, 6vw, 4.6rem);
+      font-weight: 800; line-height: 1.03;
+      letter-spacing: -.03em; color: var(--head);
+      margin-bottom: 1.4rem;
     }
-    .hero-large em { font-style: italic; color: var(--accent); font-weight: 300; }
-    .hero-large .split { display: inline-block; overflow: hidden; vertical-align: bottom; }
-    .hero-large .split > span {
-      display: inline-block;
-      transform: translateY(110%);
-      animation: rise .9s var(--ease-out) forwards;
+    .hero-lede {
+      font-size: 1.12rem; line-height: 1.8;
+      max-width: 34rem; margin-bottom: 2.2rem;
     }
-    .hero-large .split.d1 > span { animation-delay: .15s; }
-    .hero-large .split.d2 > span { animation-delay: .28s; }
-    @keyframes rise { to { transform: translateY(0); } }
-
-    .hero-sub {
-      margin-top: 1.5rem;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 2rem; align-items: start;
-      max-width: 680px;
+    .hero-actions { display: flex; gap: .85rem; flex-wrap: wrap; }
+    .btn {
+      display: inline-flex; align-items: center; gap: .5rem;
+      font-family: var(--body); font-size: .88rem; font-weight: 600;
+      text-decoration: none; padding: .72rem 1.4rem;
+      border-radius: 999px; transition: background .25s, color .25s, border-color .25s;
     }
-    .hero-role {
-      font-family: var(--mono);
-      font-size: .68rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--mute);
-      line-height: 1.7;
-    }
-    .hero-links { display: flex; flex-direction: column; gap: .25rem; }
-    .hero-links a {
+    .btn-primary { background: var(--btn); color: #fff; }
+    .btn-primary:hover { background: var(--accent); color: #fff; }
+    .btn-ghost { border: 1.5px solid var(--line); color: var(--head); }
+    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-photo {
       position: relative;
-      font-family: var(--mono);
-      font-size: .62rem; letter-spacing: .06em;
-      color: var(--mute); text-decoration: none;
-      transition: color .2s, transform .25s var(--ease);
-      display: inline-block;
-      width: fit-content;
-      padding-bottom: 1px;
-    }
-    .hero-links a::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: 0;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right center;
-      transition: transform .45s var(--ease);
-    }
-    .hero-links a:hover { color: var(--accent); transform: translateX(3px); }
-    .hero-links a:hover::after {
-      transform: scaleX(1);
-      transform-origin: left center;
-    }
-
-
-    /* ── ABOUT ── */
-    .about-grid {
-      display: grid; grid-template-columns: 200px 1fr;
-      gap: 4rem; align-items: start;
-    }
-    .about-photo {
-      width: 100%; aspect-ratio: 3/4;
+      border-radius: 200px 200px 20px 20px; /* arched, like a shoreline window */
       overflow: hidden;
-      position: relative;
-      filter: url(#duotone) contrast(1.02);
+      aspect-ratio: 3/3.8;
+      box-shadow: 0 24px 60px -24px var(--shadow);
     }
-    [data-theme="dark"] .about-photo { filter: url(#duotoneDark) contrast(1.02); }
-    .about-photo img {
-      width: 100%; height: 100%; object-fit: cover; object-position: top; display: block;
-      transform: scale(1);
-      transition: transform .9s var(--ease);
-      will-change: transform;
+    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
+    .hero-photo::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, transparent 70%, rgba(11,59,76,.28));
     }
-    .about-photo:hover img { transform: scale(1.03); }
-    .about-body h3 {
-      font-family: var(--display);
-      font-size: 1.5rem; font-weight: 400;
-      font-style: italic; color: var(--ink);
-      font-variation-settings: "opsz" 48;
-      margin-bottom: .75rem; margin-top: 2.5rem;
-    }
-    .about-body h3:first-child { margin-top: 0; }
-    .about-body p {
-      margin-bottom: .85rem; color: var(--ink);
-      max-width: 62ch; line-height: 1.85;
-    }
-    .about-body p:last-child { margin-bottom: 0; }
 
-    .interests-list {
-      margin-top: .75rem;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: .15rem 2rem;
+    /* ── SECTIONS ── */
+    section.block { padding: 4.5rem 0; }
+    section.block + section.block { border-top: 1px solid var(--line); }
+    .sec-head { margin-bottom: 2.4rem; }
+    .sec-kicker {
+      font-size: .74rem; font-weight: 600;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: var(--accent); display: block; margin-bottom: .5rem;
     }
-    .interest-item {
-      position: relative;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--mute);
-      padding: .4rem 0;
+    .sec-head h2 {
+      font-family: var(--display);
+      font-size: clamp(1.7rem, 3vw, 2.3rem);
+      font-weight: 700; letter-spacing: -.02em;
+      color: var(--head);
+    }
+    .sec-head .waterline { width: 72px; margin-top: 1rem; border-radius: 2px; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 3.5rem; align-items: start; }
+    .about-grid p { margin-bottom: 1rem; max-width: 60ch; }
+    .interest-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.6rem 1.6rem 1.2rem;
+    }
+    .interest-card h3 {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1rem; color: var(--head);
+      margin-bottom: .9rem;
+    }
+    .interest-card ul { list-style: none; }
+    .interest-card li {
+      font-size: .88rem; padding: .5rem 0;
       border-bottom: 1px solid var(--line);
-      transition: color .25s var(--ease), padding-left .3s var(--ease);
-      cursor: default;
     }
-    .interest-item:hover { color: var(--ink); padding-left: .4rem; }
+    .interest-card li:last-child { border-bottom: none; }
+    .interest-card li::before { content: '—'; color: var(--accent); margin-right: .6rem; }
 
-    /* ── RESEARCH ── */
-    .exp-list { max-width: 740px; }
-    .exp-item {
-      position: relative;
-      padding: 1.5rem 0 1.5rem 0;
-      border-bottom: 1px solid var(--line);
-      transition: border-color .3s, padding-left .45s var(--ease);
+    /* Research cards */
+    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 1.9rem;
+      display: flex; flex-direction: column; gap: .9rem;
+      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
     }
-    .exp-item::before {
-      content: '';
-      position: absolute;
-      left: 0; top: 50%;
-      width: 0; height: 1px;
-      background: var(--accent);
-      transform: translateY(-50%);
-      transition: width .45s var(--ease);
+    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px -26px var(--shadow); }
+    .card h3 {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1.2rem; color: var(--head); letter-spacing: -.01em;
     }
-    .exp-item:hover { padding-left: 2rem; }
-    .exp-item:hover::before { width: 1.25rem; }
-    .exp-item:first-child { border-top: 1px solid var(--line); }
-    .exp-role {
-      font-family: var(--display);
-      font-size: 1.35rem; font-weight: 400;
-      font-variation-settings: "opsz" 36;
-      color: var(--ink); margin-bottom: .35rem;
-      transition: color .3s, transform .35s var(--ease);
+    .card p { font-size: .92rem; line-height: 1.75; }
+    .card img { border-radius: 10px; border: 1px solid var(--line); }
+    .card .card-links { margin-top: auto; padding-top: .4rem; }
+    .card a.text-link {
+      font-size: .86rem; font-weight: 600;
+      color: var(--accent); text-decoration: none;
     }
-    .exp-item:hover .exp-role { color: var(--accent); transform: translateX(4px); }
-    .exp-desc {
-      font-size: .95rem; color: var(--ink-2);
-      line-height: 1.85; max-width: 68ch;
-      opacity: .85;
-    }
+    .card a.text-link:hover { text-decoration: underline; }
 
-    /* ── RESOURCES SUBHEADINGS & PRACTICE LINKS ── */
-    .practice-list {
-      max-width: 740px;
-      display: flex; flex-direction: column; gap: .1rem;
-      margin-top: .75rem;
+    /* Teaching */
+    .pill-row { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.4rem 0 2.6rem; }
+    .pill {
+      font-size: .8rem; font-weight: 500;
+      background: var(--chip); color: var(--head);
+      padding: .42rem 1rem; border-radius: 999px;
     }
-    .practice-link {
-      position: relative;
-      font-family: var(--serif); font-size: 1.1rem;
-      color: var(--ink-2); text-decoration: none;
-      display: inline-block; padding: .5rem 0;
-      transition: color .2s;
+    .quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
+    .quote {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 14px 14px 0;
+      padding: 1.6rem 1.7rem;
     }
-    .practice-link::after {
-      content: '';
-      position: absolute; left: 0; bottom: .45rem;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0); transform-origin: right center;
-      transition: transform .4s var(--ease);
+    .quote blockquote { font-size: .92rem; line-height: 1.8; font-style: italic; margin-bottom: .9rem; }
+    .quote cite {
+      font-style: normal; font-size: .76rem; font-weight: 600;
+      letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
     }
-    .practice-link:hover { color: var(--accent); }
-    .practice-link:hover::after { transform: scaleX(1); transform-origin: left center; }
-
-    .exp-subhead {
-      font-family: var(--mono);
-      font-size: .62rem; letter-spacing: .12em; text-transform: uppercase;
-      color: var(--mute); padding-bottom: .6rem;
-      border-bottom: 1px solid var(--accent);
-      max-width: 740px; margin-top: 2.5rem;
-    }
-    .exp-subhead:first-of-type { margin-top: 2rem; }
-
-    /* ── TEACHING / QUOTE CARDS ── */
-    .quotes-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
-    .quote-card {
-      background: var(--paper-2);
-      padding: 1.75rem;
-      border-top: 2px solid var(--accent);
-      position: relative;
-      transition: transform .35s var(--ease), box-shadow .35s var(--ease);
-    }
-    .quote-card:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 18px 40px -20px rgba(20,19,17,.15);
-    }
-    .quote-card .mark {
-      font-family: var(--display);
-      font-size: 3rem; line-height: .5;
-      color: var(--accent);
-      font-style: italic;
-      position: absolute;
-      top: 1rem; right: 1.3rem;
-      opacity: .28;
-    }
-    .quote-card blockquote {
-      font-size: .98rem;
-      line-height: 1.8;
-      color: var(--ink-2);
-      font-style: italic;
-      margin: 0 0 1.1rem;
-      hanging-punctuation: first last;
-      text-indent: -.3em; /* fallback hang for browsers without hanging-punctuation */
-    }
-    .quote-card cite {
-      font-family: var(--mono);
-      font-size: .56rem; letter-spacing: .1em;
-      text-transform: uppercase; color: var(--mute);
-      font-style: normal;
-      display: block;
-      padding-top: .75rem;
-      border-top: 1px solid var(--line);
+    .quotes-h {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1.05rem; color: var(--head); margin-bottom: 1.1rem;
     }
 
-    /* ── CONTACT ── */
-    .contact-address {
-      font-size: .95rem; color: var(--mute); line-height: 1.9;
+    /* Resources */
+    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+    .res-list { list-style: none; }
+    .res-list a {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .85rem 1rem;
+      border: 1px solid var(--line); border-radius: 12px;
+      margin-bottom: .55rem;
+      background: var(--surface);
+      color: var(--head); font-weight: 500; font-size: .92rem;
+      text-decoration: none;
+      transition: border-color .25s, transform .25s var(--ease);
     }
-    .contact-address-name {
-      font-family: var(--display);
-      font-size: 1.1rem; color: var(--ink); margin-bottom: 1rem;
-      font-variation-settings: "opsz" 24;
+    .res-list a:hover { border-color: var(--accent); transform: translateX(4px); }
+    .res-list a span { color: var(--accent); font-size: .8rem; }
+    .res-h {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1.05rem; color: var(--head); margin-bottom: 1rem;
     }
-    .contact-address-link {
-      position: relative;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .06em;
-      color: var(--mute); text-decoration: none;
-      transition: color .2s;
-      display: inline-block;
-      padding-bottom: 1px;
-    }
-    .contact-address-link::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: 0;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right center;
-      transition: transform .45s var(--ease);
-    }
-    .contact-address-link:hover { color: var(--accent); }
-    .contact-address-link:hover::after {
-      transform: scaleX(1);
-      transform-origin: left center;
-    }
+    .res-note { font-size: .9rem; margin: .8rem 0 1.2rem; }
 
-    /* Copy-email button */
+    /* Contact */
+    .contact-band {
+      background: var(--band);
+      border-radius: 22px;
+      color: var(--band-tx);
+      padding: 3.2rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
+    }
+    .contact-band h2 {
+      font-family: var(--display); font-weight: 700;
+      font-size: 1.8rem; color: #fff; letter-spacing: -.02em;
+      margin-bottom: 1rem;
+    }
+    .contact-band a { color: var(--band-ln); text-decoration: none; font-weight: 500; }
+    .contact-band a:hover { text-decoration: underline; }
+    .contact-band address { font-style: normal; font-size: .94rem; line-height: 1.9; }
+    .contact-links { display: flex; flex-direction: column; gap: .5rem; font-size: .94rem; }
     .copy-email {
-      position: relative;
-      background: none; border: none; padding: 0;
-      font-family: var(--mono);
-      font-size: .6rem; letter-spacing: .06em;
-      color: var(--mute); cursor: pointer;
-      text-transform: none;
-      display: inline-block;
-      padding-bottom: 1px;
-      transition: color .25s;
+      background: none; border: none; padding: 0; cursor: pointer;
+      font-family: var(--body); font-size: .94rem; font-weight: 500;
+      color: var(--band-ln); text-align: left;
     }
-    .copy-email::after {
-      content: '';
-      position: absolute;
-      left: 0; bottom: 0;
-      height: 1px; width: 100%;
-      background: var(--accent);
-      transform: scaleX(0);
-      transform-origin: right center;
-      transition: transform .45s var(--ease);
-    }
-    .copy-email:hover { color: var(--accent); }
-    .copy-email:hover::after {
-      transform: scaleX(1);
-      transform-origin: left center;
-    }
+    .copy-email:hover { text-decoration: underline; }
     .copy-confirm {
-      display: inline-block;
-      margin-left: .6rem;
-      font-family: var(--mono);
-      font-size: .55rem; letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      opacity: 0;
-      transform: translateY(2px);
+      display: inline-block; margin-left: .6rem;
+      font-size: .74rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: #fff;
+      opacity: 0; transform: translateY(2px);
       transition: opacity .25s var(--ease), transform .25s var(--ease);
       pointer-events: none;
     }
-    .copy-confirm.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .copy-confirm.show { opacity: 1; transform: translateY(0); }
 
-    /* ── FOOTER ── */
-    footer {
-      padding: 2rem 5rem;
-      border-top: 1px solid var(--line);
+    footer.site {
+      padding: 2rem 0 2.5rem;
       display: flex; justify-content: space-between; align-items: center;
+      font-size: .8rem; color: var(--text);
     }
-    .footer-copy, .footer-top {
-      font-family: var(--mono);
-      font-size: .55rem; color: var(--mute);
-      letter-spacing: .06em;
-    }
-    .footer-top { text-decoration: none; transition: color .2s; }
-    .footer-top:hover { color: var(--ink); }
+    footer.site a { color: var(--text); text-decoration: none; }
+    footer.site a:hover { color: var(--accent); }
 
     /* ── COCKROACH EASTER EGG ── */
-    .roach-wrap {
-      position: relative;
-      display: inline-block;
-      vertical-align: middle;
-    }
+    .roach-wrap { position: relative; display: inline-block; vertical-align: middle; }
     .roach-btn {
       background: none; border: none; cursor: pointer;
       font-size: .85rem; padding: 0 0 0 .35rem;
@@ -717,56 +375,50 @@
       bottom: calc(100% + 10px);
       left: 50%;
       transform: translateX(-50%);
-      background: var(--paper-2);
+      background: var(--surface);
       border: 1px solid var(--line);
-      border-radius: 4px;
+      border-radius: 10px;
       padding: .85rem 1rem;
       width: 210px;
-      box-shadow: 0 8px 24px -8px rgba(20,19,17,.2);
+      box-shadow: 0 8px 24px -8px var(--shadow);
       z-index: 500;
     }
-    /* speech bubble tail */
     .roach-bubble::after {
       content: '';
-      position: absolute;
-      top: 100%; left: 50%;
+      position: absolute; top: 100%; left: 50%;
       transform: translateX(-50%);
       border: 6px solid transparent;
       border-top-color: var(--line);
     }
     .roach-bubble::before {
       content: '';
-      position: absolute;
-      top: calc(100% - 1px); left: 50%;
+      position: absolute; top: calc(100% - 1px); left: 50%;
       transform: translateX(-50%);
       border: 6px solid transparent;
-      border-top-color: var(--paper-2);
+      border-top-color: var(--surface);
       z-index: 1;
     }
     .roach-bubble.open { display: block; }
     .roach-bubble label {
       display: block;
-      font-family: var(--mono);
-      font-size: .58rem; letter-spacing: .08em;
-      text-transform: uppercase; color: var(--mute);
-      margin-bottom: .5rem;
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .08em; text-transform: uppercase;
+      color: var(--text); margin-bottom: .5rem;
     }
     .roach-bubble input {
       width: 100%;
-      background: var(--paper);
+      background: var(--bg);
       border: 1px solid var(--line);
-      color: var(--ink);
-      font-family: var(--mono);
-      font-size: .65rem; letter-spacing: .04em;
+      border-radius: 6px;
+      color: var(--head);
+      font-family: var(--body);
+      font-size: .8rem;
       padding: .4rem .6rem;
       outline: none;
       transition: border-color .2s;
     }
     .roach-bubble input:focus { border-color: var(--accent); }
-    .roach-bubble input.wrong {
-      border-color: var(--accent);
-      animation: shake .35s var(--ease);
-    }
+    .roach-bubble input.wrong { border-color: #c0392b; animation: shake .35s var(--ease); }
     @keyframes shake {
       0%,100% { transform: translateX(0); }
       25%      { transform: translateX(-5px); }
@@ -781,8 +433,6 @@
       z-index: 9500;
     }
     .party-overlay.active { display: block; }
-
-    /* Slow color wash over the whole page */
     .party-strobe {
       position: absolute; inset: 0;
       mix-blend-mode: overlay;
@@ -797,12 +447,7 @@
       80%  { background: rgba(245, 215, 110, .35); }
       100% { background: rgba(255, 46, 165, .35); }
     }
-
-    /* Spinning disco lights */
-    .party-lights {
-      position: absolute; inset: 0;
-      overflow: hidden;
-    }
+    .party-lights { position: absolute; inset: 0; overflow: hidden; }
     .party-light {
       position: absolute;
       width: 60vmax; height: 60vmax;
@@ -822,8 +467,6 @@
     @keyframes orbit3 { from { transform: translate(0,0) rotate(0); } to { transform: translate(30vw,-40vh) rotate(360deg); } }
     @keyframes orbit4 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-35vw,-30vh) rotate(-360deg); } }
     @keyframes orbit5 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-25vw, 25vh) rotate(360deg); } }
-
-    /* Rotating spotlight beams from center */
     .party-beams {
       position: absolute;
       top: 50%; left: 50%;
@@ -852,12 +495,7 @@
       opacity: .85;
     }
     @keyframes beamSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-
-    /* Confetti dots */
-    .party-confetti {
-      position: absolute; inset: 0;
-      overflow: hidden;
-    }
+    .party-confetti { position: absolute; inset: 0; overflow: hidden; }
     .confetti-piece {
       position: absolute;
       width: 8px; height: 14px;
@@ -884,8 +522,6 @@
       75%  { transform: translate(20px, 82vh) rotate(20deg); }
       100% { transform: translate(0, 115vh) rotate(-15deg); }
     }
-
-    /* Visualizer dock */
     .party-dock {
       position: fixed;
       bottom: 1.5rem; left: 50%;
@@ -894,7 +530,7 @@
       align-items: center;
       gap: 1rem;
       padding: .75rem 1rem .75rem 1.25rem;
-      background: rgba(20,19,17,.78);
+      background: rgba(11,30,38,.82);
       backdrop-filter: blur(14px);
       -webkit-backdrop-filter: blur(14px);
       border: 1px solid rgba(255,255,255,.12);
@@ -902,27 +538,14 @@
       box-shadow: 0 10px 40px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(255,46,165,.15);
       z-index: 10000;
       pointer-events: auto;
-      animation: dockRise .5s var(--ease-out);
+      animation: dockRise .5s var(--ease);
     }
     .party-dock.show { display: flex; }
     @keyframes dockRise {
       from { opacity: 0; transform: translate(-50%, 20px); }
       to   { opacity: 1; transform: translate(-50%, 0); }
     }
-    .party-dock__label {
-      font-family: var(--mono);
-      font-size: .55rem; letter-spacing: .12em;
-      text-transform: uppercase; color: #fff;
-      opacity: .75;
-      white-space: nowrap;
-    }
-    .viz {
-      display: flex;
-      align-items: flex-end;
-      gap: 3px;
-      height: 28px;
-      width: 140px;
-    }
+    .viz { display: flex; align-items: flex-end; gap: 3px; height: 28px; width: 140px; }
     .viz-bar {
       flex: 1;
       background: linear-gradient(180deg, #ff2ea5 0%, #f5d76e 50%, #29e5ff 100%);
@@ -934,85 +557,43 @@
     .party-stop {
       background: none; border: 1px solid rgba(255,255,255,.25);
       color: #fff; cursor: pointer;
-      font-family: var(--mono);
-      font-size: .55rem; letter-spacing: .1em;
-      text-transform: uppercase;
+      font-family: var(--body);
+      font-size: .68rem; font-weight: 600;
+      letter-spacing: .1em; text-transform: uppercase;
       padding: .4rem .9rem;
       border-radius: 999px;
       transition: background .2s, border-color .2s, color .2s;
     }
-    .party-stop:hover {
-      background: #ff2ea5;
-      border-color: #ff2ea5;
-      color: #fff;
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      .party-strobe, .party-light, .party-beams, .confetti-piece { animation: none; }
-    }
+    .party-stop:hover { background: #ff2ea5; border-color: #ff2ea5; color: #fff; }
 
     /* ── REVEAL ── */
-    .fade {
-      opacity: 0;
-      transform: translateY(14px);
-      transition: opacity .7s var(--ease), transform .7s var(--ease);
-    }
-    .fade.in {
-      opacity: 1;
-      transform: none;
-    }
-    .fade-d1 { transition-delay: .08s; }
-    .fade-d2 { transition-delay: .16s; }
-    .fade-d3 { transition-delay: .24s; }
-    /* Fallback: if JS fails, content still appears after a beat */
-    @media (scripting: none) {
-      .fade { opacity: 1; transform: none; }
-    }
+    .fade { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
+    .fade.in { opacity: 1; transform: none; }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 900px) {
-      aside { display: none; }
-      .mobile-header { display: flex; }
-      .mobile-nav-overlay { display: flex; }
-      main { margin-left: 0; width: 100%; padding-top: 56px; }
-      .section, #home { padding: 4rem 1.5rem; }
-      #home { padding-bottom: 2rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .hero-sub { grid-template-columns: 1fr; }
-      footer { padding: 1.5rem 1.5rem; flex-direction: column; gap: .75rem; align-items: flex-start; }
-      .quotes-grid { grid-template-columns: 1fr; }
+    @media (max-width: 860px) {
+      .nav-links { display: none; }
+      .nav-right-mobile { display: flex; }
+      .menu-btn { display: block; }
+      .hero { padding: 3rem 0; }
+      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .hero-photo { max-width: 320px; }
+      .about-grid, .cards, .quotes, .res-grid, .contact-band { grid-template-columns: 1fr; }
+      .contact-band { padding: 2.2rem 1.6rem; }
+      .wrap { padding: 0 1.4rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
-      .hero-large .split > span { transform: none; }
-      .marquee-track { animation: none; }
-      aside { transform: none; animation: none; }
-      .scroll-progress__bar { transform: scaleX(1); animation: none; }
-      .fade { clip-path: none; }
+      * { transition-duration: .001ms !important; animation-duration: .001ms !important; }
+      .fade { opacity: 1; transform: none; }
+      .party-strobe, .party-light, .party-beams, .confetti-piece { animation: none; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Duotone SVG filter for portrait -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <filter id="duotone">
-        <feColorMatrix type="matrix" values="
-          0.35 0.55 0.12 0 0
-          0.33 0.50 0.10 0 0
-          0.27 0.42 0.08 0 0
-          0    0    0    1 0" />
-      </filter>
-      <filter id="duotoneDark">
-        <feColorMatrix type="matrix" values="
-          0.82 0.15 0.08 0 0
-          0.60 0.12 0.06 0 0
-          0.48 0.10 0.05 0 0
-          0    0    0    1 0" />
-      </filter>
-    </defs>
-  </svg>
+  <a href="#about" class="skip-link">Skip to content</a>
+
+  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
 
   <!-- Party overlay -->
   <div class="party-overlay" id="partyOverlay" aria-hidden="true">
@@ -1035,292 +616,277 @@
     <button type="button" class="party-stop" id="partyStop">Stop ■</button>
   </div>
 
-  <a href="#about" class="skip-link">Skip to content</a>
-
-  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
-
-  <!-- Mobile Header -->
-  <header class="mobile-header" role="banner">
-    <span class="mobile-header-name">Austin Pack</span>
-    <div class="mobile-header-right">
-      <button class="mobile-theme-btn" id="mobileThemeBtn" aria-label="Toggle theme">
-        <svg id="mobileThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
-        </svg>
-      </button>
-      <button class="hamburger" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
+  <header class="site">
+    <div class="wrap nav">
+      <a class="nav-name" href="#top">Austin Pack</a>
+      <nav class="nav-links">
+        <a href="#about">About</a>
+        <a href="#research">Research</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#resources">Resources</a>
+        <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Scholar ↗</a>
+        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+          </svg>
+        </button>
+        <a class="nav-cta" href="#contact">Contact</a>
+      </nav>
+      <div class="nav-right-mobile">
+        <button class="theme-btn" id="mobileThemeBtn" aria-label="Toggle theme">
+          <svg id="mobileThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
+          </svg>
+        </button>
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-  </header>
-
-  <!-- Mobile Nav Overlay -->
-  <div class="mobile-nav-overlay" id="mobileNav" role="dialog" aria-label="Navigation">
-    <nav>
-      <a href="#home" class="mobile-nav-item">Home <span class="nav-arrow">01</span></a>
-      <a href="#about" class="mobile-nav-item">About <span class="nav-arrow">02</span></a>
-      <a href="#cv" class="mobile-nav-item">CV <span class="nav-arrow">03</span></a>
-      <a href="#research" class="mobile-nav-item">Research <span class="nav-arrow">04</span></a>
-      <a href="#teaching" class="mobile-nav-item">Teaching <span class="nav-arrow">05</span></a>
-      <a href="#resources" class="mobile-nav-item">Resources <span class="nav-arrow">06</span></a>
-      <a href="#contact" class="mobile-nav-item">Contact <span class="nav-arrow">07</span></a>
-    </nav>
-    <div class="mobile-nav-links">
-      <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog ↗</a> &nbsp;&nbsp;
-      <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Scholar ↗</a>
-    </div>
-  </div>
-
-  <!-- Sidebar -->
-  <aside>
-    <button class="theme-btn theme-btn--top" id="themeBtn" aria-label="Toggle theme">
-      <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-        <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
-      </svg>
-      <span id="themeLabel">Dark mode</span>
-    </button>
-    <nav class="aside-nav" id="asideNav">
-      <span class="aside-nav__indicator" id="navIndicator" aria-hidden="true"></span>
-      <a href="#home">Home</a>
+    <nav class="mobile-menu" id="mobileMenu">
       <a href="#about">About</a>
-      <a href="#cv">CV</a>
       <a href="#research">Research</a>
       <a href="#teaching">Teaching</a>
       <a href="#resources">Resources</a>
       <a href="#contact">Contact</a>
     </nav>
-    <div class="aside-bottom">
-      <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a><br>
-      <a href="https://www.linkedin.com/in/austin-pack-234a4177/" target="_blank" rel="noopener">LinkedIn ↗</a><br>
-      <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog ↗</a><br>
-      <a href="mailto:austin.pack@byuh.edu">Contact ↗</a>
-    </div>
-  </aside>
+    <div class="waterline"></div>
+  </header>
 
-  <main id="main-content">
+  <main id="top">
 
     <!-- Hero -->
-    <section id="home">
-      <h1 class="hero-large">
-        <span class="split d1"><span>Austin</span></span><br>
-        <span class="split d2"><span>Pack</span></span>
-      </h1>
-      <div>
-        <div class="hero-sub fade fade-d2">
-          <div class="hero-role">
-            Assistant Professor<br>
-            English Language Teaching &amp; Learning<br>
-            Faculty of Education &amp; Social Work<br>
-            Brigham Young University–Hawaii
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div>
+          <p class="hero-kicker">Brigham Young University–Hawaii</p>
+          <h1>Language teaching, reimagined with AI.</h1>
+          <p class="hero-lede">
+            I'm Austin Pack, Assistant Professor of English Language Teaching &amp; Learning.
+            My work explores how artificial intelligence can deepen — rather than shortcut —
+            the language learning process.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="Austin Pack CV 2-5-2026 simplified.pdf" target="_blank" rel="noopener">Download CV</a>
+            <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
           </div>
-          <div class="hero-links">
-            <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
-            <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener">BYUH Faculty Directory ↗</a>
-            <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog ↗</a>
-            <a href="mailto:austin.pack@byuh.edu">Contact ↗</a>
-          </div>
+        </div>
+        <div class="hero-photo">
+          <img src="pic 2.jpeg" alt="Austin Pack" />
         </div>
       </div>
     </section>
 
     <!-- About -->
-    <section id="about" class="section" style="padding-top:3rem;">
-      <span class="section-num">01 — About</span>
-      <div class="about-grid">
-        <div class="fade">
-          <div class="about-photo" id="aboutPhoto">
-            <img src="pic 2.jpeg" alt="Austin Pack" loading="lazy" decoding="async" />
-          </div>
+    <section id="about" class="block">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="sec-kicker">About</span>
+          <h2>Where language education meets responsible AI</h2>
+          <div class="waterline"></div>
         </div>
-        <div class="about-body">
-          <div class="fade fade-d1">
+        <div class="about-grid">
+          <div class="fade">
             <p>
-              I am an Assistant Professor of English Language Teaching and Learning at Brigham Young University–Hawaii.
-              My work sits at the intersection of language education, motivation research, and the responsible integration
-              of artificial intelligence in learning environments.
+              I am an Assistant Professor of English Language Teaching and Learning at Brigham Young
+              University–Hawaii. My work sits at the intersection of language education, motivation
+              research, and the responsible integration of artificial intelligence in learning environments.
             </p>
             <p>
-              My current work centers on the application of generative AI in language education — from automated feedback
-              systems and differentiated materials development to learner-facing tools built in collaboration with
-              preservice teachers. I am particularly interested in how AI can be integrated responsibly, in ways that
-              deepen rather than shortcut the learning process.
+              My current work centers on the application of generative AI in language education — from
+              automated feedback systems and differentiated materials development to learner-facing tools
+              built in collaboration with preservice teachers. I am particularly interested in how AI can
+              be integrated responsibly, in ways that deepen rather than shortcut the learning process.
             </p>
           </div>
+          <div class="interest-card fade">
+            <h3>Research Interests</h3>
+            <ul>
+              <li>Generative AI &amp; LLMs in SLA</li>
+              <li>Language Pedagogy</li>
+              <li>Computer-Assisted Language Learning</li>
+              <li>Psychology of Language Learning</li>
+              <li>Complex Dynamic Systems</li>
+              <li>VR Learning Environments</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="fade" style="margin-top:2rem; max-width:400px;">
-        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Research Interests</h3>
-        <div class="interests-list" style="grid-template-columns:1fr;">
-          <div class="interest-item">Generative AI &amp; LLMs in SLA</div>
-          <div class="interest-item">Language Pedagogy</div>
-          <div class="interest-item">Computer-Assisted Language Learning</div>
-          <div class="interest-item">Psychology of Language Learning</div>
-          <div class="interest-item">Complex Dynamic Systems</div>
-          <div class="interest-item">VR Learning Environments</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- CV -->
-    <section id="cv" class="section">
-      <span class="section-num">02 — CV</span>
-      <div>
-        <a href="Austin Pack CV 2-5-2026 simplified.pdf" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">Download CV</span><span class="doc-link-arrow">↓ PDF</span></a>
       </div>
     </section>
 
     <!-- Research -->
-    <section id="research" class="section">
-      <span class="section-num">03 — Research</span>
-      <div>
-        <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ&hl=en" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">View Publications on Google Scholar</span><span class="doc-link-arrow">↗ Scholar</span></a>
-      </div>
-
-      <div style="margin-top:3rem;">
-        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Current Research Projects</h3>
-
-        <div class="exp-item fade">
-          <div class="exp-role">LangLang</div>
-          <p class="exp-desc">LangLang is a desktop language learning application that uses Claude AI to generate personalized reading passages, vocabulary exercises, grammar practice, and pronunciation activities — all calibrated to a learner's current proficiency level. Rather than working through a fixed curriculum, learners choose their own topics and set their own level, and LangLang builds the content around them. Vocabulary is highlighted in context, words can be saved and reviewed through spaced repetition, and a built-in read-aloud feature supports listening comprehension alongside reading.</p>
-          <div style="margin-top:1.25rem;">
-            <img src="langlang-screenshot.png" alt="LangLang interface showing a Spanish reading passage with vocabulary highlights" style="width:100%;max-width:750px;border:1px solid var(--line);display:block;" loading="lazy" decoding="async" />
-          </div>
-          <div style="margin-top:1rem;">
-            <a href="https://github.com/A-C-PACK/Austin-Pack-Website/releases/download/v0.1.0/LangLang.Setup.0.1.0.exe" download class="doc-link" style="max-width:340px;">
-              <span class="doc-link-label">Download LangLang (Windows)</span>
-              <span class="doc-link-arrow">↓ .exe</span>
-            </a>
-          </div>
+    <section id="research" class="block">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="sec-kicker">Research</span>
+          <h2>Current projects</h2>
+          <div class="waterline"></div>
         </div>
-
-        <div class="exp-item fade fade-d1">
-          <div class="exp-role">Automatic Written Corrective Feedback (AWCF)</div>
-          <p class="exp-desc">A web-based classroom tool that automates Written Corrective Feedback for ESL writing instruction. Using Claude AI, AWCF annotates student drafts with standardized grammar error codes — encouraging active self-correction rather than passive editing. A structured weekly cycle of drafting, feedback, revision, and reflection is paired with personalized grammar worksheets generated from each student's individual error patterns.</p>
-          <img src="Sample feedback.png" alt="Sample AWCF feedback output" style="width:100%;max-width:750px;display:block;margin-top:1rem;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.12);">
-        </div>
-
-        <div class="exp-item fade fade-d2">
-          <div class="exp-role">LIFT Lab — Language Innovation and Futures in TESOL</div>
-          <p class="exp-desc">A mobile innovation hub within the BYU–Hawaii TESOL program where faculty and preservice teachers build, experiment, and imagine the future of English language education. The LIFT Lab harnesses AI agents to design educational technology, interactive platforms, and pedagogical materials — preparing future educators not only to use AI responsibly, but to actively shape it within the field.</p>
-        </div>
-
-        <div class="exp-item fade">
-          <div class="exp-role">AI Agents for Differentiated Language Learning Materials</div>
-          <p class="exp-desc">This project explores agentic AI as a collaborative partner in language materials development. Traditional publishing economics constrain differentiation — producing tiered texts, scaffolded tasks, and culturally adapted content at scale is logistically and financially prohibitive. By working alongside educators, agentic AI systems capable of planning, iterating, and executing complex authoring tasks may finally make genuinely differentiated, contextually responsive materials widely achievable.</p>
-          <img src="textbook screenshot.png" alt="AI-generated differentiated language learning textbook" style="width:100%;max-width:750px;display:block;margin-top:1rem;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.12);">
+        <div class="cards">
+          <article class="card fade">
+            <h3>LangLang</h3>
+            <p>
+              LangLang is a desktop language learning application that uses Claude AI to generate
+              personalized reading passages, vocabulary exercises, grammar practice, and pronunciation
+              activities — all calibrated to a learner's current proficiency level. Rather than working
+              through a fixed curriculum, learners choose their own topics and set their own level, and
+              LangLang builds the content around them. Vocabulary is highlighted in context, words can be
+              saved and reviewed through spaced repetition, and a built-in read-aloud feature supports
+              listening comprehension alongside reading.
+            </p>
+            <img src="langlang-screenshot.png" alt="LangLang interface showing a Spanish reading passage with vocabulary highlights" loading="lazy" decoding="async" />
+            <div class="card-links">
+              <a class="text-link" href="https://github.com/A-C-PACK/Austin-Pack-Website/releases/download/v0.1.0/LangLang.Setup.0.1.0.exe" download>Download LangLang for Windows ↓</a>
+            </div>
+          </article>
+          <article class="card fade">
+            <h3>Automatic Written Corrective Feedback</h3>
+            <p>
+              A web-based classroom tool that automates Written Corrective Feedback for ESL writing
+              instruction. Using Claude AI, AWCF annotates student drafts with standardized grammar error
+              codes — encouraging active self-correction rather than passive editing. A structured weekly
+              cycle of drafting, feedback, revision, and reflection is paired with personalized grammar
+              worksheets generated from each student's individual error patterns.
+            </p>
+            <img src="Sample feedback.png" alt="Sample AWCF feedback output" loading="lazy" decoding="async" />
+          </article>
+          <article class="card fade">
+            <h3>LIFT Lab — Language Innovation and Futures in TESOL</h3>
+            <p>
+              A mobile innovation hub within the BYU–Hawaii TESOL program where faculty and preservice
+              teachers build, experiment, and imagine the future of English language education. The LIFT
+              Lab harnesses AI agents to design educational technology, interactive platforms, and
+              pedagogical materials — preparing future educators not only to use AI responsibly, but to
+              actively shape it within the field.
+            </p>
+          </article>
+          <article class="card fade">
+            <h3>AI Agents for Differentiated Language Learning Materials</h3>
+            <p>
+              This project explores agentic AI as a collaborative partner in language materials
+              development. Traditional publishing economics constrain differentiation — producing tiered
+              texts, scaffolded tasks, and culturally adapted content at scale is logistically and
+              financially prohibitive. By working alongside educators, agentic AI systems capable of
+              planning, iterating, and executing complex authoring tasks may finally make genuinely
+              differentiated, contextually responsive materials widely achievable.
+            </p>
+            <img src="textbook screenshot.png" alt="AI-generated differentiated language learning textbook" loading="lazy" decoding="async" />
+          </article>
         </div>
       </div>
     </section>
 
     <!-- Teaching -->
-    <section id="teaching" class="section">
-      <span class="section-num">04 — Teaching</span>
-      <div>
-        <a href="Teaching Philosophy.pdf" target="_blank" rel="noopener" class="doc-link"><span class="doc-link-label">Download Teaching Philosophy</span><span class="doc-link-arrow">↓ PDF</span></a>
-      </div>
-
-      <div style="margin-top:3rem; max-width:400px;">
-        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:.75rem;font-variation-settings:'opsz' 48;">Types of Courses Taught</h3>
-        <div class="interests-list" style="grid-template-columns:1fr;margin-top:1rem;">
-          <div class="interest-item">English for Academic Purposes</div>
-          <div class="interest-item">Intercultural Communication</div>
-          <div class="interest-item">Teaching English to Speakers of Other Languages</div>
-          <div class="interest-item">Computer Assisted Language Learning</div>
-          <div class="interest-item">Second Language Acquisition</div>
+    <section id="teaching" class="block">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="sec-kicker">Teaching</span>
+          <h2>In the classroom</h2>
+          <div class="waterline"></div>
         </div>
-      </div>
-
-      <div style="margin-top:4rem;">
-        <h3 style="font-family:var(--display);font-size:1.5rem;font-weight:400;font-style:italic;margin-bottom:1.5rem;font-variation-settings:'opsz' 48;">Student Feedback</h3>
-
-        <div class="quotes-grid">
-          <figure class="quote-card fade">
-            <span class="mark">"</span>
+        <a class="btn btn-ghost" href="Teaching Philosophy.pdf" target="_blank" rel="noopener">Read my Teaching Philosophy ↓</a>
+        <div class="pill-row">
+          <span class="pill">English for Academic Purposes</span>
+          <span class="pill">Intercultural Communication</span>
+          <span class="pill">TESOL</span>
+          <span class="pill">Computer Assisted Language Learning</span>
+          <span class="pill">Second Language Acquisition</span>
+        </div>
+        <h3 class="quotes-h">Student Feedback</h3>
+        <div class="quotes">
+          <figure class="quote fade">
             <blockquote>"I have taken IELTS for 4 times before and I have been to private English high school. But somehow I was keep failing and failing. Whether I was lazy or the program was not that good. I have got 6.5 for 3 times and the last one I have taken 7 on IELTS. It was a really tiny improvement. It is actually crazy to think about how much material I have read and how much writing I have done. But my improvement were never visible in front of my own eyes. Your class was one of the most effective class. You knew how to make the students engaged during the class. It almost feels like you know exactly where to focus on more and how to improve that. I would not say I got the best in writing and reading. There are still things that I need to work on more but I can definitely say that I have improved a lot thanks to you. I have few absences to my other classes but my attendance was somehow 100% in this class without any tiredness. Maybe it is because you understand us. I think I wanted to keep the 100% itself and somehow it made me feel accomplished. For me, EIL 317 class taught me a lot. Thank you so much for your hard work. Thank you so much for the thing you have taught us. Much Mahalo!"</blockquote>
-            <cite>— Student, Academic English 1: Reading and Writing</cite>
+            <cite>Student — Academic English 1: Reading and Writing</cite>
           </figure>
-
-          <figure class="quote-card fade fade-d1">
-            <span class="mark">"</span>
-            <blockquote>"This semester in EIL 317 has been a valuable learning experience for me. I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. The class activities and discussions helped me become more confident when communicating in English. I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts."</blockquote>
-            <cite>— Student, Academic English 1: Reading and Writing</cite>
-          </figure>
-
-          <figure class="quote-card fade fade-d2">
-            <span class="mark">"</span>
-            <blockquote>"I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English. These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey."</blockquote>
-            <cite>— Student, Academic English 1: Reading and Writing</cite>
-          </figure>
-
-          <figure class="quote-card fade fade-d3">
-            <span class="mark">"</span>
-            <blockquote>"This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable."</blockquote>
-            <cite>— Student, Academic English 1: Reading and Writing</cite>
-          </figure>
-
-          <figure class="quote-card fade">
-            <span class="mark">"</span>
+          <figure class="quote fade">
             <blockquote>"The strength of this course is the teacher himself, not kidding! Dr. Pack is the best teacher, this course is really hard for both the native and non-native students but Dr. Pack did a really good job of explaining things simply. He builds up a good rapport and makes students feel safe to ask questions in his class. Another thing that I like about him is he will tailor the needs of students and change the way he teaches according to students' abilities. In our class we have a mix-ability class however are able to adjust this hard course to each student. He did not just give us assignment to do but give us meaningful assignment so we can really learn from this course. He knows what he is teaching, and he know what his purpose as a teacher!! Also willing to use his personal time to help each student!"</blockquote>
-            <cite>— Student, Introduction to Linguistics</cite>
+            <cite>Student — Introduction to Linguistics</cite>
           </figure>
-
-          <figure class="quote-card fade fade-d1">
-            <span class="mark">"</span>
+          <figure class="quote fade">
+            <blockquote>"This semester in EIL 317 has been a valuable learning experience for me. I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. The class activities and discussions helped me become more confident when communicating in English. I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts."</blockquote>
+            <cite>Student — Academic English 1: Reading and Writing</cite>
+          </figure>
+          <figure class="quote fade">
+            <blockquote>"I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English. These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey."</blockquote>
+            <cite>Student — Academic English 1: Reading and Writing</cite>
+          </figure>
+          <figure class="quote fade">
+            <blockquote>"This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable."</blockquote>
+            <cite>Student — Academic English 1: Reading and Writing</cite>
+          </figure>
+          <figure class="quote fade">
             <blockquote>"I really liked how passionate the teacher was about the course and he took it at our pace. The projects were fun and interesting and I actually felt interested in learning and not like I was having to do useless busywork."</blockquote>
-            <cite>— Student, Introduction to Linguistics</cite>
+            <cite>Student — Introduction to Linguistics</cite>
           </figure>
         </div>
       </div>
     </section>
 
-    <!-- Resources for Students and Teachers -->
-    <section id="resources" class="section">
-      <span class="section-num">05 — Resources for Students and Teachers</span>
-
-      <p class="exp-subhead">Tools</p>
-      <div class="exp-list">
-        <div class="exp-item fade">
-          <div class="exp-role">Screen Recorder</div>
-          <p class="exp-desc">A lightweight screen recording tool for capturing lessons, presentations, and student work — and an example of the kind of practical software that educators and students can build with the help of an AI agent.</p>
-          <div style="margin-top:1rem;">
-            <a href="resources/Screen Recorder Setup 1.0.0.exe" download class="doc-link" style="max-width:380px;">
-              <span class="doc-link-label">Download Screen Recorder (Windows)</span>
-              <span class="doc-link-arrow">↓ .exe</span>
-            </a>
+    <!-- Resources -->
+    <section id="resources" class="block">
+      <div class="wrap">
+        <div class="sec-head">
+          <span class="sec-kicker">Resources</span>
+          <h2>For students and teachers</h2>
+          <div class="waterline"></div>
+        </div>
+        <div class="res-grid">
+          <div class="fade">
+            <h3 class="res-h">Practice opportunities</h3>
+            <ul class="res-list">
+              <li><a href="resources/paragraph-tool.html">Paragraph Structure Practice <span>→</span></a></li>
+              <li><a href="resources/topic-sentence-tool.html">Topic Sentence Practice <span>→</span></a></li>
+              <li><a href="resources/supporting-ideas-tool.html">Supporting Idea Practice <span>→</span></a></li>
+              <li><a href="resources/detail-sentences-tool.html">Detail Sentence Practice <span>→</span></a></li>
+              <li><a href="resources/paint-paragraph-tool.html">Paint the Paragraph <span>→</span></a></li>
+              <li><a href="resources/transitions-tool.html">Transition Phrase Practice <span>→</span></a></li>
+            </ul>
+          </div>
+          <div class="fade">
+            <h3 class="res-h">Tools</h3>
+            <p class="res-note">
+              A lightweight screen recording tool for capturing lessons, presentations, and student work —
+              and an example of the kind of practical software that educators and students can build with
+              the help of an AI agent.
+            </p>
+            <ul class="res-list">
+              <li><a href="resources/Screen Recorder Setup 1.0.0.exe" download>Screen Recorder (Windows) <span>↓ .exe</span></a></li>
+            </ul>
           </div>
         </div>
-      </div>
-
-      <p class="exp-subhead">Practice Opportunities</p>
-      <div class="practice-list">
-        <a href="resources/paragraph-tool.html" class="practice-link fade">Paragraph Structure Practice</a>
-        <a href="resources/topic-sentence-tool.html" class="practice-link fade fade-d1">Topic Sentence Practice</a>
-        <a href="resources/supporting-ideas-tool.html" class="practice-link fade fade-d2">Supporting Idea Practice</a>
-        <a href="resources/detail-sentences-tool.html" class="practice-link fade fade-d3">Detail Sentence Practice</a>
-        <a href="resources/paint-paragraph-tool.html" class="practice-link fade fade-d3">Paint the Paragraph</a>
-        <a href="resources/transitions-tool.html" class="practice-link fade fade-d3">Transition Phrase Practice</a>
       </div>
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="section">
-      <span class="section-num">Contact</span>
-      <div class="contact-address fade">
-        <p class="contact-address-name">Austin Pack</p>
-        Assistant Professor of English Language Teaching &amp; Learning<br>
-        Faculty of Education &amp; Social Work<br>
-        Brigham Young University–Hawaii<br>
-        55-220 Kulanui Street, Bldg 5<br>
-        Laie, Hawai'i 96762<br><br>
-        <button class="copy-email" id="copyEmailBtn" aria-label="Copy email address">austin.pack@byuh.edu</button>
-        <span class="copy-confirm" id="copyConfirm" aria-live="polite">copied ✓</span>
-        <br><br>
-        <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener" class="contact-address-link">BYUH Directory ↗</a>
+    <section id="contact" class="block">
+      <div class="wrap">
+        <div class="contact-band">
+          <div>
+            <h2>Get in touch</h2>
+            <address>
+              Assistant Professor of English Language Teaching &amp; Learning<br />
+              Faculty of Education &amp; Social Work<br />
+              Brigham Young University–Hawaii<br />
+              55-220 Kulanui Street, Bldg 5<br />
+              Laie, Hawai&#699;i 96762
+            </address>
+          </div>
+          <div class="contact-links">
+            <span>
+              <button class="copy-email" id="copyEmailBtn" aria-label="Copy email address">austin.pack@byuh.edu</button>
+              <span class="copy-confirm" id="copyConfirm" aria-live="polite">copied ✓</span>
+            </span>
+            <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener">BYUH Faculty Directory ↗</a>
+            <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+            <a href="https://www.linkedin.com/in/austin-pack-234a4177/" target="_blank" rel="noopener">LinkedIn ↗</a>
+            <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog ↗</a>
+          </div>
+        </div>
       </div>
     </section>
 
-    <footer>
-      <span class="footer-copy">
+    <footer class="site wrap">
+      <span>
         © 2026 Austin Pack
         <span class="roach-wrap">
           <button type="button" class="roach-btn" id="roachBtn" aria-label="Secret">🪳</button>
@@ -1330,7 +896,7 @@
           </span>
         </span>
       </span>
-      <a href="#home" class="footer-top">↑ Top</a>
+      <a href="#top">↑ Back to top</a>
     </footer>
 
   </main>
@@ -1341,99 +907,47 @@
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: .1, rootMargin: '0px 0px -60px 0px' });
+      }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
       fadeEls.forEach(el => io.observe(el));
-      // Safety net: reveal anything still hidden after 2s
       setTimeout(() => fadeEls.forEach(el => el.classList.add('in')), 2000);
     } else {
       fadeEls.forEach(el => el.classList.add('in'));
     }
 
-    /* Scroll progress + active sidebar + sliding indicator */
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.aside-nav a');
+    /* Scroll progress */
     const bar = document.getElementById('progressBar');
-    const indicator = document.getElementById('navIndicator');
-    const asideNav = document.getElementById('asideNav');
-
-    function updateIndicator() {
-      const active = document.querySelector('.aside-nav a.active');
-      if (!active) { indicator.classList.remove('show'); return; }
-      const navRect = asideNav.getBoundingClientRect();
-      const r = active.getBoundingClientRect();
-      indicator.style.top = (r.top - navRect.top) + 'px';
-      indicator.style.height = r.height + 'px';
-      indicator.classList.add('show');
-    }
-
-    /* Marquee parallax */
-    const marqueeTrack = document.getElementById('marqueeTrack');
-
     const onScroll = () => {
       const st = window.scrollY;
       const sh = document.documentElement.scrollHeight - window.innerHeight;
       bar.style.width = Math.min(100, (st / sh) * 100) + '%';
-
-      let current = 'home';
-      sections.forEach(s => {
-        const top = s.offsetTop - 120;
-        if (st >= top) current = s.id;
-      });
-      let changed = false;
-      navLinks.forEach(l => {
-        const isActive = l.getAttribute('href') === '#' + current;
-        if (l.classList.contains('active') !== isActive) changed = true;
-        l.classList.toggle('active', isActive);
-      });
-      if (changed) updateIndicator();
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', updateIndicator);
     onScroll();
-    updateIndicator();
-
-    /* Smooth scroll */
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        const href = a.getAttribute('href');
-        if (href === '#' || !href) return;
-        const t = document.querySelector(href);
-        if (!t) return;
-        e.preventDefault();
-        t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
-    });
 
     /* Mobile menu */
-    const toggle = document.getElementById('menuToggle');
-    const mobileNav = document.getElementById('mobileNav');
-    let menuOpen = false;
-    const openMenu = () => {
-      menuOpen = true;
-      mobileNav.style.display = 'flex';
-      requestAnimationFrame(() => mobileNav.classList.add('open'));
-      toggle.classList.add('open');
-      toggle.setAttribute('aria-expanded', 'true');
-      document.body.style.overflow = 'hidden';
-    };
-    const closeMenu = () => {
-      menuOpen = false;
-      mobileNav.classList.remove('open');
-      toggle.classList.remove('open');
-      toggle.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-      setTimeout(() => { if (!menuOpen) mobileNav.style.display = 'none'; }, 300);
-    };
-    toggle.addEventListener('click', () => (menuOpen ? closeMenu() : openMenu()));
-    document.querySelectorAll('.mobile-nav-item').forEach(a => a.addEventListener('click', closeMenu));
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && menuOpen) closeMenu(); });
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      menuBtn.classList.toggle('open', open);
+      menuBtn.setAttribute('aria-expanded', open);
+    });
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open'); menuBtn.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
+        mobileMenu.classList.remove('open'); menuBtn.classList.remove('open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
 
     /* Theme toggle — with View Transitions API */
     const sunSVG = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
     const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
     const themeBtn        = document.getElementById('themeBtn');
     const themeIcon       = document.getElementById('themeIcon');
-    const themeLabel      = document.getElementById('themeLabel');
     const mobileThemeBtn  = document.getElementById('mobileThemeBtn');
     const mobileThemeIcon = document.getElementById('mobileThemeIcon');
 
@@ -1442,8 +956,7 @@
       const isDark = t === 'dark';
       themeIcon.innerHTML       = isDark ? sunSVG : moonSVG;
       mobileThemeIcon.innerHTML = isDark ? sunSVG : moonSVG;
-      themeLabel.textContent    = isDark ? 'Light mode' : 'Dark mode';
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141311' : '#f2ece0');
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#0c161b' : '#fbfaf7');
       localStorage.setItem('theme', t);
     }
     const saved = localStorage.getItem('theme') ||
@@ -1452,13 +965,10 @@
 
     function toggleTheme(ev) {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-
-      // Set origin for circular clip reveal
       if (ev && ev.clientX !== undefined) {
         document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
         document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
       }
-
       if (document.startViewTransition) {
         document.documentElement.classList.add('vt-active');
         const t = document.startViewTransition(() => applyTheme(next));
@@ -1538,11 +1048,9 @@
 
     let confettiLoop, roachLoop;
     function startConfettiLoop() {
-      // Continuous light sprinkle of confetti
       confettiLoop = setInterval(() => {
         for (let i = 0; i < 3; i++) spawnOneConfetti();
       }, 400);
-      // Occasional cockroach (every 3–7 seconds)
       const scheduleRoach = () => {
         roachLoop = setTimeout(() => {
           spawnOneRoach();
@@ -1562,7 +1070,6 @@
       const tick = () => {
         t += 0.18;
         for (let i = 0; i < VIZ_BARS; i++) {
-          // multi-sine for organic movement
           const s = Math.sin(t + i * 0.4) * 0.5
                   + Math.sin(t * 1.7 + i * 0.25) * 0.3
                   + Math.sin(t * 0.6 + i * 0.9) * 0.2;
@@ -1587,7 +1094,6 @@
       spawnInitialBurst();
       startConfettiLoop();
       startViz();
-      // Start from a random track so the experience varies each time
       playTrack(Math.floor(Math.random() * PLAYLIST.length));
     }
 
@@ -1605,7 +1111,6 @@
 
     partyStop.addEventListener('click', stopParty);
     partySkip.addEventListener('click', skipTrack);
-    // Auto-advance: when one track ends, play the next
     roachAudio.addEventListener('ended', skipTrack);
 
     roachBtn.addEventListener('click', e => {
@@ -1638,7 +1143,6 @@
       try {
         await navigator.clipboard.writeText(email);
       } catch (e) {
-        // Fallback
         const ta = document.createElement('textarea');
         ta.value = email;
         ta.style.position = 'fixed'; ta.style.opacity = '0';
