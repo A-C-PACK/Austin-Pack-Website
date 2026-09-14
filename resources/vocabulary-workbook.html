@@ -79,6 +79,17 @@ nav.tabs button.active{color:var(--accent);border-bottom-color:var(--accent)}
 .printlink{font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
   color:var(--accent);text-decoration:none;border-bottom:1px solid transparent;cursor:pointer;background:none;border-top:none;border-left:none;border-right:none;font-family:var(--sans);}
 .printlink:hover{border-bottom-color:var(--accent)}
+.headacts{display:flex;gap:20px;align-items:baseline;flex-wrap:wrap}
+.say{appearance:none;background:none;border:none;cursor:pointer;padding:2px 4px;margin-left:2px;
+  line-height:0;color:var(--ink-soft);border-radius:4px;transition:.15s;vertical-align:middle;}
+.say:hover{color:var(--accent);background:var(--accent-soft)}
+.say svg{width:15px;height:15px;display:block}
+.say.on{color:var(--accent)}
+.scope{display:flex;gap:0;margin-top:16px;border:1px solid var(--hairline);border-radius:7px;overflow:hidden;width:max-content}
+.scope button{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--sans);
+  font-size:12.5px;font-weight:600;letter-spacing:.03em;padding:8px 15px;color:var(--ink-soft);}
+.scope button+button{border-left:1px solid var(--hairline)}
+.scope button.active{background:var(--accent);color:#fff}
 
 /* word entries */
 ol.words{list-style:none;margin-top:10px}
@@ -210,9 +221,73 @@ footer{margin-top:64px;padding-top:18px;border-top:2px solid var(--ink);
   display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
   font-size:11.5px;color:var(--ink-soft);letter-spacing:.05em;}
 
+/* export modal */
+.ovl{position:fixed;inset:0;z-index:50;background:rgba(33,32,28,.55);
+  display:flex;align-items:center;justify-content:center;padding:24px;}
+.ovl[hidden]{display:none}
+.sheet{background:var(--paper);border:1px solid var(--hairline);border-radius:12px;
+  max-width:560px;width:100%;max-height:88vh;overflow:auto;padding:30px 30px 26px;
+  box-shadow:0 18px 50px rgba(33,32,28,.28);}
+.sheet h3{font-family:var(--serif);font-weight:430;font-size:23px;letter-spacing:-.005em}
+.sheet .lede{margin-top:8px;font-size:14px;color:var(--ink-soft);max-width:48ch}
+.sheet ol.steps{margin:18px 0 0 18px;font-size:14.5px}
+.sheet ol.steps li{margin-bottom:7px}
+.sheet textarea{width:100%;margin-top:16px;height:160px;resize:vertical;
+  font-family:var(--mono);font-size:12.5px;line-height:1.5;color:var(--ink);
+  background:#fff;border:1px solid var(--hairline);border-radius:8px;padding:12px;}
+.sheet textarea:focus{outline:none;border-color:var(--accent)}
+.sheet .sheet-actions{margin-top:18px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.sheet .closex{margin-left:auto}
+.copied{font-size:12.5px;color:var(--good);font-weight:600}
+a.btn{text-decoration:none;display:inline-block}
+
+/* printable vocabulary cards */
+#cardsheet{display:none}
+@page{margin:10mm}
+@media print{
+  body.cards-print #cardsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0}
+  body.cards-print .result-head,body.cards-print ol.words,
+  body.cards-print header.masthead,body.cards-print footer,
+  body.cards-print .panel:not(#panel-words){display:none!important}
+  body.cards-print .card{
+    break-inside:avoid;page-break-inside:avoid;height:66mm;margin:-0.5px;
+    border:1px dashed #999;display:grid;grid-template-rows:1fr 1fr;}
+  body.cards-print .card .chalf{display:flex;flex-direction:column;align-items:center;
+    justify-content:center;text-align:center;padding:4mm 6mm;overflow:hidden}
+  body.cards-print .card .cback{border-top:1px dotted #bbb;position:relative}
+  body.cards-print .card .cw{font-family:var(--serif);font-size:25px;font-weight:500;
+    line-height:1.12;color:#000}
+  body.cards-print .card .cmeta{margin-top:7px;font-size:10.5px;color:#555;
+    font-family:var(--mono);letter-spacing:.02em}
+  body.cards-print .card .cdef{font-size:12.5px;line-height:1.45;color:#000;transform:rotate(180deg)}
+  body.cards-print .card .cfoot{position:absolute;bottom:2.5mm;left:0;right:0;
+    font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:#bbb;
+    transform:rotate(180deg)}
+}
+
+@media print{
+  body.cards-print #cardsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0}
+  body.cards-print .result-head,body.cards-print ol.words,
+  body.cards-print header.masthead{display:none!important}
+  body.cards-print .card{
+    break-inside:avoid;page-break-inside:avoid;height:65mm;padding:7mm 6mm;
+    border:1px dashed #999;display:flex;flex-direction:column;justify-content:center;
+    text-align:center;margin:-0.5px;}
+  body.cards-print .card .cw{font-family:var(--serif);font-size:26px;font-weight:500;
+    line-height:1.1;color:#000}
+  body.cards-print .card .cmeta{margin-top:6px;font-size:11px;color:#555;
+    font-family:var(--mono);letter-spacing:.02em}
+  body.cards-print .card .cfold{margin:8mm 0 6mm;border-top:1px dotted #bbb;position:relative}
+  body.cards-print .card .cfold::after{content:"fold";position:absolute;top:-6px;left:50%;
+    transform:translateX(-50%);background:#fff;padding:0 6px;font-size:7px;
+    letter-spacing:.18em;text-transform:uppercase;color:#aaa}
+  body.cards-print .card .cdef{font-size:12.5px;line-height:1.45;color:#000;
+    transform:rotate(180deg)}
+}
+
 @media print{
   body::before{display:none}
-  nav.tabs,.controls,.printlink,.pchooser,.act-actions,.flashnav,.no-print{display:none!important}
+  nav.tabs,.controls,.printlink,.pchooser,.act-actions,.flashnav,.no-print,.say{display:none!important}
   .page{padding:0;max-width:none}
   .panel{display:none!important}
   .panel.active{display:block!important}
@@ -265,14 +340,45 @@ footer{margin-top:64px;padding-top:18px;border-top:2px solid var(--ink);
       <h2><span class="wk" id="weekLabel"></span> <span id="courseLabel"></span></h2>
       <div class="meta" id="metaLabel"></div>
     </div>
-    <button class="printlink" onclick="window.print()">Print list</button>
+    <div class="headacts">
+      <button class="printlink" onclick="openQuizlet()">Export to Quizlet</button>
+      <button class="printlink" onclick="downloadAllWeeks()">Download all 14 weeks</button>
+      <button class="printlink" onclick="printCards()">Print vocab cards</button>
+      <button class="printlink" onclick="window.print()">Print list</button>
+    </div>
   </div>
   <div class="empty" id="wordsEmpty">
     <div class="glyph">&ldquo;a&rdquo;</div>
     <p>Your words will appear here once you choose a course, major, and week.</p>
   </div>
   <ol class="words" id="words"></ol>
+  <div id="cardsheet" aria-hidden="true"></div>
 </section>
+
+<!-- ===================== QUIZLET EXPORT ===================== -->
+<div class="ovl no-print" id="qzOvl" hidden onclick="if(event.target===this)closeQuizlet()">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="qzTitle">
+    <h3 id="qzTitle">Study these words on Quizlet</h3>
+    <p class="lede">Copy the text below, then paste it into Quizlet&rsquo;s importer.
+    Quizlet will turn your ten words into a set of flashcards.</p>
+    <ol class="steps">
+      <li>Press <b>Copy words</b>.</li>
+      <li>Press <b>Open Quizlet</b>, then choose <b>Import</b> on the new set page.</li>
+      <li>Paste, leave the separators on <b>Tab</b> and <b>New line</b>, and press <b>Import</b>.</li>
+    </ol>
+    <div class="scope" id="qzScope">
+      <button class="active" data-scope="week" onclick="setQzScope('week')">This week &mdash; 10 words</button>
+      <button data-scope="all" onclick="setQzScope('all')">All 14 weeks &mdash; 140 words</button>
+    </div>
+    <textarea id="qzText" readonly spellcheck="false" onclick="this.select()"></textarea>
+    <div class="sheet-actions">
+      <button class="btn primary" onclick="copyQuizlet(this)">Copy words</button>
+      <a class="btn ghost" href="https://quizlet.com/create-set" target="_blank" rel="noopener">Open Quizlet</a>
+      <button class="btn ghost" onclick="downloadQuizlet()">Download .txt</button>
+      <button class="printlink closex" onclick="closeQuizlet()">Close</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===================== SKILLS ===================== -->
 <section class="panel" id="panel-skills">
@@ -419,12 +525,118 @@ function renderWords(){
       if(mp[2]>-1)chips+='<span class="chip aff">root <b>'+ROOT_TAB[mp[2]][0]+'</b> = '+ROOT_TAB[mp[2]][1]+'</span>';
     }
     li.innerHTML='<div class="num">'+n+'</div><div>'+
-      '<div class="entry-line"><span class="w">'+t.word+'</span>'+
+      '<div class="entry-line"><span class="w">'+t.word+'</span>'+SAY_BTN(t.word)+
       '<span class="ipa">'+t.ipa+'</span><span class="pos">'+t.pos+'</span></div>'+
       '<p class="def">'+t.def+'</p>'+(chips?'<div class="chips">'+chips+'</div>':'')+'</div>';
     ol.appendChild(li);
   });
 }
+
+/* ---------- say it aloud (Web Speech API) ---------- */
+const CAN_SPEAK = 'speechSynthesis' in window;
+const SPK_ICON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '+
+  'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+
+  '<path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/>'+
+  '<path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+function SAY_BTN(w){
+  if(!CAN_SPEAK)return '';
+  const esc=String(w).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');
+  return '<button class="say" type="button" data-say="'+esc+'" title="Hear &ldquo;'+esc+'&rdquo;" '+
+    'aria-label="Hear the word '+esc+'">'+SPK_ICON+'</button>';
+}
+document.addEventListener('click',e=>{
+  const b=e.target.closest&&e.target.closest('.say');
+  if(b)say(b,b.dataset.say);
+});
+function pickVoice(){
+  const vs=speechSynthesis.getVoices().filter(v=>/^en(-|_|$)/i.test(v.lang));
+  return vs.find(v=>/^en-US/i.test(v.lang)&&!v.localService)||vs.find(v=>/^en-US/i.test(v.lang))||vs[0]||null;
+}
+function say(btn,word){
+  if(!CAN_SPEAK)return;
+  speechSynthesis.cancel();
+  document.querySelectorAll('.say.on').forEach(b=>b.classList.remove('on'));
+  const u=new SpeechSynthesisUtterance(word);
+  u.lang='en-US'; u.rate=.85;
+  const v=pickVoice(); if(v)u.voice=v;
+  if(btn){btn.classList.add('on'); u.onend=u.onerror=()=>btn.classList.remove('on');}
+  speechSynthesis.speak(u);
+}
+if(CAN_SPEAK&&speechSynthesis.getVoices().length===0)speechSynthesis.onvoiceschanged=pickVoice;
+
+/* ---------- printable vocabulary cards ---------- */
+function printCards(){
+  const s=selection(); if(!s)return;
+  const esc=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const wk='Week '+s.wk+' · EAP '+s.c;
+  $('cardsheet').innerHTML=currentTen().map(t=>
+    '<div class="card"><div class="chalf"><div class="cw">'+esc(t.word)+'</div>'+
+    '<div class="cmeta">'+esc(t.ipa)+' &middot; '+esc(t.pos)+'</div></div>'+
+    '<div class="chalf cback"><div class="cdef">'+esc(t.def)+'</div>'+
+    '<div class="cfoot">'+esc(wk)+'</div></div></div>').join('');
+  document.body.classList.add('cards-print');
+  const off=()=>document.body.classList.remove('cards-print');
+  window.addEventListener('afterprint',off,{once:true});
+  setTimeout(()=>{window.print(); setTimeout(off,500);},30);
+}
+
+/* ---------- exports ---------- */
+function courseWords(){
+  const s=selection(); if(!s)return [];
+  return ranked(s.m).slice((s.c-1)*140,(s.c-1)*140+140);
+}
+function fileStem(){
+  const s=selection();
+  return 'vocabulary-eap'+s.c+'-'+MAJORS[s.m].toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
+}
+function saveFile(name,text,mime){
+  const url=URL.createObjectURL(new Blob([text],{type:(mime||'text/plain')+';charset=utf-8'}));
+  const a=document.createElement('a'); a.href=url; a.download=name;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+function downloadAllWeeks(){
+  const s=selection(); if(!s)return;
+  const q=x=>'"'+String(x==null?'':x).replace(/"/g,'""').replace(/[\r\n\t]+/g,' ').trim()+'"';
+  const rows=[['Week','No.','Word','Part of speech','Pronunciation','Definition'].map(q).join(',')];
+  courseWords().forEach((t,i)=>{
+    rows.push([Math.floor(i/10)+1,i+1,t.word,t.pos,t.ipa,t.def].map(q).join(','));
+  });
+  saveFile(fileStem()+'-all-14-weeks.csv','\ufeff'+rows.join('\r\n'),'text/csv');
+}
+
+/* ---------- Quizlet export ---------- */
+let qzScope='week';
+function quizletLines(){
+  const clean=x=>String(x||'').replace(/[\t\r\n]+/g,' ').trim();
+  const list=qzScope==='all'?courseWords():currentTen();
+  return list.map(t=>clean(t.word)+'\t('+clean(t.pos)+') '+clean(t.def)).join('\n');
+}
+function setQzScope(sc){
+  qzScope=sc;
+  document.querySelectorAll('#qzScope button').forEach(b=>b.classList.toggle('active',b.dataset.scope===sc));
+  $('qzText').value=quizletLines();
+}
+function openQuizlet(){
+  if(!selection())return;
+  setQzScope(qzScope);
+  $('qzOvl').hidden=false;
+}
+function closeQuizlet(){$('qzOvl').hidden=true}
+function copyQuizlet(btn){
+  const ta=$('qzText'), done=()=>{
+    const old=btn.textContent; btn.textContent='Copied'; setTimeout(()=>{btn.textContent=old},1600);
+  };
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(ta.value).then(done,()=>{ta.select();document.execCommand('copy');done()});
+  }else{ta.select();document.execCommand('copy');done()}
+}
+function downloadQuizlet(){
+  if(!selection())return;
+  const s=selection();
+  saveFile(fileStem()+(qzScope==='all'?'-all-14-weeks':'-week-'+s.wk)+'-quizlet.txt',quizletLines());
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeQuizlet()});
 
 /* ---------- SKILLS tab (six lessons) ---------- */
 const LESSONS=[
