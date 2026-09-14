@@ -245,46 +245,26 @@ a.btn{text-decoration:none;display:inline-block}
 #cardsheet{display:none}
 @page{margin:10mm}
 @media print{
-  body.cards-print #cardsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0}
+  body.cards-print #cardsheet{display:block!important}
   body.cards-print .result-head,body.cards-print ol.words,
   body.cards-print header.masthead,body.cards-print footer,
   body.cards-print .panel:not(#panel-words){display:none!important}
+  body.cards-print .cardpage{display:grid;grid-template-columns:1fr 1fr;gap:0}
+  body.cards-print .cardpage.front{break-after:page;page-break-after:always}
   body.cards-print .card{
-    break-inside:avoid;page-break-inside:avoid;height:66mm;margin:-0.5px;
-    border:1px dashed #999;display:grid;grid-template-rows:1fr 1fr;}
-  body.cards-print .card .chalf{display:flex;flex-direction:column;align-items:center;
-    justify-content:center;text-align:center;padding:4mm 6mm;overflow:hidden}
-  body.cards-print .card .cback{border-top:1px dotted #bbb;position:relative}
+    height:50mm;margin:-0.5px;border:1px dashed #999;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:5mm 7mm;overflow:hidden;
+    break-inside:avoid;page-break-inside:avoid;}
+  body.cards-print .card.blank{border-color:#e2e2e2}
   body.cards-print .card .cw{font-family:var(--serif);font-size:25px;font-weight:500;
     line-height:1.12;color:#000}
   body.cards-print .card .cmeta{margin-top:7px;font-size:10.5px;color:#555;
     font-family:var(--mono);letter-spacing:.02em}
-  body.cards-print .card .cdef{font-size:12.5px;line-height:1.45;color:#000;transform:rotate(180deg)}
-  body.cards-print .card .cfoot{position:absolute;bottom:2.5mm;left:0;right:0;
-    font-size:7px;letter-spacing:.18em;text-transform:uppercase;color:#bbb;
-    transform:rotate(180deg)}
+  body.cards-print .card .cdef{font-size:13px;line-height:1.45;color:#000}
+  body.cards-print .card .ctag{margin-top:6px;font-size:7.5px;letter-spacing:.18em;
+    text-transform:uppercase;color:#bbb}
 }
-
-@media print{
-  body.cards-print #cardsheet{display:grid!important;grid-template-columns:1fr 1fr;gap:0}
-  body.cards-print .result-head,body.cards-print ol.words,
-  body.cards-print header.masthead{display:none!important}
-  body.cards-print .card{
-    break-inside:avoid;page-break-inside:avoid;height:65mm;padding:7mm 6mm;
-    border:1px dashed #999;display:flex;flex-direction:column;justify-content:center;
-    text-align:center;margin:-0.5px;}
-  body.cards-print .card .cw{font-family:var(--serif);font-size:26px;font-weight:500;
-    line-height:1.1;color:#000}
-  body.cards-print .card .cmeta{margin-top:6px;font-size:11px;color:#555;
-    font-family:var(--mono);letter-spacing:.02em}
-  body.cards-print .card .cfold{margin:8mm 0 6mm;border-top:1px dotted #bbb;position:relative}
-  body.cards-print .card .cfold::after{content:"fold";position:absolute;top:-6px;left:50%;
-    transform:translateX(-50%);background:#fff;padding:0 6px;font-size:7px;
-    letter-spacing:.18em;text-transform:uppercase;color:#aaa}
-  body.cards-print .card .cdef{font-size:12.5px;line-height:1.45;color:#000;
-    transform:rotate(180deg)}
-}
-
 @media print{
   body::before{display:none}
   nav.tabs,.controls,.printlink,.pchooser,.act-actions,.flashnav,.no-print,.say{display:none!important}
@@ -343,7 +323,7 @@ a.btn{text-decoration:none;display:inline-block}
     <div class="headacts">
       <button class="printlink" onclick="openQuizlet()">Export to Quizlet</button>
       <button class="printlink" onclick="downloadAllWeeks()">Download all 14 weeks</button>
-      <button class="printlink" onclick="printCards()">Print vocab cards</button>
+      <button class="printlink" onclick="openCards()">Print vocab cards</button>
       <button class="printlink" onclick="window.print()">Print list</button>
     </div>
   </div>
@@ -354,6 +334,26 @@ a.btn{text-decoration:none;display:inline-block}
   <ol class="words" id="words"></ol>
   <div id="cardsheet" aria-hidden="true"></div>
 </section>
+
+<!-- ===================== CARD PRINT OPTIONS ===================== -->
+<div class="ovl no-print" id="cardOvl" hidden onclick="if(event.target===this)closeCards()">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="cardTitle">
+    <h3 id="cardTitle">Print vocabulary flashcards</h3>
+    <p class="lede">Ten cards on one sheet, with the definitions on the reverse.
+    In your printer settings choose <b>double-sided</b> (two-sided / duplex), then cut
+    along the dashed lines.</p>
+    <p class="lede" style="margin-top:12px">Most printers flip on the long edge. If your
+    definitions come out behind the wrong words, print again with the other setting.</p>
+    <div class="scope" id="cardFlip">
+      <button class="active" data-flip="long" onclick="setCardFlip('long')">Flip on long edge</button>
+      <button data-flip="short" onclick="setCardFlip('short')">Flip on short edge</button>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn primary" onclick="printCards()">Print</button>
+      <button class="printlink closex" onclick="closeCards()">Cancel</button>
+    </div>
+  </div>
+</div>
 
 <!-- ===================== QUIZLET EXPORT ===================== -->
 <div class="ovl no-print" id="qzOvl" hidden onclick="if(event.target===this)closeQuizlet()">
@@ -564,16 +564,63 @@ function say(btn,word){
 }
 if(CAN_SPEAK&&speechSynthesis.getVoices().length===0)speechSynthesis.onvoiceschanged=pickVoice;
 
-/* ---------- printable vocabulary cards ---------- */
-function printCards(){
+/* ---------- printable vocabulary cards (double-sided) ---------- */
+/* Page 1 holds the words, page 2 the definitions. Duplex printing puts each
+   definition on the back of its own word, so the back page is mirrored:
+   long-edge flip mirrors left-to-right (swap columns), short-edge flip
+   mirrors top-to-bottom (reverse rows). */
+const CARD_COLS=2, CARD_ROWS=5, CARDS_PER_PAGE=CARD_COLS*CARD_ROWS;
+let cardFlip='long';
+function setCardFlip(f){
+  cardFlip=f;
+  document.querySelectorAll('#cardFlip button').forEach(b=>b.classList.toggle('active',b.dataset.flip===f));
+}
+function backOrder(n){
+  /* index of the card that belongs at each slot of the reverse page */
+  const out=[];
+  for(let r=0;r<CARD_ROWS;r++){
+    for(let c=0;c<CARD_COLS;c++){
+      const rr = cardFlip==='short' ? CARD_ROWS-1-r : r;
+      const cc = cardFlip==='short' ? c : CARD_COLS-1-c;
+      const idx = rr*CARD_COLS+cc;
+      out.push(idx<n?idx:-1);
+    }
+  }
+  return out;
+}
+function buildCards(){
   const s=selection(); if(!s)return;
   const esc=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const wk='Week '+s.wk+' · EAP '+s.c;
-  $('cardsheet').innerHTML=currentTen().map(t=>
-    '<div class="card"><div class="chalf"><div class="cw">'+esc(t.word)+'</div>'+
-    '<div class="cmeta">'+esc(t.ipa)+' &middot; '+esc(t.pos)+'</div></div>'+
-    '<div class="chalf cback"><div class="cdef">'+esc(t.def)+'</div>'+
-    '<div class="cfoot">'+esc(wk)+'</div></div></div>').join('');
+  const ten=currentTen(), tag='Week '+s.wk+' · EAP '+s.c;
+  const pages=[];
+  for(let p=0;p<ten.length;p+=CARDS_PER_PAGE){
+    const chunk=ten.slice(p,p+CARDS_PER_PAGE);
+    const front=[], back=[];
+    for(let k=0;k<CARDS_PER_PAGE;k++){
+      const t=chunk[k];
+      front.push(t?'<div class="card"><div class="cw">'+esc(t.word)+'</div>'+
+        '<div class="cmeta">'+esc(t.ipa)+' &middot; '+esc(t.pos)+'</div></div>'
+        :'<div class="card blank"></div>');
+    }
+    backOrder(chunk.length).forEach(idx=>{
+      const t=idx>-1?chunk[idx]:null;
+      back.push(t?'<div class="card"><div class="cdef">'+esc(t.def)+'</div>'+
+        '<div class="ctag">'+esc(t.word)+' &middot; '+esc(tag)+'</div></div>'
+        :'<div class="card blank"></div>');
+    });
+    pages.push('<div class="cardpage front">'+front.join('')+'</div>');
+    pages.push('<div class="cardpage back">'+back.join('')+'</div>');
+  }
+  $('cardsheet').innerHTML=pages.join('');
+  /* the very last page must not force a trailing blank sheet */
+  const ps=$('cardsheet').querySelectorAll('.cardpage');
+  if(ps.length)ps[ps.length-1].classList.remove('front');
+}
+function openCards(){ if(!selection())return; $('cardOvl').hidden=false; }
+function closeCards(){ $('cardOvl').hidden=true; }
+function printCards(){
+  buildCards();
+  closeCards();
   document.body.classList.add('cards-print');
   const off=()=>document.body.classList.remove('cards-print');
   window.addEventListener('afterprint',off,{once:true});
@@ -636,7 +683,7 @@ function downloadQuizlet(){
   const s=selection();
   saveFile(fileStem()+(qzScope==='all'?'-all-14-weeks':'-week-'+s.wk)+'-quizlet.txt',quizletLines());
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeQuizlet()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeQuizlet();closeCards();}});
 
 /* ---------- SKILLS tab (six lessons) ---------- */
 const LESSONS=[
