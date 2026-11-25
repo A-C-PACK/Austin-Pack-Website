@@ -3,70 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Austin Pack</title>
-  <meta name="description" content="Austin Pack — Assistant Professor of English Language Teaching at BYU–Hawaii. Research in AI, SLA, motivation, and technology-enhanced language learning." />
-  <meta name="theme-color" content="#fbfaf7" />
-  <meta property="og:title" content="Austin Pack — Teaching Portfolio" />
-  <meta property="og:description" content="Assistant Professor of English Language Teaching &amp; Learning at Brigham Young University–Hawaii." />
+  <title>Austin Pack — language educator and designer of learning experiences</title>
+  <meta name="description" content="Austin Pack, Assistant Professor of English Language Teaching & Learning at BYU–Hawaii. Recent projects: automatic written corrective feedback, Hawaiʻi Postcards, the EIL313 Listening Lab, Sixty Radicals, and Spanish games." />
+  <meta property="og:title" content="Austin Pack" />
+  <meta property="og:description" content="Language educator and designer of engaging learning experiences." />
   <meta property="og:type" content="website" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%230b3b4c'/><text x='16' y='23' font-family='Arial,sans-serif' font-size='18' font-weight='700' fill='%23fbfaf7' text-anchor='middle'>A</text></svg>" />
+  <meta name="theme-color" content="#f2f5f3" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Literata:ital,opsz,wght@0,7..72,400..600;1,7..72,400&display=swap" rel="stylesheet" />
   <style>
-    /* ── TOKENS ── */
+    /* Tokens. Sea-glass paper, deep-ocean ink, one highlighter. */
     :root {
-      --bg:      #fbfaf7;
+      --bg:      #f2f5f3;
       --surface: #ffffff;
-      --head:    #0b3b4c;
-      --accent:  #0e7c86;
-      --chip:    #e9e2d4;
-      --sand:    #e9e2d4;
-      --text:    #46565e;
-      --line:    #e3ded2;
-      --btn:     #0b3b4c;
-      --band:    #0b3b4c;
-      --band-tx: #cfe0e3;
-      --band-ln: #8fd0d6;
-      --shadow:  rgba(11,59,76,.35);
-      --display: 'Schibsted Grotesk', system-ui, sans-serif;
-      --body:    'Inter', system-ui, sans-serif;
+      --head:    #0a2a33;
+      --text:    #3a4c52;
+      --quiet:   #5f7278;
+      --accent:  #0b6e78;
+      --mark:    #ffd84a;
+      --line:    #d3dcd8;
+      --stage:   #061a20;
+      --stage-ln:#1c3a43;
+      --btn:     #0a2a33;
+      --shadow:  rgba(6,26,32,.28);
+      --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+      --body:    'Literata', Georgia, 'Times New Roman', serif;
       --ease:    cubic-bezier(.22,.61,.36,1);
+      --gut:     clamp(1.1rem, 4vw, 2.5rem);
     }
     [data-theme="dark"] {
-      --bg:      #0c161b;
-      --surface: #12222a;
-      --head:    #e7f0ef;
-      --accent:  #4fb3bc;
-      --chip:    #1d3038;
-      --sand:    #3a4b46;
-      --text:    #a8bcc2;
-      --line:    #22343c;
-      --btn:     #0e7c86;
-      --band:    #10303c;
-      --band-tx: #b8ced3;
-      --band-ln: #8fd0d6;
-      --shadow:  rgba(0,0,0,.5);
+      --bg:      #07171c;
+      --surface: #0e242b;
+      --head:    #eaf2f0;
+      --text:    #aabdc1;
+      --quiet:   #8298a0;
+      --accent:  #62c6ce;
+      --line:    #1d353d;
+      --stage:   #030f13;
+      --stage-ln:#1c3a43;
+      --btn:     #0b6e78;
+      --shadow:  rgba(0,0,0,.55);
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 76px; }
     body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: var(--body);
-      font-size: 1rem;
-      line-height: 1.75;
+      background: var(--bg); color: var(--text);
+      font-family: var(--body); font-size: 1.0625rem; line-height: 1.7;
       -webkit-font-smoothing: antialiased;
-      transition: background .4s var(--ease), color .4s var(--ease);
     }
-    ::selection { background: var(--accent); color: #fff; }
-    img { max-width: 100%; display: block; }
-    a { color: var(--accent); }
+    ::selection { background: var(--mark); color: #0a2a33; }
+    img, video { max-width: 100%; display: block; }
+    a { color: var(--accent); text-underline-offset: .18em; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+    button { font: inherit; color: inherit; }
+    h1, h2, h3 { font-family: var(--display); color: var(--head); font-weight: 700; line-height: 1.08; letter-spacing: -.015em; }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 0 var(--gut); }
 
-    /* ── VIEW TRANSITIONS — circular clip-reveal from theme toggle ── */
-    ::view-transition-old(root),
-    ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+    /* View transition for the theme switch (kept from the previous site) */
+    ::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
     ::view-transition-old(root) { z-index: 1; }
     ::view-transition-new(root) { z-index: 2; }
     @keyframes vt-clip-in {
@@ -75,1064 +72,667 @@
     }
     .vt-active::view-transition-new(root) { animation: vt-clip-in .6s var(--ease) forwards; }
 
-    /* Signature: the waterline — deep ocean → reef → shore */
-    .waterline {
-      height: 3px; width: 100%;
-      background: linear-gradient(90deg, #0b3b4c 0%, #0e7c86 45%, #6db3ad 70%, #e9e2d4 100%);
-    }
-
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 0 2rem; }
-
-    /* ── SCROLL PROGRESS ── */
-    .scroll-progress {
-      position: fixed; top: 0; left: 0; right: 0;
-      height: 2px; z-index: 200; pointer-events: none;
-    }
-    .scroll-progress__bar { height: 100%; width: 0; background: var(--accent); }
-
-    /* ── SKIP LINK ── */
     .skip-link {
-      position: absolute; top: -100%; left: 1rem;
+      position: absolute; top: -100%; left: 1rem; z-index: 300;
       background: var(--head); color: var(--bg);
-      font-size: .78rem; font-weight: 600;
-      padding: .5rem 1rem; text-decoration: none;
-      border-radius: 0 0 8px 8px;
-      z-index: 300; transition: top .2s;
+      font-family: var(--display); font-size: .85rem; font-weight: 600;
+      padding: .5rem 1rem; text-decoration: none; border-radius: 0 0 8px 8px;
     }
     .skip-link:focus { top: 0; }
 
-    /* ── NAV ── */
+    /* Nav */
     header.site {
       position: sticky; top: 0; z-index: 100;
-      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      background: color-mix(in srgb, var(--bg) 90%, transparent);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line);
-      transition: background .4s var(--ease), border-color .4s var(--ease);
     }
-    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-    .nav-name {
-      font-family: var(--display);
-      font-weight: 700; font-size: 1.05rem;
-      color: var(--head); text-decoration: none;
-      letter-spacing: -.01em;
-    }
-    .nav-links { display: flex; gap: 1.6rem; align-items: center; }
-    .nav-links a {
-      font-size: .82rem; font-weight: 500;
-      color: var(--text); text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--accent); }
-    .nav-cta {
-      font-size: .82rem; font-weight: 600;
-      color: #fff !important; background: var(--btn);
-      padding: .5rem 1.05rem; border-radius: 999px;
-      transition: background .25s;
-    }
-    .nav-cta:hover { background: var(--accent); color: #fff !important; }
-    .theme-btn {
-      background: none; border: none; cursor: pointer;
-      color: var(--text); padding: .35rem;
-      display: inline-flex; align-items: center;
-      border-radius: 999px;
-      transition: color .2s;
-    }
-    .theme-btn:hover { color: var(--accent); }
-    .theme-btn svg { width: 16px; height: 16px; transition: transform .4s var(--ease); }
-    .theme-btn:hover svg { transform: rotate(-18deg); }
-    .nav-right-mobile { display: none; align-items: center; gap: .4rem; }
-    .menu-btn { display: none; background: none; border: none; cursor: pointer; padding: .4rem; }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+    .nav-name { font-family: var(--display); font-weight: 800; font-size: 1.1rem; color: var(--head); text-decoration: none; letter-spacing: -.01em; }
+    .nav-id { display: flex; align-items: baseline; gap: 1.3rem; min-width: 0; }
+    .nav-quick { display: flex; gap: 1rem; font-family: var(--display); font-size: .88rem; font-weight: 600; white-space: nowrap; }
+    .nav-quick a { color: var(--head); text-decoration: none; box-shadow: inset 0 -.42em 0 var(--mark); }
+    .nav-quick a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); color: #0a2a33; }
+    [data-theme="dark"] .nav-quick a { box-shadow: inset 0 -2px 0 var(--mark); }
+    [data-theme="dark"] .nav-quick a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; font-family: var(--display); }
+    .nav-links a { font-size: .9rem; font-weight: 500; color: var(--text); text-decoration: none; }
+    .nav-links a:hover { color: var(--head); box-shadow: inset 0 -.5em 0 var(--mark); }
+    [data-theme="dark"] .nav-links a:hover { color: #0a2a33; box-shadow: inset 0 -1.4em 0 var(--mark); }
+    .theme-btn { background: none; border: none; cursor: pointer; color: var(--text); padding: .4rem; display: inline-flex; border-radius: 999px; }
+    .theme-btn:hover { color: var(--head); }
+    .theme-btn svg { width: 17px; height: 17px; }
+    .nav-right-mobile { display: none; align-items: center; gap: .3rem; }
+    .menu-btn { background: none; border: none; cursor: pointer; padding: .4rem; }
     .menu-btn span { display: block; width: 22px; height: 2px; background: var(--head); margin: 5px 0; border-radius: 2px; transition: transform .25s, opacity .2s; }
     .menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .menu-btn.open span:nth-child(2) { opacity: 0; }
     .menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-    .mobile-menu {
-      display: none;
-      border-top: 1px solid var(--line);
-      background: var(--bg);
-      padding: 1rem 2rem 1.5rem;
-      flex-direction: column; gap: .2rem;
-    }
+    .mobile-menu { display: none; border-top: 1px solid var(--line); background: var(--bg); padding: .6rem var(--gut) 1.2rem; flex-direction: column; }
     .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-family: var(--display); font-weight: 600;
-      font-size: 1.1rem; color: var(--head);
-      text-decoration: none; padding: .55rem 0;
-      border-bottom: 1px solid var(--line);
-    }
+    .mobile-menu a { font-family: var(--display); font-weight: 600; font-size: 1.1rem; color: var(--head); text-decoration: none; padding: .6rem 0; border-bottom: 1px solid var(--line); }
 
-    /* ── HERO ── */
-    .hero { padding: 5rem 0 4.5rem; }
-    .hero-grid {
-      display: grid; grid-template-columns: 1.25fr .75fr;
-      gap: 4rem; align-items: center;
-    }
-    .hero-kicker {
-      font-size: .78rem; font-weight: 600;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: var(--accent); margin-bottom: 1.1rem;
-    }
+    /* Hero: a statement, then the work itself, playing. */
+    .hero { padding: clamp(1.8rem, 4vw, 3rem) 0 clamp(3rem, 6vw, 5rem); }
     .hero h1 {
-      font-family: var(--display);
-      font-size: clamp(2.8rem, 6vw, 4.6rem);
-      font-weight: 800; line-height: 1.03;
-      letter-spacing: -.03em; color: var(--head);
-      margin-bottom: 1.4rem;
+      font-size: clamp(2rem, 4.2vw, 3.4rem);
+      font-weight: 800; font-stretch: 85%; letter-spacing: -.025em; line-height: .98;
+      max-width: 19ch; text-wrap: balance;
     }
-    .hero-lede {
-      font-size: 1.12rem; line-height: 1.8;
-      max-width: 34rem; margin-bottom: 2.2rem;
-    }
-    .hero-actions { display: flex; gap: .85rem; flex-wrap: wrap; }
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-family: var(--body); font-size: .88rem; font-weight: 600;
-      text-decoration: none; padding: .72rem 1.4rem;
-      border-radius: 999px; transition: background .25s, color .25s, border-color .25s;
-    }
-    .btn-primary { background: var(--btn); color: #fff; }
-    .btn-primary:hover { background: var(--accent); color: #fff; }
-    .btn-ghost { border: 1.5px solid var(--line); color: var(--head); }
-    .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-    .hero-photo {
-      position: relative;
-      border-radius: 200px 200px 20px 20px; /* arched, like a shoreline window */
-      overflow: hidden;
-      aspect-ratio: 3/3.8;
-      box-shadow: 0 24px 60px -24px var(--shadow);
-    }
-    .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; }
-    .hero-photo::after {
-      content: '';
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, transparent 70%, rgba(11,59,76,.28));
-    }
+    .hero-top { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1.4rem, 4vw, 3.5rem); align-items: end; }
+    .hero-lede { font-size: 1.0625rem; max-width: 46ch; }
+    .hero-links { display: flex; gap: 1.2rem; margin-top: .9rem; font-family: var(--display); font-size: .95rem; font-weight: 600; }
+    .hero-links a { color: var(--head); text-decoration: none; box-shadow: inset 0 -.42em 0 var(--mark); }
+    .hero-links a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); color: #0a2a33; }
+    [data-theme="dark"] .hero-links a { box-shadow: inset 0 -2px 0 var(--mark); }
+    [data-theme="dark"] .hero-links a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); }
 
-    /* ── SECTIONS ── */
-    section.block { padding: 4.5rem 0; }
-    section.block + section.block { border-top: 1px solid var(--line); }
-    .sec-head { margin-bottom: 2.4rem; }
-    .sec-kicker {
-      font-size: .74rem; font-weight: 600;
-      letter-spacing: .16em; text-transform: uppercase;
-      color: var(--accent); display: block; margin-bottom: .5rem;
+    .reel { margin-top: clamp(1.5rem, 3vw, 2.2rem); }
+    .stage {
+      position: relative; background: var(--stage);
+      border-radius: 14px 14px 0 0; overflow: hidden;
+      aspect-ratio: 16 / 9;
+      box-shadow: 0 30px 60px -30px var(--shadow);
     }
-    .sec-head h2 {
-      font-family: var(--display);
-      font-size: clamp(1.7rem, 3vw, 2.3rem);
-      font-weight: 700; letter-spacing: -.02em;
-      color: var(--head);
+    .stage video { width: 100%; height: 100%; object-fit: cover; background: var(--stage); }
+    .stage-ctl {
+      position: absolute; right: .8rem; bottom: .8rem;
+      display: flex; gap: .4rem;
     }
-    .sec-head .waterline { width: 72px; margin-top: 1rem; border-radius: 2px; }
+    .stage-btn {
+      background: rgba(6,26,32,.72); color: #fff; border: 1px solid rgba(255,255,255,.25);
+      font-family: var(--display); font-size: .8rem; font-weight: 600;
+      padding: .4rem .8rem; border-radius: 999px; cursor: pointer; backdrop-filter: blur(6px);
+    }
+    .stage-btn:hover { background: #fff; color: #0a2a33; }
+    .reel-tabs {
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      background: var(--stage); border-radius: 0 0 14px 14px;
+      border-top: 1px solid var(--stage-ln);
+    }
+    .reel-tab {
+      position: relative; text-align: left; cursor: pointer;
+      background: none; border: none; border-left: 1px solid var(--stage-ln);
+      padding: 1rem 1rem 1.05rem; color: #9db3b9;
+      font-family: var(--display); line-height: 1.25;
+    }
+    .reel-tab:first-child { border-left: none; border-radius: 0 0 0 14px; }
+    .reel-tab:last-child { border-radius: 0 0 14px 0; }
+    .reel-tab b { display: inline; font-size: 1rem; font-weight: 700; color: #e6efed; padding: 0 .15em; margin-left: -.15em; }
+    .reel-tab span { display: block; font-size: .8rem; margin-top: .25rem; }
+    .reel-tab:hover b { color: #fff; }
+    .reel-tab[aria-selected="true"] b { background: var(--mark); color: #0a2a33; }
+    .reel-tab[aria-selected="true"] { color: #d5e2e0; }
+    .reel-tab i { position: absolute; left: 0; top: -1px; height: 2px; width: 0; background: var(--mark); }
+
+    /* Sections */
+    .block { padding: clamp(3rem, 7vw, 5.5rem) 0; border-top: 1px solid var(--line); }
+    .block > .wrap > h2 { font-size: clamp(1.9rem, 3.6vw, 2.9rem); font-stretch: 88%; font-weight: 800; max-width: 22ch; }
+    .block-intro { max-width: 62ch; margin-top: .9rem; }
+
+    /* Projects */
+    .project {
+      display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(1.4rem, 3.5vw, 3rem); align-items: center;
+      padding: clamp(2rem, 4.5vw, 3.4rem) 0;
+      border-top: 1px solid var(--line);
+    }
+    .projects .project:first-of-type { border-top: none; }
+    .project.flip .shot { order: 2; }
+    .shot {
+      position: relative; display: block; width: 100%; padding: 0; border: none; cursor: pointer;
+      background: var(--stage); border-radius: 12px; overflow: hidden; aspect-ratio: 16 / 9;
+      box-shadow: 0 24px 44px -28px var(--shadow);
+    }
+    .shot img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease); }
+    .shot:hover img { transform: scale(1.025); }
+    .shot-play {
+      position: absolute; left: 1rem; bottom: 1rem;
+      display: inline-flex; align-items: center; gap: .55rem;
+      background: var(--mark); color: #0a2a33;
+      font-family: var(--display); font-weight: 700; font-size: .92rem;
+      padding: .55rem 1rem .55rem .8rem; border-radius: 999px;
+    }
+    .shot-play svg { width: 14px; height: 14px; }
+    .project h3 { font-size: clamp(1.6rem, 2.6vw, 2.15rem); font-stretch: 88%; font-weight: 800; }
+    .project .what { font-family: var(--display); font-weight: 600; font-size: 1.08rem; color: var(--head); margin-top: .5rem; line-height: 1.35; }
+    .project p.desc { margin-top: .8rem; max-width: 52ch; }
+    .facts { margin-top: 1rem; font-family: var(--display); font-size: .9rem; color: var(--quiet); line-height: 1.5; }
+    .facts dt { float: left; clear: left; font-weight: 700; color: var(--head); margin-right: .45em; }
+    .facts dd { margin-bottom: .15rem; }
+    .plinks { display: flex; flex-wrap: wrap; gap: .5rem 1.3rem; margin-top: 1.1rem; font-family: var(--display); font-weight: 600; font-size: .98rem; }
+    .plinks a { color: var(--head); text-decoration: none; box-shadow: inset 0 -.42em 0 var(--mark); }
+    .plinks a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); color: #0a2a33; }
+    [data-theme="dark"] .plinks a { box-shadow: inset 0 -2px 0 var(--mark); }
+    [data-theme="dark"] .plinks a:hover { box-shadow: inset 0 -1.5em 0 var(--mark); }
+
+    /* Also building */
+    .also { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(1.4rem, 3vw, 2.6rem); margin-top: 2.2rem; }
+    .also h3 { font-size: 1.3rem; font-weight: 700; }
+    .also p { margin-top: .6rem; font-size: 1rem; }
+    .also img { margin-top: 1rem; border-radius: 8px; border: 1px solid var(--line); }
 
     /* About */
-    .about-grid { display: grid; grid-template-columns: 1.4fr .6fr; gap: 3.5rem; align-items: start; }
-    .about-grid p { margin-bottom: 1rem; max-width: 60ch; }
-    .interest-card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 1.6rem 1.6rem 1.2rem;
+    .about { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(1.6rem, 4vw, 3.5rem); align-items: start; margin-top: 2.2rem; }
+    .about img { border-radius: 12px; aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
+    .about p + p { margin-top: 1rem; }
+    .about p { max-width: 60ch; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: .7rem; margin-top: 1.5rem; }
+    .btn {
+      display: inline-block; font-family: var(--display); font-weight: 700; font-size: .95rem;
+      padding: .7rem 1.25rem; border-radius: 999px; text-decoration: none;
+      border: 1.5px solid var(--btn); color: var(--head); background: transparent;
     }
-    .interest-card h3 {
-      font-family: var(--display); font-weight: 700;
-      font-size: 1rem; color: var(--head);
-      margin-bottom: .9rem;
-    }
-    .interest-card ul { list-style: none; }
-    .interest-card li {
-      font-size: .88rem; padding: .5rem 0;
-      border-bottom: 1px solid var(--line);
-    }
-    .interest-card li:last-child { border-bottom: none; }
-    .interest-card li::before { content: '—'; color: var(--accent); margin-right: .6rem; }
-
-    /* Research cards */
-    .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 1.9rem;
-      display: flex; flex-direction: column; gap: .9rem;
-      transition: transform .3s var(--ease), box-shadow .3s var(--ease);
-    }
-    .card:hover { transform: translateY(-4px); box-shadow: 0 20px 44px -26px var(--shadow); }
-    .card h3 {
-      font-family: var(--display); font-weight: 700;
-      font-size: 1.2rem; color: var(--head); letter-spacing: -.01em;
-    }
-    .card p { font-size: .92rem; line-height: 1.75; }
-    .card img { border-radius: 10px; border: 1px solid var(--line); }
-    .card .card-links { margin-top: auto; padding-top: .4rem; }
-    .card a.text-link {
-      font-size: .86rem; font-weight: 600;
-      color: var(--accent); text-decoration: none;
-    }
-    .card a.text-link:hover { text-decoration: underline; }
+    .btn.solid { background: var(--btn); color: #fff; }
+    .btn:hover { background: var(--mark); border-color: var(--mark); color: #0a2a33; }
 
     /* Teaching */
-    .pill-row { display: flex; flex-wrap: wrap; gap: .6rem; margin: 1.4rem 0 2.6rem; }
-    .pill {
-      font-size: .8rem; font-weight: 500;
-      background: var(--chip); color: var(--head);
-      padding: .42rem 1rem; border-radius: 999px;
-    }
-    .quotes { display: grid; grid-template-columns: 1fr 1fr; gap: 1.4rem; }
-    .quote {
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--accent);
-      border-radius: 0 14px 14px 0;
-      padding: 1.6rem 1.7rem;
-    }
-    .quote blockquote { font-size: .92rem; line-height: 1.8; font-style: italic; margin-bottom: .9rem; }
-    .quote cite {
-      font-style: normal; font-size: .76rem; font-weight: 600;
-      letter-spacing: .06em; text-transform: uppercase; color: var(--accent);
-    }
-    .quotes-h {
-      font-family: var(--display); font-weight: 700;
-      font-size: 1.05rem; color: var(--head); margin-bottom: 1.1rem;
-    }
+    .pull { margin-top: 2.2rem; max-width: 30ch; }
+    .pull blockquote { font-family: var(--display); font-weight: 700; font-stretch: 90%; font-size: clamp(1.5rem, 3vw, 2.3rem); line-height: 1.16; color: var(--head); letter-spacing: -.01em; text-wrap: balance; }
+    .pull-grid { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: clamp(1.6rem, 4vw, 3.5rem); align-items: end; }
+    cite { display: block; margin-top: .7rem; font-family: var(--display); font-style: normal; font-size: .88rem; color: var(--quiet); }
+    .courses { font-family: var(--display); font-size: .98rem; line-height: 1.6; }
+    .courses strong { color: var(--head); }
+    .quotes-h { font-size: 1.3rem; margin-top: 3.2rem; }
+    .quote-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0 clamp(1.6rem, 4vw, 3.5rem); margin-top: 1rem; }
+    .quote { padding: 1.5rem 0 1.6rem; border-top: 1px solid var(--line); font-size: 1rem; line-height: 1.68; }
+    .quote .lead { font-family: var(--display); font-weight: 700; font-size: 1.14em; line-height: 1.32; color: var(--head); letter-spacing: -.005em; }
+    .quote.feature { border-top: 3px solid var(--mark); margin-top: .4rem; padding-top: 1.7rem; }
+    .quote.feature blockquote { columns: 2; column-gap: clamp(1.6rem, 4vw, 3.5rem); }
+    .quote.feature p { break-inside: avoid; }
+    .quote.feature p + p { margin-top: 0; }
 
     /* Resources */
-    .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
-    .res-list { list-style: none; }
-    .res-list a {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: .85rem 1rem;
-      border: 1px solid var(--line); border-radius: 12px;
-      margin-bottom: .55rem;
-      background: var(--surface);
-      color: var(--head); font-weight: 500; font-size: .92rem;
-      text-decoration: none;
-      transition: border-color .25s, transform .25s var(--ease);
-    }
-    .res-list a:hover { border-color: var(--accent); transform: translateX(4px); }
-    .res-list a span { color: var(--accent); font-size: .8rem; }
-    .res-h {
-      font-family: var(--display); font-weight: 700;
-      font-size: 1.05rem; color: var(--head); margin-bottom: 1rem;
-    }
-    .res-note { font-size: .9rem; margin: .8rem 0 1.2rem; }
+    .res { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: clamp(1.6rem, 4vw, 3.5rem); margin-top: 2.2rem; }
+    .res.one { grid-template-columns: minmax(0, 34rem); }
+    .res h3 { font-size: 1.25rem; }
+    .res-list { list-style: none; margin-top: .8rem; columns: 2; column-gap: 2rem; }
+    .res-list.one { columns: 1; }
+    .res-list li { break-inside: avoid; border-top: 1px solid var(--line); }
+    .res-list a { display: block; padding: .7rem 0; font-family: var(--display); font-weight: 600; color: var(--head); text-decoration: none; }
+    .res-list a:hover { box-shadow: inset 0 -.42em 0 var(--mark); }
+    .res p { margin-top: .7rem; font-size: 1rem; max-width: 46ch; }
 
     /* Contact */
-    .contact-band {
-      background: var(--band);
-      border-radius: 22px;
-      color: var(--band-tx);
-      padding: 3.2rem;
-      display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem;
-    }
-    .contact-band h2 {
-      font-family: var(--display); font-weight: 700;
-      font-size: 1.8rem; color: #fff; letter-spacing: -.02em;
-      margin-bottom: 1rem;
-    }
-    .contact-band a { color: var(--band-ln); text-decoration: none; font-weight: 500; }
-    .contact-band a:hover { text-decoration: underline; }
-    .contact-band address { font-style: normal; font-size: .94rem; line-height: 1.9; }
-    .contact-links { display: flex; flex-direction: column; gap: .5rem; font-size: .94rem; }
-    .copy-email {
-      background: none; border: none; padding: 0; cursor: pointer;
-      font-family: var(--body); font-size: .94rem; font-weight: 500;
-      color: var(--band-ln); text-align: left;
-    }
-    .copy-email:hover { text-decoration: underline; }
-    .copy-confirm {
-      display: inline-block; margin-left: .6rem;
-      font-size: .74rem; font-weight: 600;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: #fff;
-      opacity: 0; transform: translateY(2px);
-      transition: opacity .25s var(--ease), transform .25s var(--ease);
-      pointer-events: none;
-    }
-    .copy-confirm.show { opacity: 1; transform: translateY(0); }
+    .contact { background: var(--stage); color: #b9cbcf; border-top: none; }
+    .contact h2 { color: #fff; }
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem 3rem; margin-top: 1.8rem; }
+    .contact address { font-style: normal; line-height: 1.75; }
+    .contact-links { display: flex; flex-direction: column; align-items: flex-start; gap: .55rem; font-family: var(--display); font-weight: 600; }
+    .contact-links a, .copy-email { color: #fff; text-decoration: none; box-shadow: inset 0 -2px 0 var(--mark); background: none; border: none; cursor: pointer; padding: 0; font-weight: 600; }
+    .contact-links a:hover, .copy-email:hover { box-shadow: inset 0 -1.5em 0 var(--mark); color: #0a2a33; }
+    .copy-confirm { margin-left: .6rem; font-size: .85rem; color: var(--mark); opacity: 0; transition: opacity .2s; }
+    .copy-confirm.show { opacity: 1; }
+    footer.site { background: var(--stage); color: #8aa0a6; font-family: var(--display); font-size: .88rem; }
+    footer.site .wrap { display: flex; justify-content: space-between; align-items: center; padding-top: 1.4rem; padding-bottom: 1.6rem; border-top: 1px solid var(--stage-ln); }
+    footer.site a { color: #b9cbcf; }
 
-    footer.site {
-      padding: 2rem 0 2.5rem;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: .8rem; color: var(--text);
+    /* Player dialog */
+    dialog.player {
+      width: min(1120px, 94vw); max-width: none; padding: 0; border: none; border-radius: 14px;
+      background: var(--stage); color: #fff; margin: auto; overflow: hidden;
+      box-shadow: 0 40px 100px -20px rgba(0,0,0,.7);
     }
-    footer.site a { color: var(--text); text-decoration: none; }
-    footer.site a:hover { color: var(--accent); }
+    dialog.player::backdrop { background: rgba(3,15,19,.82); backdrop-filter: blur(4px); }
+    .player-bar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .8rem 1rem .8rem 1.2rem; font-family: var(--display); }
+    .player-bar strong { font-size: 1.05rem; }
+    .player-close { background: none; border: 1px solid rgba(255,255,255,.3); color: #fff; border-radius: 999px; padding: .35rem .9rem; cursor: pointer; font-family: var(--display); font-weight: 600; font-size: .85rem; }
+    .player-close:hover { background: var(--mark); border-color: var(--mark); color: #0a2a33; }
+    dialog.player video { width: 100%; aspect-ratio: 16 / 9; background: #000; }
 
-    /* ── COCKROACH EASTER EGG ── */
-    .roach-wrap { position: relative; display: inline-block; vertical-align: middle; }
-    .roach-btn {
-      background: none; border: none; cursor: pointer;
-      font-size: .85rem; padding: 0 0 0 .35rem;
-      line-height: 1; vertical-align: middle;
-      display: inline-block;
-      transition: transform .3s var(--ease);
-    }
-    .roach-btn:hover { transform: rotate(-20deg) scale(1.3); }
-    .roach-bubble {
-      display: none;
-      position: absolute;
-      bottom: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--surface);
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      padding: .85rem 1rem;
-      width: 210px;
-      box-shadow: 0 8px 24px -8px var(--shadow);
-      z-index: 500;
-    }
-    .roach-bubble::after {
-      content: '';
-      position: absolute; top: 100%; left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: var(--line);
-    }
-    .roach-bubble::before {
-      content: '';
-      position: absolute; top: calc(100% - 1px); left: 50%;
-      transform: translateX(-50%);
-      border: 6px solid transparent;
-      border-top-color: var(--surface);
-      z-index: 1;
-    }
-    .roach-bubble.open { display: block; }
-    .roach-bubble label {
-      display: block;
-      font-size: .68rem; font-weight: 600;
-      letter-spacing: .08em; text-transform: uppercase;
-      color: var(--text); margin-bottom: .5rem;
-    }
-    .roach-bubble input {
-      width: 100%;
-      background: var(--bg);
-      border: 1px solid var(--line);
-      border-radius: 6px;
-      color: var(--head);
-      font-family: var(--body);
-      font-size: .8rem;
-      padding: .4rem .6rem;
-      outline: none;
-      transition: border-color .2s;
-    }
-    .roach-bubble input:focus { border-color: var(--accent); }
-    .roach-bubble input.wrong { border-color: #c0392b; animation: shake .35s var(--ease); }
-    @keyframes shake {
-      0%,100% { transform: translateX(0); }
-      25%      { transform: translateX(-5px); }
-      75%      { transform: translateX(5px); }
-    }
-
-    /* ── PARTY MODE ── */
-    .party-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      pointer-events: none;
-      z-index: 9500;
-    }
-    .party-overlay.active { display: block; }
-    .party-strobe {
-      position: absolute; inset: 0;
-      mix-blend-mode: overlay;
-      opacity: .4;
-      animation: partyWash 12s ease-in-out infinite;
-    }
-    @keyframes partyWash {
-      0%   { background: rgba(255, 46, 165, .35); }
-      20%  { background: rgba(155,  77, 255, .35); }
-      40%  { background: rgba( 41, 229, 255, .35); }
-      60%  { background: rgba( 74, 255, 126, .35); }
-      80%  { background: rgba(245, 215, 110, .35); }
-      100% { background: rgba(255, 46, 165, .35); }
-    }
-    .party-lights { position: absolute; inset: 0; overflow: hidden; }
-    .party-light {
-      position: absolute;
-      width: 60vmax; height: 60vmax;
-      border-radius: 50%;
-      filter: blur(60px);
-      mix-blend-mode: screen;
-      opacity: .55;
-      will-change: transform;
-    }
-    .party-light.p1 { background: radial-gradient(circle, #ff2ea5 0%, transparent 60%); top: -20%; left: -15%; animation: orbit1 6s linear infinite; }
-    .party-light.p2 { background: radial-gradient(circle, #29e5ff 0%, transparent 60%); top: -20%; right: -15%; animation: orbit2 7s linear infinite; }
-    .party-light.p3 { background: radial-gradient(circle, #f5d76e 0%, transparent 60%); bottom: -20%; left: 10%;  animation: orbit3 8s linear infinite; }
-    .party-light.p4 { background: radial-gradient(circle, #9b4dff 0%, transparent 60%); bottom: -25%; right: 5%;  animation: orbit4 9s linear infinite; }
-    .party-light.p5 { background: radial-gradient(circle, #4aff7e 0%, transparent 60%); top: 30%;    left: 30%;  animation: orbit5 10s linear infinite; }
-    @keyframes orbit1 { from { transform: translate(0,0) rotate(0); } to { transform: translate(40vw, 30vh) rotate(360deg); } }
-    @keyframes orbit2 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-40vw, 35vh) rotate(-360deg); } }
-    @keyframes orbit3 { from { transform: translate(0,0) rotate(0); } to { transform: translate(30vw,-40vh) rotate(360deg); } }
-    @keyframes orbit4 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-35vw,-30vh) rotate(-360deg); } }
-    @keyframes orbit5 { from { transform: translate(0,0) rotate(0); } to { transform: translate(-25vw, 25vh) rotate(360deg); } }
-    .party-beams {
-      position: absolute;
-      top: 50%; left: 50%;
-      width: 220vmax; height: 220vmax;
-      transform: translate(-50%, -50%);
-      background:
-        conic-gradient(from 0deg,
-          transparent 0deg,
-          rgba(255,46,165,.12) 10deg,
-          transparent 20deg,
-          transparent 70deg,
-          rgba(41,229,255,.12) 80deg,
-          transparent 90deg,
-          transparent 140deg,
-          rgba(245,215,110,.12) 150deg,
-          transparent 160deg,
-          transparent 210deg,
-          rgba(155,77,255,.12) 220deg,
-          transparent 230deg,
-          transparent 280deg,
-          rgba(74,255,126,.12) 290deg,
-          transparent 300deg,
-          transparent 360deg);
-      animation: beamSpin 8s linear infinite;
-      mix-blend-mode: screen;
-      opacity: .85;
-    }
-    @keyframes beamSpin { to { transform: translate(-50%,-50%) rotate(360deg); } }
-    .party-confetti { position: absolute; inset: 0; overflow: hidden; }
-    .confetti-piece {
-      position: absolute;
-      width: 8px; height: 14px;
-      top: -20px;
-      opacity: .9;
-      animation: confettiFall linear infinite;
-    }
-    .confetti-roach {
-      position: absolute;
-      top: -20px;
-      font-size: 1.6rem;
-      line-height: 1;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,.3));
-      animation: roachFloat linear infinite;
-    }
-    @keyframes confettiFall {
-      0%   { transform: translateY(-10vh) rotate(0deg); }
-      100% { transform: translateY(110vh) rotate(720deg); }
-    }
-    @keyframes roachFloat {
-      0%   { transform: translate(0, -10vh) rotate(-15deg); }
-      25%  { transform: translate(30px, 28vh) rotate(15deg); }
-      50%  { transform: translate(-25px, 55vh) rotate(-10deg); }
-      75%  { transform: translate(20px, 82vh) rotate(20deg); }
-      100% { transform: translate(0, 115vh) rotate(-15deg); }
-    }
-    .party-dock {
-      position: fixed;
-      bottom: 1.5rem; left: 50%;
-      transform: translateX(-50%);
-      display: none;
-      align-items: center;
-      gap: 1rem;
-      padding: .75rem 1rem .75rem 1.25rem;
-      background: rgba(11,30,38,.82);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(255,255,255,.12);
-      border-radius: 999px;
-      box-shadow: 0 10px 40px -10px rgba(0,0,0,.6), 0 0 0 1px rgba(255,46,165,.15);
-      z-index: 10000;
-      pointer-events: auto;
-      animation: dockRise .5s var(--ease);
-    }
-    .party-dock.show { display: flex; }
-    @keyframes dockRise {
-      from { opacity: 0; transform: translate(-50%, 20px); }
-      to   { opacity: 1; transform: translate(-50%, 0); }
-    }
-    .viz { display: flex; align-items: flex-end; gap: 3px; height: 28px; width: 140px; }
-    .viz-bar {
-      flex: 1;
-      background: linear-gradient(180deg, #ff2ea5 0%, #f5d76e 50%, #29e5ff 100%);
-      border-radius: 1px;
-      height: 10%;
-      transition: height .08s linear;
-      box-shadow: 0 0 6px rgba(255,46,165,.4);
-    }
-    .party-stop {
-      background: none; border: 1px solid rgba(255,255,255,.25);
-      color: #fff; cursor: pointer;
-      font-family: var(--body);
-      font-size: .68rem; font-weight: 600;
-      letter-spacing: .1em; text-transform: uppercase;
-      padding: .4rem .9rem;
-      border-radius: 999px;
-      transition: background .2s, border-color .2s, color .2s;
-    }
-    .party-stop:hover { background: #ff2ea5; border-color: #ff2ea5; color: #fff; }
-
-    /* ── REVEAL ── */
-    .fade { opacity: 0; transform: translateY(16px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
-    .fade.in { opacity: 1; transform: none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 860px) {
+    /* Responsive */
+    @media (max-width: 900px) {
       .nav-links { display: none; }
       .nav-right-mobile { display: flex; }
-      .menu-btn { display: block; }
-      .hero { padding: 3rem 0; }
-      .hero-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-      .hero-photo { max-width: 320px; }
-      .about-grid, .cards, .quotes, .res-grid, .contact-band { grid-template-columns: 1fr; }
-      .contact-band { padding: 2.2rem 1.6rem; }
-      .wrap { padding: 0 1.4rem; }
+      .hero-top { grid-template-columns: 1fr; gap: 1.1rem; }
+      .hero h1 { max-width: 17ch; }
+      .reel-tabs { grid-template-columns: 1fr; }
+      .reel-tab { border-left: none; border-top: 1px solid var(--stage-ln); padding: .75rem 1rem; border-radius: 0 !important; }
+      .reel-tab:first-child { border-top: none; }
+      .reel-tab span { display: inline; margin-left: .5rem; }
+      .stage { border-radius: 10px 10px 0 0; }
+      .reel-tabs { border-radius: 0 0 10px 10px; overflow: hidden; }
+      .project, .about, .res, .pull-grid, .contact-grid { grid-template-columns: 1fr; }
+      .project.flip .shot { order: 0; }
+      .also { grid-template-columns: 1fr; }
+      .quote-cols { grid-template-columns: 1fr; }
+      .quote.feature blockquote { columns: 1; }
+      .quote.feature p + p { margin-top: 1rem; }
+      .about img { max-width: 320px; }
+    }
+    @media (max-width: 520px) {
+      .nav-id { gap: .8rem; }
+      .nav-quick { gap: .7rem; font-size: .82rem; }
+      .nav-name { font-size: 1rem; }
+      .res-list { columns: 1; }
+      .stage-ctl { right: .5rem; bottom: .5rem; }
     }
     @media (prefers-reduced-motion: reduce) {
-      * { transition-duration: .001ms !important; animation-duration: .001ms !important; }
-      .fade { opacity: 1; transform: none; }
-      .party-strobe, .party-light, .party-beams, .confetti-piece { animation: none; }
+      html { scroll-behavior: auto; }
+      .shot img { transition: none; }
     }
   </style>
 </head>
 <body>
-
-  <a href="#about" class="skip-link">Skip to content</a>
-
-  <div class="scroll-progress"><div class="scroll-progress__bar" id="progressBar"></div></div>
-
-  <!-- Party overlay -->
-  <div class="party-overlay" id="partyOverlay" aria-hidden="true">
-    <div class="party-beams"></div>
-    <div class="party-lights">
-      <span class="party-light p1"></span>
-      <span class="party-light p2"></span>
-      <span class="party-light p3"></span>
-      <span class="party-light p4"></span>
-      <span class="party-light p5"></span>
-    </div>
-    <div class="party-confetti" id="partyConfetti"></div>
-    <div class="party-strobe"></div>
-  </div>
-
-  <!-- Party dock (visualizer + stop) -->
-  <div class="party-dock" id="partyDock" role="region" aria-label="Music player">
-    <div class="viz" id="viz" aria-hidden="true"></div>
-    <button type="button" class="party-stop" id="partySkip">Skip ▶▶</button>
-    <button type="button" class="party-stop" id="partyStop">Stop ■</button>
-  </div>
+  <a class="skip-link" href="#projects">Skip to projects</a>
 
   <header class="site">
     <div class="wrap nav">
-      <a class="nav-name" href="#top">Austin Pack</a>
-      <nav class="nav-links">
+      <div class="nav-id">
+        <a class="nav-name" href="#top">Austin Pack</a>
+        <span class="nav-quick">
+          <a href="Austin Pack CV 11-24-2026.pdf" target="_blank" rel="noopener">CV</a>
+          <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+        </span>
+      </div>
+      <nav class="nav-links" aria-label="Main">
+        <a href="#projects">Projects</a>
         <a href="#about">About</a>
-        <a href="#research">Research</a>
         <a href="#teaching">Teaching</a>
         <a href="#resources">Resources</a>
-        <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Scholar ↗</a>
-        <button class="theme-btn" id="themeBtn" aria-label="Toggle theme">
-          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
-          </svg>
+        <a href="#contact">Contact</a>
+        <button class="theme-btn" id="themeBtn" aria-label="Switch between light and dark">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"></svg>
         </button>
-        <a class="nav-cta" href="#contact">Contact</a>
       </nav>
       <div class="nav-right-mobile">
-        <button class="theme-btn" id="mobileThemeBtn" aria-label="Toggle theme">
-          <svg id="mobileThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>
-          </svg>
+        <button class="theme-btn" id="mobileThemeBtn" aria-label="Switch between light and dark">
+          <svg id="mobileThemeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"></svg>
         </button>
-        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation" aria-expanded="false">
-          <span></span><span></span><span></span>
-        </button>
+        <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
       </div>
     </div>
-    <nav class="mobile-menu" id="mobileMenu">
+    <nav class="mobile-menu" id="mobileMenu" aria-label="Main, mobile">
+      <a href="#projects">Projects</a>
       <a href="#about">About</a>
-      <a href="#research">Research</a>
       <a href="#teaching">Teaching</a>
       <a href="#resources">Resources</a>
       <a href="#contact">Contact</a>
     </nav>
-    <div class="waterline"></div>
   </header>
 
   <main id="top">
 
-    <!-- Hero -->
     <section class="hero">
-      <div class="wrap hero-grid">
-        <div>
-          <h1>Language learning and teaching reimagined with AI.</h1>
-          <p class="hero-lede">
-            I'm Austin Pack, Assistant Professor of English Language Teaching &amp; Learning.
-            My work explores how artificial intelligence can deepen — rather than shortcut —
-            the language learning process.
-          </p>
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="Austin Pack CV 2-5-2026 simplified.pdf" target="_blank" rel="noopener">Download CV</a>
-            <a class="btn btn-ghost" href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
-          </div>
-        </div>
-        <div class="hero-photo">
-          <img src="pic 2.jpeg" alt="Austin Pack" />
-        </div>
-      </div>
-    </section>
-
-    <!-- About -->
-    <section id="about" class="block">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="sec-kicker">About</span>
-          <h2>Where language education meets responsible AI</h2>
-          <div class="waterline"></div>
-        </div>
-        <div class="about-grid">
-          <div class="fade">
-            <p>
-              I am an Assistant Professor of English Language Teaching and Learning at Brigham Young
-              University–Hawaii. My work sits at the intersection of language education, motivation
-              research, and the responsible integration of artificial intelligence in learning environments.
-            </p>
-            <p>
-              My current work centers on the application of generative AI in language education — from
-              automated feedback systems and differentiated materials development to learner-facing tools
-              built in collaboration with preservice teachers. I am particularly interested in how AI can
-              be integrated responsibly, in ways that deepen rather than shortcut the learning process.
+        <div class="hero-top">
+          <h1>Language Educator &amp; Designer of Engaging Learning Experiences</h1>
+          <div>
+            <p class="hero-lede">
+              I'm Austin Pack, Assistant Professor of English Language Teaching &amp; Learning at BYU–Hawaii. I study how thoughtful use of generative AI tools can deepen language learning instead of shortcutting it. Some recent example projects are highlighted below.
             </p>
           </div>
-          <div class="interest-card fade">
-            <h3>Research Interests</h3>
-            <ul>
-              <li>Generative AI &amp; LLMs in SLA</li>
-              <li>Language Pedagogy</li>
-              <li>Computer-Assisted Language Learning</li>
-              <li>Psychology of Language Learning</li>
-              <li>Complex Dynamic Systems</li>
-              <li>VR Learning Environments</li>
-            </ul>
+        </div>
+
+        <div class="reel" id="reel">
+          <div class="stage">
+            <video id="reelVideo" muted playsinline preload="metadata" aria-label="Screen recordings of five recent projects"></video>
+            <div class="stage-ctl">
+              <button class="stage-btn" id="reelPause" type="button">Pause</button>
+              <button class="stage-btn" id="reelMore" type="button">About this project</button>
+            </div>
+          </div>
+          <div class="reel-tabs" role="tablist" aria-label="Choose a project to preview">
+            <button class="reel-tab" role="tab" type="button" aria-selected="false" aria-controls="reelVideo"><i></i><b>Corrective feedback</b><span>ESL writing</span></button>
+            <button class="reel-tab" role="tab" type="button" aria-selected="false" aria-controls="reelVideo"><i></i><b>Hawaiʻi Postcards</b><span>Academic vocabulary</span></button>
+            <button class="reel-tab" role="tab" type="button" aria-selected="false" aria-controls="reelVideo"><i></i><b>Listening Lab</b><span>Academic listening</span></button>
+            <button class="reel-tab" role="tab" type="button" aria-selected="false" aria-controls="reelVideo"><i></i><b>Sixty Radicals</b><span>Chinese characters and tones</span></button>
+            <button class="reel-tab" role="tab" type="button" aria-selected="false" aria-controls="reelVideo"><i></i><b>Spanish</b><span>Valencia and Mexico City</span></button>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Research -->
-    <section id="research" class="block">
+    <section id="projects" class="block projects">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="sec-kicker">Research</span>
-          <h2>Current projects</h2>
-          <div class="waterline"></div>
-        </div>
-        <div class="cards">
-          <article class="card fade">
+        <h2>Recent projects</h2>
+        <p class="block-intro">
+          AI tools empower language educators to create websites and edtech platforms that address their students' needs. The projects highlighted below were created to address the needs of my own students, such as written corrective feedback, comprehensible input, personalized materials, and spaced repetition.
+        </p>
+
+        <article class="project" id="awcf">
+          <button class="shot" type="button" data-play="awcf" aria-label="Watch the tour: Automatic Written Corrective Feedback">
+            <img src="media/showcase/awcf-poster.jpg" alt="A student draft in AWCF with error codes marked above the words" loading="lazy" decoding="async" width="1280" height="720" />
+            <span class="shot-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the tour</span>
+          </button>
+          <div>
+            <h3>Automatic Written Corrective Feedback</h3>
+            <p class="what">AI provides written corrective feedback in the form of error codes, letting students decide how to fix the errors themselves.</p>
+            <p class="desc">Students write multiple drafts on a weekly prompt. AI marks each error with a code instead of correcting it and builds worksheets targeting students’ most common errors. AI-powered data analytics provide language teachers with real-time insights into the grammatical needs of their students.</p>
+            <dl class="facts"><dt>Used in</dt><dd>English for academic purposes writing classes at BYU–Hawaii</dd><dt>Built with</dt><dd>Claude</dd></dl>
+            
+          </div>
+        </article>
+        <article class="project flip" id="postcards">
+          <button class="shot" type="button" data-play="postcards" aria-label="Watch the tour: Hawaiʻi Postcards and vocabulary workbook">
+            <img src="media/showcase/postcards-poster.jpg" alt="A pixel-art Hawaiian coastline at sunrise with a vocabulary task" loading="lazy" decoding="async" width="1280" height="720" />
+            <span class="shot-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the tour</span>
+          </button>
+          <div>
+            <h3>Hawaiʻi Postcards and vocabulary workbook</h3>
+            <p class="what">A calm pixel-art game providing contextualized academic vocabulary practice.</p>
+            <p class="desc">Students visit a new place in Hawaiʻi each week and practice ten academic words chosen for their major from the New Academic Word List. The companion workbook gives each word its family, parts and collocations, with practice, spaced review and a progress page.</p>
+            <dl class="facts"><dt>Used in</dt><dd>English for academic purposes classes at BYU–Hawaii</dd><dt>Covers</dt><dd>13 places, ten words a week, chosen for each of BYU–Hawaii’s 25 majors</dd></dl>
+            <div class="plinks"><a href="https://a-c-pack.github.io/hawaii-postcards/" target="_blank" rel="noopener">Play Hawaiʻi Postcards</a><a href="resources/vocabulary-workbook.html" target="_blank" rel="noopener">Open the vocabulary workbook</a></div>
+          </div>
+        </article>
+        <article class="project" id="listening">
+          <button class="shot" type="button" data-play="listening" aria-label="Watch the tour: Academic Listening Practice Lab">
+            <img src="media/showcase/listening-poster.jpg" alt="A Listening Lab lesson with a TED talk and comprehension questions" loading="lazy" decoding="async" width="1280" height="720" />
+            <span class="shot-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the tour</span>
+          </button>
+          <div>
+            <h3>Academic Listening Practice Lab</h3>
+            <p class="what">Guided academic listening practice with eighteen TED talks and sixteen listening strategies.</p>
+            <p class="desc">A course website for B1 academic listening. Each lesson teaches one strategy and has students listen for different purposes, checks their answers against the transcript, and ends with academic word practice and a reflection. No accounts: progress is saved in the browser and can be exported.</p>
+            <dl class="facts"><dt>Used in</dt><dd>Academic English listening and speaking courses at BYU–Hawaii</dd><dt>Level</dt><dd>CEFR B1</dd></dl>
+            <div class="plinks"><a href="https://a-c-pack.github.io/eil313-listening-lab/" target="_blank" rel="noopener">Open the Listening Lab</a></div>
+          </div>
+        </article>
+        <article class="project flip" id="radicals">
+          <button class="shot" type="button" data-play="radicals" aria-label="Watch the tour: Sixty Radicals and the Mandarin Tone Trainer">
+            <img src="media/showcase/radicals-poster.jpg" alt="The Sixty Radicals lesson on the water radical" loading="lazy" decoding="async" width="1280" height="720" />
+            <span class="shot-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the tour</span>
+          </button>
+          <div>
+            <h3>Sixty Radicals and the Mandarin Tone Trainer</h3>
+            <p class="what">Learn the sixty radicals that matter most, and every new character arrives with a clue.</p>
+            <p class="desc">Stroke-drawn lessons, radical hunts through texts students would actually come across, character building, and a 60-second decode sprint, with Mandarin audio throughout. The Tone Trainer helps students distinguish between tones: hear a syllable, name its tone, then move on to tone pairs and see which tones you mix up.</p>
+            <dl class="facts"><dt>For</dt><dd>beginning learners of Mandarin</dd><dt>Covers</dt><dd>60 radicals, 20 sound families, 4 tones and their pairs</dd></dl>
+            <div class="plinks"><a href="https://a-c-pack.github.io/sixty-radicals/" target="_blank" rel="noopener">Open Sixty Radicals</a><a href="https://a-c-pack.github.io/mandarin-tone-trainer/" target="_blank" rel="noopener">Open the Tone Trainer</a></div>
+          </div>
+        </article>
+        <article class="project" id="spanish">
+          <button class="shot" type="button" data-play="spanish" aria-label="Watch the tour: Spanish language and culture">
+            <img src="media/showcase/spanish-poster.jpg" alt="A map of Valencia with pins for each conversation" loading="lazy" decoding="async" width="1280" height="720" />
+            <span class="shot-play"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg>Watch the tour</span>
+          </button>
+          <div>
+            <h3>Spanish language and culture</h3>
+            <p class="what">Practice Spanish by getting yourself around Valencia, Spain, and Mexico City, Mexico, one conversation at a time.</p>
+            <p class="desc">In Valencia you travel from the airport to the EUROCALL conference through twenty-four voiced conversations, then read the city’s history at ten real sites. Tap any word for a gloss; phrases you meet come back in a spaced-repetition notebook. The same engine runs a semester abroad in Mexico City.</p>
+            <dl class="facts"><dt>Levels</dt><dd>A2 to B2</dd><dt>Varieties</dt><dd>Peninsular and Mexican Spanish</dd></dl>
+            <div class="plinks"><a href="https://a-c-pack.github.io/valencia-camino-a-eurocall/" target="_blank" rel="noopener">Play Valencia</a><a href="https://a-c-pack.github.io/cdmx-semestre-de-intercambio/" target="_blank" rel="noopener">Play Mexico City</a></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="wrap">
+        <h2>Also in progress</h2>
+        <div class="also">
+          <div>
             <h3>LangLang</h3>
             <p>
-              LangLang is a desktop language learning application that uses Claude AI to generate
-              personalized reading passages, vocabulary exercises, grammar practice, and pronunciation
-              activities — all calibrated to a learner's current proficiency level. Rather than working
-              through a fixed curriculum, learners choose their own topics and set their own level, and
-              LangLang builds the content around them. Vocabulary is highlighted in context, words can be
-              saved and reviewed through spaced repetition, and a built-in read-aloud feature supports
-              listening comprehension alongside reading.
+              A desktop app that writes reading passages, vocabulary exercises, grammar practice
+              and pronunciation activities for the topic and level a learner chooses. Words are
+              highlighted in context, saved, and reviewed with spaced repetition.
             </p>
-            <img src="langlang-screenshot.png" alt="LangLang interface showing a Spanish reading passage with vocabulary highlights" loading="lazy" decoding="async" />
-            <div class="card-links">
-              <a class="text-link" href="https://github.com/A-C-PACK/Austin-Pack-Website/releases/download/v0.1.0/LangLang.Setup.0.1.0.exe" download>Download LangLang for Windows ↓</a>
-            </div>
-          </article>
-          <article class="card fade">
-            <h3>Automatic Written Corrective Feedback</h3>
+            <img src="langlang-screenshot.png" alt="LangLang showing a Spanish reading passage with highlighted vocabulary" loading="lazy" decoding="async" />
+            <div class="plinks"><a href="https://github.com/A-C-PACK/Austin-Pack-Website/releases/download/v0.1.0/LangLang.Setup.0.1.0.exe" download>Download LangLang for Windows</a></div>
+          </div>
+          <div>
+            <h3>LIFT Lab</h3>
             <p>
-              A web-based classroom tool that automates Written Corrective Feedback for ESL writing
-              instruction. Using Claude AI, AWCF annotates student drafts with standardized grammar error
-              codes — encouraging active self-correction rather than passive editing. A structured weekly
-              cycle of drafting, feedback, revision, and reflection is paired with personalized grammar
-              worksheets generated from each student's individual error patterns.
+              Language Innovation and Futures in TESOL: a mobile lab in the BYU–Hawaii TESOL program where faculty and preservice teachers use AI agents to build educational technology and teaching materials. The aim is to empower pre-service teachers to use AI in ways grounded in evidence-based principles of learning.
             </p>
-            <img src="Sample feedback.png" alt="Sample AWCF feedback output" loading="lazy" decoding="async" />
-          </article>
-          <article class="card fade">
-            <h3>LIFT Lab — Language Innovation and Futures in TESOL</h3>
+          </div>
+          <div>
+            <h3>AI agents for differentiated materials</h3>
             <p>
-              A mobile innovation hub within the BYU–Hawaii TESOL program where faculty and preservice
-              teachers build, experiment, and imagine the future of English language education. The LIFT
-              Lab harnesses AI agents to design educational technology, interactive platforms, and
-              pedagogical materials — preparing future educators not only to use AI responsibly, but to
-              actively shape it within the field.
+              Tiered texts that include scaffolded tasks and culturally adapted content are too expensive to produce at scale for publishers. This project studies agentic AI as an authoring partner that could put differentiated materials within a teacher's reach.
             </p>
-          </article>
-          <article class="card fade">
-            <h3>AI Agents for Differentiated Language Learning Materials</h3>
-            <p>
-              This project explores agentic AI as a collaborative partner in language materials
-              development. Traditional publishing economics constrain differentiation — producing tiered
-              texts, scaffolded tasks, and culturally adapted content at scale is logistically and
-              financially prohibitive. By working alongside educators, agentic AI systems capable of
-              planning, iterating, and executing complex authoring tasks may finally make genuinely
-              differentiated, contextually responsive materials widely achievable.
-            </p>
-            <img src="textbook screenshot.png" alt="AI-generated differentiated language learning textbook" loading="lazy" decoding="async" />
-          </article>
+            <img src="textbook screenshot.png" alt="A page of an AI-assisted differentiated language textbook" loading="lazy" decoding="async" />
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Teaching -->
+    <section id="about" class="block">
+      <div class="wrap">
+        <h2>About</h2>
+        <div class="about">
+          <img src="pic 2.jpeg" alt="Austin Pack" loading="lazy" decoding="async" />
+          <div>
+            <p>
+              I am an Assistant Professor of English Language Teaching and Learning at Brigham Young University–Hawaii. My work sits where language education, motivation research and the responsible and effective use of artificial intelligence meet.
+            </p>
+            <p>
+              I'm mainly interested in how generative AI in language education can assist with automated feedback, differentiated materials, and learner-facing tools. The question I keep returning to is how AI can be used so that learners do more of the thinking, not less.
+            </p>
+            <p>
+              My research has focused on leveraging generative AI and large language models for language education, language pedagogy, computer-assisted language learning, the psychology of language learning, complex dynamic systems, and VR learning environments.
+            </p>
+            <div class="btn-row">
+              <a class="btn solid" href="Austin Pack CV 11-24-2026.pdf" target="_blank" rel="noopener">Download my CV</a>
+              <a class="btn" href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+              <a class="btn" href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="teaching" class="block">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="sec-kicker">Teaching</span>
-          <h2>In the classroom</h2>
-          <div class="waterline"></div>
+        <h2>Teaching</h2>
+        <div class="pull-grid">
+          <figure class="pull">
+            <blockquote>“The projects were fun and interesting and I actually felt interested in learning and not like I was having to do useless busywork.”</blockquote>
+            <cite>Student, Introduction to Linguistics</cite>
+          </figure>
+          <div>
+            <p class="courses">
+              <strong>I teach</strong> English for Academic Purposes, Intercultural Communication,
+              TESOL, Computer-Assisted Language Learning, and Second Language Acquisition.
+            </p>
+            <div class="btn-row"><a class="btn" href="Teaching_Philosophy_Austin_Pack.pdf" target="_blank" rel="noopener">Read my teaching philosophy (PDF)</a></div>
+          </div>
         </div>
-        <a class="btn btn-ghost" href="Teaching Philosophy.pdf" target="_blank" rel="noopener">Read my Teaching Philosophy ↓</a>
-        <div class="pill-row">
-          <span class="pill">English for Academic Purposes</span>
-          <span class="pill">Intercultural Communication</span>
-          <span class="pill">TESOL</span>
-          <span class="pill">Computer Assisted Language Learning</span>
-          <span class="pill">Second Language Acquisition</span>
+
+        <h3 class="quotes-h">What students say</h3>
+        <div class="quote-cols">
+          <div>
+            <figure class="quote">
+              <blockquote>“The strength of this course is the teacher himself, not kidding! Dr. Pack is the best teacher, this course is really hard for both the native and non-native students but Dr. Pack did a really good job of explaining things simply. <span class="lead">He builds up a good rapport and makes students feel safe to ask questions in his class. Another thing that I like about him is he will tailor the needs of students and change the way he teaches according to students' abilities.</span> In our class we have a mix-ability class however are able to adjust this hard course to each student. He did not just give us assignment to do but give us meaningful assignment so we can really learn from this course. He knows what he is teaching, and he know what his purpose as a teacher!! Also willing to use his personal time to help each student!”</blockquote>
+              <cite>Student, Introduction to Linguistics</cite>
+            </figure>
+            <figure class="quote">
+              <blockquote>“This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, <span class="lead">at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable.</span>”</blockquote>
+              <cite>Student, Academic English 1: Reading and Writing</cite>
+            </figure>
+          </div>
+          <div>
+            <figure class="quote">
+              <blockquote><span class="lead">“I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English.</span> These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey.”</blockquote>
+              <cite>Student, Academic English 1: Reading and Writing</cite>
+            </figure>
+            <figure class="quote">
+              <blockquote><span class="lead">“This semester in EIL 317 has been a valuable learning experience for me.</span> I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. <span class="lead">The class activities and discussions helped me become more confident when communicating in English.</span> I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts.”</blockquote>
+              <cite>Student, Academic English 1: Reading and Writing</cite>
+            </figure>
+          </div>
         </div>
-        <h3 class="quotes-h">Student Feedback</h3>
-        <div class="quotes">
-          <figure class="quote fade">
-            <blockquote>"I have taken IELTS for 4 times before and I have been to private English high school. But somehow I was keep failing and failing. Whether I was lazy or the program was not that good. I have got 6.5 for 3 times and the last one I have taken 7 on IELTS. It was a really tiny improvement. It is actually crazy to think about how much material I have read and how much writing I have done. But my improvement were never visible in front of my own eyes. Your class was one of the most effective class. You knew how to make the students engaged during the class. It almost feels like you know exactly where to focus on more and how to improve that. I would not say I got the best in writing and reading. There are still things that I need to work on more but I can definitely say that I have improved a lot thanks to you. I have few absences to my other classes but my attendance was somehow 100% in this class without any tiredness. Maybe it is because you understand us. I think I wanted to keep the 100% itself and somehow it made me feel accomplished. For me, EIL 317 class taught me a lot. Thank you so much for your hard work. Thank you so much for the thing you have taught us. Much Mahalo!"</blockquote>
-            <cite>Student — Academic English 1: Reading and Writing</cite>
+          <figure class="quote feature">
+            <blockquote>
+              <p><span class="lead">“I have taken IELTS for 4 times before and I have been to private English high school. But somehow I was keep failing and failing.</span> Whether I was lazy or the program was not that good. I have got 6.5 for 3 times and the last one I have taken 7 on IELTS. It was a really tiny improvement. It is actually crazy to think about how much material I have read and how much writing I have done. But my improvement were never visible in front of my own eyes.</p>
+              <p><span class="lead">Your class was one of the most effective class. You knew how to make the students engaged during the class. It almost feels like you know exactly where to focus on more and how to improve that.</span> I would not say I got the best in writing and reading. There are still things that I need to work on more but I can definitely say that I have improved a lot thanks to you. I have few absences to my other classes but <span class="lead">my attendance was somehow 100% in this class without any tiredness. Maybe it is because you understand us.</span> I think I wanted to keep the 100% itself and somehow it made me feel accomplished. For me, EIL 317 class taught me a lot. Thank you so much for your hard work. Thank you so much for the thing you have taught us. Much Mahalo!”</p>
+            </blockquote>
+            <cite>Student, Academic English 1: Reading and Writing</cite>
           </figure>
-          <figure class="quote fade">
-            <blockquote>"The strength of this course is the teacher himself, not kidding! Dr. Pack is the best teacher, this course is really hard for both the native and non-native students but Dr. Pack did a really good job of explaining things simply. He builds up a good rapport and makes students feel safe to ask questions in his class. Another thing that I like about him is he will tailor the needs of students and change the way he teaches according to students' abilities. In our class we have a mix-ability class however are able to adjust this hard course to each student. He did not just give us assignment to do but give us meaningful assignment so we can really learn from this course. He knows what he is teaching, and he know what his purpose as a teacher!! Also willing to use his personal time to help each student!"</blockquote>
-            <cite>Student — Introduction to Linguistics</cite>
-          </figure>
-          <figure class="quote fade">
-            <blockquote>"This semester in EIL 317 has been a valuable learning experience for me. I improved my English speaking and writing skills, especially in organizing ideas and expressing them more clearly. The class activities and discussions helped me become more confident when communicating in English. I also learned new vocabulary and academic skills that will help me in my future studies. Sometimes the workload was challenging, but it helped me grow and manage my time better. Overall, I am thankful for this course and the support from you DR. Pack. Thank you so much for your all your efforts."</blockquote>
-            <cite>Student — Academic English 1: Reading and Writing</cite>
-          </figure>
-          <figure class="quote fade">
-            <blockquote>"I have learned a lot from this class such as improving my writing skill, better technique in learning academic vocabularies, citation, quotation and how to use AI in a right way of helping me learn my English. These helps me increase my ability to learn English better and also a skill to help me with overall academic learning. I love everything about this class but I think it would be better if you can give more time like two days for writing paragraphs. However, I really enjoy learning with you, it is clear and very helpful. I love everything about this class! Thanks for your wonderful skill of teaching and helping us growth in our journey."</blockquote>
-            <cite>Student — Academic English 1: Reading and Writing</cite>
-          </figure>
-          <figure class="quote fade">
-            <blockquote>"This semester was great and also hard at the same time, there were alot of times for to actually adapt to college life since I left school 8 years ago. EIL 317, at first I thought it was going to be hard and the most boring one, but for some reason because I had a great professor who guided and helped me, it made it fun and enjoyable."</blockquote>
-            <cite>Student — Academic English 1: Reading and Writing</cite>
-          </figure>
-          <figure class="quote fade">
-            <blockquote>"I really liked how passionate the teacher was about the course and he took it at our pace. The projects were fun and interesting and I actually felt interested in learning and not like I was having to do useless busywork."</blockquote>
-            <cite>Student — Introduction to Linguistics</cite>
-          </figure>
-        </div>
+
       </div>
     </section>
 
-    <!-- Resources -->
     <section id="resources" class="block">
       <div class="wrap">
-        <div class="sec-head">
-          <span class="sec-kicker">Resources</span>
-          <h2>For students and teachers</h2>
-          <div class="waterline"></div>
-        </div>
-        <div class="res-grid">
-          <div class="fade">
-            <h3 class="res-h">Practice opportunities</h3>
-            <ul class="res-list">
-              <li><a href="resources/paragraph-tool.html">Paragraph Structure Practice <span>→</span></a></li>
-              <li><a href="resources/topic-sentence-tool.html">Topic Sentence Practice <span>→</span></a></li>
-              <li><a href="resources/supporting-ideas-tool.html">Supporting Idea Practice <span>→</span></a></li>
-              <li><a href="resources/detail-sentences-tool.html">Detail Sentence Practice <span>→</span></a></li>
-              <li><a href="resources/paint-paragraph-tool.html">Paint the Paragraph <span>→</span></a></li>
-              <li><a href="resources/transitions-tool.html">Transition Phrase Practice <span>→</span></a></li>
-              <li><a href="resources/vocabulary-workbook.html">Academic Vocabulary Workbook <span>→</span></a></li>
-            </ul>
-          </div>
-          <div class="fade">
-            <h3 class="res-h">Tools</h3>
-            <p class="res-note">
-              A lightweight screen recording tool for capturing lessons, presentations, and student work —
-              and an example of the kind of practical software that educators and students can build with
-              the help of an AI agent.
+        <h2>Resources</h2>
+        <div class="res one">
+          <div>
+            <h3>Screen recorder</h3>
+            <p>
+              A small screen recording tool for capturing lessons, presentations and student work.
+              It is also an example of the practical software a teacher or student can build with
+              an AI agent.
             </p>
-            <ul class="res-list">
-              <li><a href="resources/Screen Recorder Setup 1.0.0.exe" download>Screen Recorder (Windows) <span>↓ .exe</span></a></li>
+            <ul class="res-list one">
+              <li><a href="resources/Screen Recorder Setup 1.0.0.exe" download>Download for Windows (.exe)</a></li>
             </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Contact -->
-    <section id="contact" class="block">
+    <section id="contact" class="block contact">
       <div class="wrap">
-        <div class="contact-band">
-          <div>
-            <h2>Get in touch</h2>
-            <address>
-              Assistant Professor of English Language Teaching &amp; Learning<br />
-              Faculty of Education &amp; Social Work<br />
-              Brigham Young University–Hawaii<br />
-              55-220 Kulanui Street, Bldg 5<br />
-              Laie, Hawai&#699;i 96762
-            </address>
-          </div>
+        <h2>Get in touch</h2>
+        <div class="contact-grid">
+          <address>
+            Assistant Professor of English Language Teaching &amp; Learning<br />
+            Faculty of Education &amp; Social Work<br />
+            Brigham Young University–Hawaii<br />
+            55-220 Kulanui Street, Bldg 5<br />
+            Laie, Hawai&#699;i 96762
+          </address>
           <div class="contact-links">
             <span>
               <button class="copy-email" id="copyEmailBtn" aria-label="Copy email address">austin.pack@byuh.edu</button>
-              <span class="copy-confirm" id="copyConfirm" aria-live="polite">copied ✓</span>
+              <span class="copy-confirm" id="copyConfirm" aria-live="polite">Copied</span>
             </span>
-            <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener">BYUH Faculty Directory ↗</a>
-            <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
-            <a href="https://www.linkedin.com/in/austin-pack-234a4177/" target="_blank" rel="noopener">LinkedIn ↗</a>
-            <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog ↗</a>
+            <a href="https://about.byuh.edu/directory/austin-pack" target="_blank" rel="noopener">BYUH faculty directory</a>
+            <a href="https://scholar.google.com/citations?user=dytOdIYAAAAJ" target="_blank" rel="noopener">Google Scholar</a>
+            <a href="https://www.linkedin.com/in/austin-pack-234a4177/" target="_blank" rel="noopener">LinkedIn</a>
+            <a href="https://austinpack.substack.com/" target="_blank" rel="noopener">Blog</a>
           </div>
         </div>
       </div>
     </section>
 
-    <footer class="site wrap">
-      <span>
-        © 2026 Austin Pack
-        <span class="roach-wrap">
-          <button type="button" class="roach-btn" id="roachBtn" aria-label="Secret">🪳</button>
-          <span class="roach-bubble" id="roachBubble">
-            <label for="roachInput">Enter Password</label>
-            <input type="password" id="roachInput" autocomplete="off" placeholder="••••••••••••" />
-          </span>
-        </span>
-      </span>
-      <a href="#top">↑ Back to top</a>
+    <footer class="site">
+      <div class="wrap">
+        <span>© 2026 Austin Pack</span>
+        <a href="#top">Back to top</a>
+      </div>
     </footer>
-
   </main>
 
+  <dialog class="player" id="player" aria-labelledby="playerTitle">
+    <div class="player-bar">
+      <strong id="playerTitle"></strong>
+      <button class="player-close" id="playerClose" type="button">Close</button>
+    </div>
+    <video id="playerVideo" controls playsinline preload="none"></video>
+  </dialog>
+
   <script>
-    /* Scroll reveal */
-    const fadeEls = document.querySelectorAll('.fade');
+    /* Project reel: one video element, five clips, tabs that double as a progress bar. */
+    const PROJECTS = [{"id": "awcf", "name": "Automatic Written Corrective Feedback", "loop": "media/showcase/awcf-loop.mp4", "poster": "media/showcase/awcf-poster.jpg", "tour": "media/showcase/awcf-tour.mp4"}, {"id": "postcards", "name": "Hawaiʻi Postcards and vocabulary workbook", "loop": "media/showcase/postcards-loop.mp4", "poster": "media/showcase/postcards-poster.jpg", "tour": "media/showcase/postcards-tour.mp4"}, {"id": "listening", "name": "Academic Listening Practice Lab", "loop": "media/showcase/listening-loop.mp4", "poster": "media/showcase/listening-poster.jpg", "tour": "media/showcase/listening-tour.mp4"}, {"id": "radicals", "name": "Sixty Radicals and the Mandarin Tone Trainer", "loop": "media/showcase/radicals-loop.mp4", "poster": "media/showcase/radicals-poster.jpg", "tour": "media/showcase/radicals-tour.mp4"}, {"id": "spanish", "name": "Spanish language and culture", "loop": "media/showcase/spanish-loop.mp4", "poster": "media/showcase/spanish-poster.jpg", "tour": "media/showcase/spanish-tour.mp4"}];
+    const reelVideo = document.getElementById('reelVideo');
+    const tabs = [...document.querySelectorAll('.reel-tab')];
+    const pauseBtn = document.getElementById('reelPause');
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let current = -1, userPaused = reduceMotion;
+
+    function showClip(i, play) {
+      current = (i + PROJECTS.length) % PROJECTS.length;
+      const p = PROJECTS[current];
+      tabs.forEach((t, k) => {
+        t.setAttribute('aria-selected', k === current);
+        t.tabIndex = k === current ? 0 : -1;
+        t.querySelector('i').style.width = '0';
+      });
+      reelVideo.poster = p.poster;
+      reelVideo.src = p.loop;
+      if (play) reelVideo.play().catch(() => { userPaused = true; syncPause(); });
+    }
+    function syncPause() { pauseBtn.textContent = reelVideo.paused ? 'Play' : 'Pause'; }
+    reelVideo.addEventListener('timeupdate', () => {
+      if (current < 0 || !reelVideo.duration) return;
+      tabs[current].querySelector('i').style.width = (reelVideo.currentTime / reelVideo.duration * 100) + '%';
+    });
+    reelVideo.addEventListener('ended', () => showClip(current + 1, !userPaused));
+    reelVideo.addEventListener('play', syncPause);
+    reelVideo.addEventListener('pause', syncPause);
+    pauseBtn.addEventListener('click', () => {
+      if (reelVideo.paused) { userPaused = false; reelVideo.play(); } else { userPaused = true; reelVideo.pause(); }
+    });
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => { userPaused = false; showClip(i, true); });
+      t.addEventListener('keydown', e => {
+        if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft' && e.key !== 'ArrowDown' && e.key !== 'ArrowUp') return;
+        e.preventDefault();
+        const n = (i + (e.key === 'ArrowRight' || e.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length;
+        tabs[n].focus(); userPaused = false; showClip(n, true);
+      });
+    });
+    document.getElementById('reelMore').addEventListener('click', () => {
+      document.getElementById(PROJECTS[current].id).scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+    });
+    showClip(0, !reduceMotion);
+    syncPause();
+    /* Don't keep decoding video nobody can see. */
     if ('IntersectionObserver' in window) {
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, { threshold: .1, rootMargin: '0px 0px -50px 0px' });
-      fadeEls.forEach(el => io.observe(el));
-      setTimeout(() => fadeEls.forEach(el => el.classList.add('in')), 2000);
-    } else {
-      fadeEls.forEach(el => el.classList.add('in'));
+      new IntersectionObserver(([e]) => {
+        if (!e.isIntersecting) reelVideo.pause();
+        else if (!userPaused && !player.open) reelVideo.play().catch(() => {});
+      }, { threshold: .15 }).observe(reelVideo);
     }
 
-    /* Scroll progress */
-    const bar = document.getElementById('progressBar');
-    const onScroll = () => {
-      const st = window.scrollY;
-      const sh = document.documentElement.scrollHeight - window.innerHeight;
-      bar.style.width = Math.min(100, (st / sh) * 100) + '%';
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
+    /* Full videos open in a dialog with normal controls. */
+    const player = document.getElementById('player');
+    const playerVideo = document.getElementById('playerVideo');
+    document.querySelectorAll('[data-play]').forEach(b => b.addEventListener('click', () => {
+      const p = PROJECTS.find(x => x.id === b.dataset.play);
+      document.getElementById('playerTitle').textContent = p.name;
+      playerVideo.poster = p.poster;
+      playerVideo.src = p.tour || p.loop;
+      playerVideo.muted = !p.tour;
+      reelVideo.pause();
+      player.showModal();
+      playerVideo.play().catch(() => {});
+    }));
+    function closePlayer() { playerVideo.pause(); playerVideo.removeAttribute('src'); playerVideo.load(); }
+    player.addEventListener('close', closePlayer);
+    document.getElementById('playerClose').addEventListener('click', () => player.close());
+    player.addEventListener('click', e => { if (e.target === player) player.close(); });
 
     /* Mobile menu */
     const menuBtn = document.getElementById('menuBtn');
     const mobileMenu = document.getElementById('mobileMenu');
-    menuBtn.addEventListener('click', () => {
-      const open = mobileMenu.classList.toggle('open');
-      menuBtn.classList.toggle('open', open);
-      menuBtn.setAttribute('aria-expanded', open);
-    });
-    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      mobileMenu.classList.remove('open'); menuBtn.classList.remove('open');
-      menuBtn.setAttribute('aria-expanded', 'false');
-    }));
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) {
-        mobileMenu.classList.remove('open'); menuBtn.classList.remove('open');
-        menuBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
+    const setMenu = open => { mobileMenu.classList.toggle('open', open); menuBtn.classList.toggle('open', open); menuBtn.setAttribute('aria-expanded', open); };
+    menuBtn.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 
-    /* Theme toggle — with View Transitions API */
+    /* Theme toggle with a circular reveal */
     const sunSVG = '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
     const moonSVG = '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
-    const themeBtn        = document.getElementById('themeBtn');
-    const themeIcon       = document.getElementById('themeIcon');
-    const mobileThemeBtn  = document.getElementById('mobileThemeBtn');
-    const mobileThemeIcon = document.getElementById('mobileThemeIcon');
-
+    const themeBtn = document.getElementById('themeBtn'), themeIcon = document.getElementById('themeIcon');
+    const mobileThemeBtn = document.getElementById('mobileThemeBtn'), mobileThemeIcon = document.getElementById('mobileThemeIcon');
     function applyTheme(t) {
       document.documentElement.setAttribute('data-theme', t);
       const isDark = t === 'dark';
-      themeIcon.innerHTML       = isDark ? sunSVG : moonSVG;
-      mobileThemeIcon.innerHTML = isDark ? sunSVG : moonSVG;
-      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#0c161b' : '#fbfaf7');
-      localStorage.setItem('theme', t);
+      themeIcon.innerHTML = mobileThemeIcon.innerHTML = isDark ? sunSVG : moonSVG;
+      document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#07171c' : '#f2f5f3');
+      try { localStorage.setItem('theme', t); } catch (_) {}
     }
-    const saved = localStorage.getItem('theme') ||
-      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-    applyTheme(saved);
-
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem('theme'); } catch (_) {}
+    applyTheme(savedTheme || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
     function toggleTheme(ev) {
       const next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       if (ev && ev.clientX !== undefined) {
         document.documentElement.style.setProperty('--vt-x', ev.clientX + 'px');
         document.documentElement.style.setProperty('--vt-y', ev.clientY + 'px');
       }
-      if (document.startViewTransition) {
+      if (document.startViewTransition && !reduceMotion) {
         document.documentElement.classList.add('vt-active');
-        const t = document.startViewTransition(() => applyTheme(next));
-        t.finished.finally(() => document.documentElement.classList.remove('vt-active'));
-      } else {
-        applyTheme(next);
-      }
+        document.startViewTransition(() => applyTheme(next)).finished.finally(() => document.documentElement.classList.remove('vt-active'));
+      } else applyTheme(next);
     }
     themeBtn.addEventListener('click', toggleTheme);
     mobileThemeBtn.addEventListener('click', toggleTheme);
-
-    /* Cockroach Easter egg + Party mode */
-    const roachBtn     = document.getElementById('roachBtn');
-    const roachBubble  = document.getElementById('roachBubble');
-    const roachInput   = document.getElementById('roachInput');
-    const PLAYLIST = [
-      'La Putaracha (1).mp3',
-      'La Putaracha.mp3',
-      'La Putaracha (2).mp3',
-      'La Putaracha (3).mp3',
-      'La Putaracha (4).mp3'
-    ];
-    let trackIdx = 0;
-    const roachAudio   = new Audio(PLAYLIST[0]);
-    const partyOverlay = document.getElementById('partyOverlay');
-    const partyDock    = document.getElementById('partyDock');
-    const partyStop    = document.getElementById('partyStop');
-    const partySkip    = document.getElementById('partySkip');
-    const partyConfetti= document.getElementById('partyConfetti');
-    const vizEl        = document.getElementById('viz');
-
-    const VIZ_BARS = 28;
-    const vizBars = [];
-    for (let i = 0; i < VIZ_BARS; i++) {
-      const b = document.createElement('span');
-      b.className = 'viz-bar';
-      vizEl.appendChild(b);
-      vizBars.push(b);
-    }
-
-    let vizTimer;
-
-    const CONFETTI_COLORS = ['#ff2ea5','#29e5ff','#f5d76e','#9b4dff','#4aff7e','#ffffff'];
-
-    function spawnOneConfetti() {
-      const p = document.createElement('span');
-      p.className = 'confetti-piece';
-      p.style.left = Math.random() * 100 + 'vw';
-      p.style.background = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
-      const dur = 3 + Math.random() * 4;
-      p.style.animationDuration = dur + 's';
-      p.style.animationIterationCount = '1';
-      p.style.transform = `rotate(${Math.random()*360}deg)`;
-      partyConfetti.appendChild(p);
-      setTimeout(() => p.remove(), dur * 1000 + 200);
-    }
-
-    function spawnOneRoach() {
-      const r = document.createElement('span');
-      r.className = 'confetti-roach';
-      r.textContent = '🪳';
-      r.style.left = Math.random() * 95 + 'vw';
-      const dur = 5 + Math.random() * 4;
-      r.style.animationDuration = dur + 's';
-      r.style.animationIterationCount = '1';
-      r.style.fontSize = (1.3 + Math.random() * 0.8) + 'rem';
-      partyConfetti.appendChild(r);
-      setTimeout(() => r.remove(), dur * 1000 + 200);
-    }
-
-    function spawnInitialBurst() {
-      partyConfetti.innerHTML = '';
-      for (let i = 0; i < 60; i++) {
-        setTimeout(spawnOneConfetti, Math.random() * 1200);
-      }
-    }
-
-    let confettiLoop, roachLoop;
-    function startConfettiLoop() {
-      confettiLoop = setInterval(() => {
-        for (let i = 0; i < 3; i++) spawnOneConfetti();
-      }, 400);
-      const scheduleRoach = () => {
-        roachLoop = setTimeout(() => {
-          spawnOneRoach();
-          scheduleRoach();
-        }, 3000 + Math.random() * 4000);
-      };
-      scheduleRoach();
-    }
-    function stopConfettiLoop() {
-      if (confettiLoop) { clearInterval(confettiLoop); confettiLoop = null; }
-      if (roachLoop)    { clearTimeout(roachLoop);    roachLoop = null; }
-    }
-
-    /* Pulsing dancey visualizer — bars roll left-to-right, no Web Audio rerouting */
-    function startViz() {
-      let t = 0;
-      const tick = () => {
-        t += 0.18;
-        for (let i = 0; i < VIZ_BARS; i++) {
-          const s = Math.sin(t + i * 0.4) * 0.5
-                  + Math.sin(t * 1.7 + i * 0.25) * 0.3
-                  + Math.sin(t * 0.6 + i * 0.9) * 0.2;
-          const h = 12 + Math.abs(s) * 80 + Math.random() * 8;
-          vizBars[i].style.height = Math.min(100, h) + '%';
-        }
-      };
-      vizTimer = setInterval(tick, 70);
-    }
-
-    function playTrack(i) {
-      trackIdx = ((i % PLAYLIST.length) + PLAYLIST.length) % PLAYLIST.length;
-      roachAudio.src = PLAYLIST[trackIdx];
-      roachAudio.currentTime = 0;
-      const p = roachAudio.play();
-      if (p && p.catch) p.catch(err => console.warn('Audio play blocked:', err));
-    }
-
-    function startParty() {
-      partyOverlay.classList.add('active');
-      partyDock.classList.add('show');
-      spawnInitialBurst();
-      startConfettiLoop();
-      startViz();
-      playTrack(Math.floor(Math.random() * PLAYLIST.length));
-    }
-
-    function stopParty() {
-      roachAudio.pause();
-      roachAudio.currentTime = 0;
-      partyOverlay.classList.remove('active');
-      partyDock.classList.remove('show');
-      stopConfettiLoop();
-      partyConfetti.innerHTML = '';
-      if (vizTimer) { clearInterval(vizTimer); vizTimer = null; }
-    }
-
-    function skipTrack() { playTrack(trackIdx + 1); }
-
-    partyStop.addEventListener('click', stopParty);
-    partySkip.addEventListener('click', skipTrack);
-    roachAudio.addEventListener('ended', skipTrack);
-
-    roachBtn.addEventListener('click', e => {
-      e.stopPropagation();
-      roachBubble.classList.toggle('open');
-      if (roachBubble.classList.contains('open')) setTimeout(() => roachInput.focus(), 50);
-    });
-    document.addEventListener('click', e => {
-      if (!roachBtn.closest('.roach-wrap').contains(e.target)) roachBubble.classList.remove('open');
-    });
-    roachInput.addEventListener('keydown', e => {
-      if (e.key !== 'Enter') return;
-      if (roachInput.value.toLowerCase().trim() === 'la putaracha') {
-        roachBubble.classList.remove('open');
-        roachInput.value = '';
-        startParty();
-      } else {
-        roachInput.classList.add('wrong');
-        roachInput.addEventListener('animationend', () => roachInput.classList.remove('wrong'), { once: true });
-        roachInput.value = '';
-      }
-    });
 
     /* Copy email to clipboard */
     const copyBtn = document.getElementById('copyEmailBtn');
@@ -1140,14 +740,11 @@
     let copyTimer;
     copyBtn.addEventListener('click', async () => {
       const email = 'austin.pack@byuh.edu';
-      try {
-        await navigator.clipboard.writeText(email);
-      } catch (e) {
+      try { await navigator.clipboard.writeText(email); }
+      catch (e) {
         const ta = document.createElement('textarea');
-        ta.value = email;
-        ta.style.position = 'fixed'; ta.style.opacity = '0';
-        document.body.appendChild(ta);
-        ta.select();
+        ta.value = email; ta.style.position = 'fixed'; ta.style.opacity = '0';
+        document.body.appendChild(ta); ta.select();
         try { document.execCommand('copy'); } catch (_) {}
         document.body.removeChild(ta);
       }
